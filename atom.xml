@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[朱邏輯公園]]></title>
+  <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://www.prokitty.com/"/>
+  <updated>2015-02-03T16:52:06.231Z</updated>
+  <id>http://www.prokitty.com/</id>
+  
+  <author>
+    <name><![CDATA[cherry]]></name>
+    <email><![CDATA[prossh@qq.com]]></email>
+  </author>
+  
+  <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[全国各省市DNS服务器IP地址]]></title>
+    <link href="http://www.prokitty.com/2015/02/05/%E5%85%A8%E5%9B%BD%E5%90%84%E7%9C%81%E5%B8%82DNS%E6%9C%8D%E5%8A%A1%E5%99%A8IP%E5%9C%B0%E5%9D%80/"/>
+    <id>http://www.prokitty.com/2015/02/05/全国各省市DNS服务器IP地址/</id>
+    <published>2015-02-05T15:16:00.000Z</published>
+    <updated>2015-02-03T16:51:48.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="北京：">北京：</h1>
+<pre><code>北京市北京市（中国电信）首选DNS：202.106.0.20    首选DNS：202.106.148.1   首选DNS：202.97.16.195</code></pre>
+
+<pre><code>北京市北京市（中国电信）首选DNS：202.96.199.133  备用DNS：202.96.0.133</code></pre>
+
+<pre><code>北京市北京市（中国网通）首选DNS：202.96.0.133    备用DNS：202.96.199.133</code></pre>
+
+
+<h1 id="上海：">上海：</h1>
+<pre><code>上海市上海市（中国电信）首选DNS：202.96.199.132  首选DNS：202.96.199.133</code></pre>  
+
+<pre><code>上海市上海市（中国电信）首选DNS：202.96.209.5    首选DNS：202.96.209.133 </code></pre>
+
+<pre><code>上海市上海市（中国网通）首选DNS：210.22.70.3     备用DNS：210.22.70.2</code></pre>
+
+
+<h1 id="广东：">广东：</h1>
+<pre><code>广东省广州市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省广州市（中国铁通) 首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
+
+<pre><code>广东省汕尾市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.128.86</code></pre> 
+
+<pre><code>广东省汕头市（中国电信）首选DNS：202.96.144.47（已封）备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省河源市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.128.86 </code></pre>
+
+<pre><code>广东省河源市（中国网通）首选DNS：210.21.196.5    备用DNS：221.5.88.88</code></pre>
+
+<pre><code>广东省深圳市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.134.133（已封）</code></pre>
+
+<pre><code>广东省阳江市（中国电信）首选DNS：202.96.128.86   备选DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省增城市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省广州市（中国铁通）首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
+
+<pre><code>广东省江门市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省佛山市（中国网通）首选DNS：221.5.88.88     备用DNS：210.21.196.6</code></pre>
+
+<pre><code>广东省佛山市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省佛山市（中国联通）首选DNS：221.4.8.1       备用DNS：221.4.66.66</code></pre>
+
+<pre><code>广东省梅州市（中国电信）首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
+
+<pre><code>广东省湛江市（中国电信）首选DNS 202.96.128.68    备用DNS：202.96.128.166</code></pre>
+
+<pre><code>广东省东莞市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
+
+
+<h1 id="广西：">广西：</h1>
+<pre><code>广西壮族自治区南宁市  （中国电信）首选DNS：202.103.224.68  备用DNS：202.103.225.68</code></pre>
+
+<pre><code>广西壮族自治区南宁市  （中国铁通）首选DNS：61.235.164.18   备用DNS：61.235.164.13</code></pre>
+
+<pre><code>广西壮族自治区        （中国电信）首选DNS：202.103.224.68  备用DNS：202.103.225.68</code></pre>
+
+<pre><code>广西壮族自治区柳州市   (中国网通）首选DNS：221.7.136.68    备选DNS：221.7.128.68</code></pre>
+
+<pre><code>广西壮族自治区防城港市（中国铁通）首选DNS：61.235.164.13   备用DNS：61.235.164.18</code></pre>
+
+<pre><code>广西壮族自治区柳州市   (中国电信）首选DNS：202.103.224.68  备选DNS：202.103.225.68</code></pre>
+
+
+<h1 id="湖南：">湖南：</h1>
+<pre><code>湖南省衡阳市（中国电信）首选DNS：220.170.64.96   备用DNS：202.103.96.68</code></pre>
+
+<pre><code>湖南省衡阳市（中国电信）首选DNS：59.51.78.210    备用DNS：222.246.129.80</code></pre>
+
+<pre><code>湖南省岳阳市（中国铁通）首选DNS：211.98.2.4      备用DNS：61.234.254.6</code></pre>
+
+<pre><code>湖南省长沙市（中国电信）首选DNS：202.103.96.112  备用DNS：202.103.96.68</code></pre>
+
+<pre><code>湖南省长沙市（中国铁通）首选DNS：61.234.254.5（已封）  备用DNS：61.234.254.6（已封）</code></pre>
+
+<pre><code>湖南省永州市（中信宽带）首选DNS：219.72.225.254  备用DNS：219.72.225.253</code></pre>
+
+<pre><code>湖南省永州市（中国电信）首选DNS：218.76.248.6    备选DNS：218.76.248.100</code></pre>
+
+<pre><code>湖南省湘潭市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
+
+<pre><code>湖南省湘潭市（中国电信）首选DNS ：220.170.0.210  备用DNS：222.246.129.81</code></pre>
+
+<pre><code>湖南省常德市（中国电信）首选DNS：59.51.78.210    备用DNS：222.246.129.80</code></pre>
+
+<pre><code>湖南省益阳市（中国铁通）首选DNS：61.232.206.100  备用DNS：202.101.172.35</code></pre>
+
+<pre><code>湖南省吉首市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
+
+<pre><code>湖南省邵阳市（中国电信）首选DNS：218.76.192.101  备用DNS：218.76.192.100</code></pre>
+
+<pre><code>湖南省邵阳市（中国电信）首选DNS：59.51.78.210    备用DNS：59.51.78.210</code></pre>
+
+<pre><code>湖南省岳阳市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
+
+
+<h1 id="福建：">福建：</h1>
+<pre><code>福建省厦门市（中国电信）首选DNS：202.101.103.55  备用DNS：202.101.103.54</code></pre>
+
+<pre><code>福建省厦门市（中国网通）首选DNS：218.104.128.106 备用DNS：58.22.96.66</code></pre>
+
+<pre><code>福建省泉州市（中国电信）首选DNS：202.101.107.85  备用DNS：218.85.157.99</code></pre>
+
+<pre><code>福建省漳州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.112.55</code></pre>
+
+<pre><code>福建省福州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.98.55</code></pre>
+
+<pre><code>福建省泉州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.107.98  备用DNS：202.101.107.55  备用DNS：202.101.107.85</code></pre>
+
+<pre><code>福建省龙岩市（中国电信）首选DNS：202.101.113.55  备用DNS：218.85.157.99(全省备用) </code></pre>
+
+
+<h1 id="江西：">江西：</h1>
+<pre><code>江西省新余市（中国电信）首选DNS：202.101.224.69  备用DNS：202.109.226.68</code></pre>
+
+<pre><code>江西省南昌市（中国电信）首选DNS：202.101.224.69  备用DNS：202.101.226.68  首选DNS：61.232.206.102</code></pre>
+
+<pre><code>江西省南昌市（中国铁通）首选DNS：211.98.2.4      备用DNS：211.98.4.1</code></pre>
+
+<pre><code>江西省宜春市（中国电信）首选DNS：202.101.224.69  备用DNS：202.101.226.68</code></pre>
+
+
+<h1 id="山西：">山西：</h1>
+<pre><code>山西省运城市（中国网通） 首选DNS ：202.99.192.66 备用DNS ：202.99.192.68</code></pre>
+
+<pre><code>山西省太原市（中国网通） 首选DNS：202.99.192.66  备用DNS：202.99.192.68</code></pre>
+
+<pre><code>山西省太原市（中国电信） 首选DNS：219.150.32.132 备用DNS：219.146.0.130</code></pre>
+
+<pre><code>山西省太原市（中国铁通） 首选DNS：211.98.32.132  备用DNS：211.98.4.1</code></pre>
+
+<pre><code>山西省大同市（中国网通） 首选DNS：202.99.192.66  备用DNS：202.99.192.68</code></pre>
+
+
+<h1 id="江苏：">江苏：</h1>
+<pre><code>江苏省靖江市（中国电信）首选DNS：221.228.255.1  备用DNS： 218.2.135.1</code></pre>
+
+<pre><code>江苏省南京市（中国电信）首选DNS：218.2.135.1    备用DNS：61.147.37.1</code></pre>
+
+<pre><code>江苏省镇江市（中国电信）首选DNS：218.2.135.1    备用DNS：61.147.37.1</code></pre>
+
+<pre><code>江苏省盐城市（中国铁通）首选DNS：222.45.1.40    备用DNS：211.98.4.1</code></pre>
+
+<pre><code>江苏省淮安市（中国电信）首选DNS：61.147.37.1    备用DNS：61.177.7.1</code></pre>
+
+<pre><code>江苏省苏州市（中国电信）首选DNS：61.177.7.1     备用DNS：221.228.255.1</code></pre>
+
+<pre><code>江苏省扬州市（中国电信）首选DNS：202.102.7.141  备用DNS：61.177.7.1</code></pre>
+
+<pre><code>江苏省无锡市（中国铁通）首选DNS：211.98.2.4     备用DNS：211.98.4.1</code></pre>
+
+<pre><code>江苏省无锡市（中国电信）首选DNS：221.228.255.1  备用DNS：218.2.135.1</code></pre>
+
+
+<h1 id="浙江：">浙江：</h1>
+<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.15   备用DNS：202.96.104.25</code></pre>
+
+<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.16   备用DNS：202.96.104.26</code></pre>
+
+<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.27   备用DNS：202.96.104.17</code></pre>
+
+<pre><code>浙江省杭州市（中国网通）首选DNS：218.108.248.200 备用DNS：218.108.245.157</code></pre>
+
+<pre><code>浙江省溫州市（中国电信）首选DNS：61.153.177.199  备用DNS：61.153.177.198</code></pre>
+
+<pre><code>浙江省杭州市（中国电信）首选DNS：202.101.172.35  备用DNS：202.101.172.47</code></pre>
+
+<pre><code>浙江省乐清市（中国电信）首选DNS：61.153.177.200  备用DNS：61.153.177.202</code></pre>
+
+<pre><code>浙江省余姚市（中国电信）首选DNS：202.96.104.17   备用DNS：202.96.104.27</code></pre>
+
+
+<h1 id="陕西：">陕西：</h1>
+<pre><code>陕西省榆林市（中国电信）首选DNS：202.100.4.15   备用DNS：202.100.0.68</code></pre>
+
+<pre><code>陕西省延安市（中国电信）首选DNS：61.134.1.4     备用DNS：218.30.19.40</code></pre>
+
+<pre><code>陕西省西安市（中国铁通）首选DNS：222.41.52.3    备用DNS：61.232.202.158</code></pre>
+
+<pre><code>陕西省西安市（中国电信）首选DNS：218.30.19.40   备用dns：61.134.1.4</code></pre>
+
+
+<h1 id="安徽：">安徽：</h1>
+<pre><code>安徽省阜阳市（中国电信）首选DNS：202.102.192.68  备用DNS：202.102.199.68</code></pre>
+
+
+
+<h1 id="湖北：">湖北：</h1>
+<pre><code>湖北省湖北省（中国电信）首选DNS：202.103.44.150  备用DNS：202.103.24.68</code></pre>
+
+<pre><code>湖北省武汉市（中国电信）首选DNS：202.103.24.68   备用DNS：202.103.44.150</code></pre>
+
+<pre><code>湖北省武汉市（中国电信）首选DNS：202.104.24.68   备用DNS：202.103.0.117</code></pre>
+
+<pre><code>湖北省黄石市（中国电信）首选DNS：202.103.44.150  备用DNS：202.103.24.68</code></pre>
+
+
+<h1 id="山东：">山东：</h1>
+<pre><code>山东省烟台市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
+
+<pre><code>山东省济宁市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
+
+<pre><code>山东省青岛市（中国网通）首选DNS：202.102.134.68  备用DNS：202.102.128.68</code></pre>
+
+<pre><code>山东省滨州市（中国网通）首选DNS：202.102.134.68  备用DNS：202.102.128.68</code></pre>
+
+<pre><code>山东省临沂市（中国网通) 首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
+
+<pre><code>山东省临沂市（中国电信）首选DNS：219.146.0.130   备用DNS：219.150.32.132</code></pre>
+
+<pre><code>山东省德州市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
+
+<pre><code>山东省滕州市（中国网通）首选DNS：202.102.128.68  备用DNS：202.102.134.68</code></pre>
+
+<pre><code>山东省菏泽市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
+
+<pre><code>山东省枣庄市（中国电信）首选DNS：219.146.0.130   备用DNS：219.150.32.132</code></pre>
+
+<pre><code>山东省淄博市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
+
+<pre><code>山东省聊城市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
+
+<pre><code>山东省东营市（中国网通）首选DNS：202.102.152.3   备选DNS：202.102.154.3</code></pre>
+
+<pre><code>山东省东营市（中国网通）首选DNS：202.102.154.3   备选DNS：202.102.128.68</code></pre>
+
+<pre><code>山东省威海市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
+
+
+<h1 id="黑龙江：">黑龙江：</h1>
+<pre><code>黑龙江省全省共用（中国网通）首选DNS：202.97.224.69  备用DNS：202.97.227.138</code></pre>
+
+<pre><code>黑龙江省哈尔滨市（中国电信）首选DNS：219.150.32.132 备用DNS：219.146.0.130</code></pre>
+
+
+<h1 id="河北：">河北：</h1>
+<pre><code>河北省石家庄市（中国网通）首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
+
+<pre><code>河北省邯郸市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
+
+<pre><code>河北省邯郸市（中国铁通）  首选DNS：211.98.2.4       备用DNS：61.232.206.102</code></pre>
+
+<pre><code>河北省邢台市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
+
+<pre><code>河北省秦皇岛市（中国网通）首选DNS：202.99.166.4     备用DNS：202.99.160.68</code></pre>
+
+<pre><code>河北省沧州市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.176.30   备用DNS：202.99.166.4</code></pre>
+
+<pre><code>河北省张家口市（中国网通）首选DNS：202.99.166.4     备用DNS：202.99.160.68</code></pre>
+
+<pre><code>河北省张家口市（中国电信）首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
+
+<pre><code>河北省邢台市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4    备用DNS：202.99.168.8</code></pre>
+
+
+<h1 id="贵州：">贵州：</h1>
+<pre><code>贵州省贵阳市（中国电信）  首选DNS：202.98.192.67    备用DNS：202.98.198.167</code></pre>
+
+
+<h1 id="云南：">云南：</h1>
+<pre><code>云南云南省玉溪市（中国电信）首选DNS：222.172.200.68 备用DNS：61.166.150.123</code></pre>
+
+<pre><code>云南省全省共用（中国铁通）  首选DNS：211.98.72.7    备用DNS：211.98.72.8</code></pre>
+
+<pre><code>云南省昆明市（中国网通）    首选DNS：221.3.131.12   备用DNS：221.3.131.11</code></pre>
+
+
+<h1 id="辽宁：">辽宁：</h1>
+<pre><code>辽宁省朝阳市（中国铁通） 首选DNS：61.232.206.102   备用DNS：211.98.4.1</code></pre>
+
+<pre><code>辽宁省朝阳市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
+
+<pre><code>辽宁省朝阳市（中国网通） 首选DNS：202.96.69.38     备用DNS：202.96.64.68</code></pre>
+
+<pre><code>辽宁省大连市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
+
+<pre><code>辽宁省大连市（中国网通） 首选DNS：202.96.69.38     备用DNS：202.96.64.68</code></pre>
+
+<pre><code>辽宁省抚顺市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
+
+
+<h1 id="河南：">河南：</h1>
+<pre><code>河南省全省共用（中国电信）首选DNS：222.88.88.88     备选DNS：222.85.85.85</code></pre>
+
+<pre><code>河南省（平煤集团电信网）  首选DNS：210.76.0.2       备用DNS：219.150.150.150</code></pre>
+
+<pre><code>河南省郑州市（中国电信）  首选DNS：219.150.150.150  备用DNS：219.150. 32.132</code></pre>
+
+<pre><code>河南省郑州市（中国网通）  首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
+
+<pre><code>河南省漯河市（中国电信）  首选DNS：219.150.32.132   备用DNS：222.88.88.88</code></pre>
+
+<pre><code>河南省安阳市（中国铁通）  首选DNS：211.98.192.3     备用DNS：61.233.65.3</code></pre>
+
+<pre><code>河南省洛阳市（中国电信）  首选DNS：222.88.88.88     备用DNS：222.85.85.85</code></pre>
+
+<pre><code>河南省全省共用（中国网通）首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
+
+<pre><code>河南省驻马店市（中国网通）首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
+
+
+<h1 id="四川：">四川：</h1>
+<pre><code>四川省重庆市（中国电信）首选DNS：61.128.128.68   备用DNS：61.128.192.68</code></pre>
+
+<pre><code>四川省泸州市（中国电信）首选DNS：61.139.2.69     备用DNS：202.98.96.68</code></pre>
+
+<pre><code>四川省泸州市（中国铁通）首选DNS：61.236.159.99   备用DNS：61.139.2.69</code></pre>
+
+<pre><code>四川省成都市（中国电信）首选DNS：202.98.96.68    备用DNS：61.139.2.69</code></pre>
+
+<pre><code>四川省遂宁市（中国电信）首选DNS：202.98.96.68    备用DNS：61.139.2.69</code></pre>
+
+
+<h1 id="内蒙古：">内蒙古：</h1>
+<pre><code>内蒙古呼和浩特市（中国电信）首选DNS：219.148.162.31  备用DNS：219.150.32.132</code></pre>
+
+<pre><code>内蒙古呼和浩特市（中国网通）首选DNS：202.224.99.68   备用DNS：202.224.99.67</code></pre>
+
+
+<h1 id="天津：">天津：</h1>
+<pre><code>天津天津市（中国电信）首选DNS：219.150.32.132    备用DNS：219.146.0.132</code></pre>
+
+<pre><code>天津天津市（中国网通）首选DNS：202.99.104.68     备用DNS：202.99.96.68</code></pre>
+
+
+<h1 id="新疆：">新疆：</h1>
+<pre><code>新疆喀什市  （中国电信）首选DNS：61.128.114.166  备选DNS：61.128.114.133</code></pre>
+
+<pre><code>新疆阿克苏市（中国电信）首选DNS：61.128.114.166  备选DNS：61.128.114.133</code></pre>
+
+<pre><code>新疆库尔勒市（中国电信）首选DNS：61.128.114.166  备用DNS：61.128.114.133</code></pre>
+
+
+<h1 id="吉林：">吉林：</h1>
+<pre><code>吉林省全省共用（中国网通）首选DNS：202.98.5.68   备用DNS：202.98.0.68</code></pre>
+
+
+<h1 id="海南：">海南：</h1>
+<pre><code>海南省海口市（中国铁通）首选DNS：202.103.96.112  备选DNS：61.144.40.92</code></pre>
+
+<pre><code>海南省海口市（中国电信）首选DNS：202.100.197.50  备用DNS：202.100.199.8</code></pre>
+
+
+<h1 id="西藏：">西藏：</h1>
+<pre><code>西藏藏族自治区拉萨市（中国网通）首选DNS：221.13.65.34 备用DNS：202.102.152.3</code></pre>
+
+
+<h1 id="甘肃：">甘肃：</h1>
+<pre><code>甘肃省兰州市（中国电信）首选DNS：202.100.64.68   备用DNS：202.100.64.66</code></pre>
+
+<pre><code>甘肃省兰州市（中国铁通）首选DNS：211.98.121.27   备用DNS：211.98.2.4</code></pre>
+
+<pre><code>甘肃省武威市（中国电信）首选DNS：202.100.64.68   备用DNS：60.178.0.93</code></pre>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="DNS" scheme="http://www.prokitty.com/tags/DNS/"/>
+    
+      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[二十四诗品]]></title>
+    <link href="http://www.prokitty.com/2015/02/04/%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%AF%97%E5%93%81/"/>
+    <id>http://www.prokitty.com/2015/02/04/二十四诗品/</id>
+    <published>2015-02-03T16:00:00.000Z</published>
+    <updated>2015-02-03T16:51:37.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="雄浑">雄浑</h2>
+<p><strong>大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。</strong></p>
+<h2 id="冲淡">冲淡</h2>
+<p><strong>素处以默，妙机其微。饮之太和，独鹤与飞。犹之惠风，荏苒在衣。阅音修篁，美曰载归。遇之匪深，即之愈希。脱有形似，握手已违。</strong></p>
+<h2 id="纤农">纤农</h2>
+<p><strong>采采流水，蓬蓬远春。窈窕深谷，时见美人。碧桃满树，风日水滨。柳阴路曲，流莺比邻。乘之愈往，识之愈真。如将不尽，与古为新。</strong></p>
+<h2 id="沉著">沉著</h2>
+<p><strong>绿杉野屋，落日气清。脱巾独步，时闻鸟声。鸿雁不来，之子远行。所思不远，若为平生。海风碧云，夜渚月明。如有佳语，大河前横。</strong></p>
+<h2 id="高古">高古</h2>
+<p><strong>畸人乘真，手把芙蓉。泛彼浩劫，窅然空踪。月出东斗，好风相从。太华夜碧，人闻清钟。虚伫神素，脱然畦封。黄唐在独，落落玄宗。</strong></p>
+<h2 id="典雅">典雅</h2>
+<p><strong>玉壶买春，赏雨茅屋。坐中佳士，左右修竹。白云初晴，幽鸟相逐。眠琴绿阴，上有飞瀑。落花无言，人淡如菊。书之岁华，其曰可读。</strong></p>
+<h2 id="洗炼">洗炼</h2>
+<p><strong>如矿出金，如铅出银。超心炼冶，绝爱缁磷。空潭泻春，古镜照神。体素储洁，乘月返真。载瞻星辰，载歌幽人。流水今日，明月前身。</strong></p>
+<h2 id="劲健">劲健</h2>
+<p><strong>行神如空，行气如虹。巫峡千寻，走云连风。饮真茹强，蓄素守中。喻彼行健，是谓存雄。天地与立，神化攸同。期之以实，御之以终。</strong></p>
+<h2 id="绮丽">绮丽</h2>
+<p><strong>神存富贵，始轻黄金。浓尽必枯，淡者屡深。雾余水畔，红杏在林。月明华屋，画桥碧阴。金尊酒满，伴客弹琴。取之自足，良殚美襟。</strong></p>
+<h2 id="自然">自然</h2>
+<p><strong>俯拾即是，不取诸邻。俱道适往，著手成春。如逢花开，如瞻岁新。真与不夺，强得易贫。幽人空山，过雨采苹。薄言情悟，悠悠天钧。</strong></p>
+<h2 id="含蓄">含蓄</h2>
+<p><strong>不著一字，尽得风流。语不涉己，若不堪忧。是有真宰，与之沉浮。如满绿酒，花时反秋。悠悠空尘，忽忽海沤。浅深聚散，万取一收。</strong></p>
+<h2 id="豪放">豪放</h2>
+<p><strong>观花匪禁，吞吐大荒。由道反气，虚得以狂。天风浪浪，海山苍苍。真力弥满，万象在旁。前招三辰，后引凤凰。晓策六鳌，濯足扶桑。</strong></p>
+<h2 id="精神">精神</h2>
+<p><strong>欲返不尽，相期与来。明漪绝底，奇花初胎。青春鹦鹉，杨柳楼台。碧山人来，清酒深杯。生气远出，不著死灰。妙造自然，伊谁与裁。</strong></p>
+<h2 id="缜密">缜密</h2>
+<p><strong>是有真迹，如不可知。意象欲生，造化已奇。水流花开，清露未晞。要路愈远，幽行为迟。语不欲犯，思不欲痴。犹春于绿，明月雪时。</strong></p>
+<h2 id="疏野">疏野</h2>
+<p><strong>惟性所宅，真取不羁。控物自富，与率为期。筑室松下，脱帽看诗。但知旦暮，不辨何时。倘然适意，岂必有为。若其天放，如是得之。</strong></p>
+<h2 id="清奇">清奇</h2>
+<p><strong>娟娟群松，下有漪流。晴雪满竹，隔溪渔舟。可人如玉，步屧寻幽。载瞻载止，空碧悠悠，神出古异，淡不可收。如月之曙，如气之秋。</strong></p>
+<h2 id="委曲">委曲</h2>
+<p><strong>登彼太行，翠绕羊肠。杳霭流玉，悠悠花香。力之于时，声之于羌。似往已回，如幽匪藏。水理漩洑，鹏风翱翔。道不自器，与之圆方。</strong></p>
+<h2 id="实境">实境</h2>
+<p><strong>取语甚直，计思匪深。忽逢幽人，如见道心。清涧之曲，碧松之阴。一客荷樵，一客听琴。情性所至，妙不自寻。遇之自天，泠然希音。</strong></p>
+<h2 id="悲慨">悲慨</h2>
+<p><strong>大风卷水，林木为摧。适苦欲死，招憩不来。百岁如流，富贵冷灰。大道日丧，若为雄才。壮士拂剑，浩然弥哀。萧萧落叶，漏雨苍苔。</strong></p>
+<h2 id="形容">形容</h2>
+<p><strong>绝伫灵素，少回清真。如觅水影，如写阳春。风云变态，花草精神。海之波澜，山之嶙峋。俱似大道，妙契同尘。离形得似，庶几斯人。</strong></p>
+<h2 id="超诣">超诣</h2>
+<p><strong>匪神之灵，匪几之微。如将白云，清风与归。远引若至，临之已非。少有道契，终与俗违。乱山乔木，碧苔芳晖。诵之思之，其声愈希。</strong></p>
+<h2 id="飘逸">飘逸</h2>
+<p><strong>落落欲往，矫矫不群。缑山之鹤，华顶之云。高人画中，令色氤氲。御风蓬叶，泛彼无垠。如不可执，如将有闻。识者已领，期之愈分。</strong></p>
+<h2 id="旷达">旷达</h2>
+<p><strong>生者百岁，相去几何。欢乐苦短，忧愁实多。何如尊酒，日往烟萝。花覆茅檐，疏雨相过。倒酒既尽，杖藜行歌。孰不有古，南山峨峨。</strong></p>
+<h2 id="流动">流动</h2>
+<p><strong>若纳水輨，如转丸珠。夫岂可道，假体如愚。荒荒坤轴，悠悠天枢。载要其端，载同其符。超超神明，返返冥无。来往千载，是之谓乎。</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="诗词" scheme="http://www.prokitty.com/tags/%E8%AF%97%E8%AF%8D/"/>
+    
+      <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[曾经优秀的windows软件！]]></title>
+    <link href="http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/"/>
+    <id>http://www.prokitty.com/2015/02/03/纪念那些自己喜爱的windows软件/</id>
+    <published>2015-02-02T16:00:00.000Z</published>
+    <updated>2015-02-03T16:46:23.000Z</updated>
+    <content type="html"><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://upload-images.jianshu.io/upload_images/203212-0b92e014feae3dc7.jpg?imageView2/2/w/1240/q/100" alt=""></p>
+<p>很多图标都经过修改。</p>
+<h2 id="聊天软件：">聊天软件：</h2>
+<ul>
+<li><p>QQ：真心离不开，即使是这个移动互联网盛行的时代，依旧是主力。可以使用轻聊版，有比肩MAC版本的清爽，也留下了完整的体验。</p>
+</li>
+<li><p>微信：偶尔在电脑上用用，必须用手机才可以登录。虽然很麻烦，但是在电脑上打字聊天确实比较方便，不知道大家朋友里有没有人只用微信的？反正我有，那些可恶的手机党啊！</p>
+</li>
+<li><p>飞信：部分代替短信的工具，虽然上的越来越少了，但是在上海还是有很多人用的，特别是企业里，加上好友后发通知都是免费的。</p>
+</li>
+<li><p>阿里旺旺：也是离不开啊，因为购物，如果发生纠纷，那么聊天记录是最好的保证。</p>
+</li>
+</ul>
+<h2 id="云同步软件：">云同步软件：</h2>
+<ul>
+<li>百度云管家，使用体验很一般，真的，经常出现问题，特别是笔记本睡眠醒来后，不过功能实在太过于强大了，其实我对于云的概念就停留在备份和在线操作。都来自于苹果的Time Machine（虽然我没有用过），多时间版本的文件备份和实时同步，超大的容量以及局域网的互联互通（曾经看到过有人用最新的Time Machine用蓝光视频）。那么本地可以，云是否也可以呢？百度云几乎可以做到这点。</li>
+</ul>
+<h2 id="清理电脑软件：">清理电脑软件：</h2>
+<ul>
+<li>CCleaner：不喜欢360或者其他的类似的软件，主要是功能太多，我不需要它提醒我开机多少时间，不需要知道我有多少漏洞没补，就是简单的清理我的电脑注册表垃圾，不过我并不认为缓存是垃圾。</li>
+</ul>
+<h2 id="杀毒软件：">杀毒软件：</h2>
+<ul>
+<li>MSE，我也觉得一般，不过它几乎没有打扰过我，所以我安装了它。支持在任务栏中显示搜索中-完成-未保护三个状态（这是我最喜欢的，免得有cpu大量被占有也不知道是什么软件的问题）</li>
+</ul>
+<h2 id="音乐软件：">音乐软件：</h2>
+<ul>
+<li>iTunes：本来也是习惯QQ音乐的，但是买了iPhone后就觉得没有选择了，也习惯了iTunes，觉得这个界面特别漂亮。</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-d2f95d0671456420.jpg?imageView2/2/w/1240/q/100" alt=""></p>
+<p>不过需要大量的时间管理维护这些专辑封面哦。</p>
+<h2 id="视频软件：">视频软件：</h2>
+<ul>
+<li>Potplayer：原来我也是QQ影音的忠实用户，不过QQ影音因为腾讯很久没有更新了，在很多细节上确实没有Potplayer好用，不过Potplayer最好也是选择32位的，64位在解码方面没有32位的来的强悍，我的电脑在QQ影音和64位的Potplayer中播放4K视频都卡，但是在32位中就比较流畅了。附上我的皮肤图（有需要的留言哦！）：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-0f9de791bd5cae32.jpg?imageView2/2/w/1240/q/100" alt=""></p>
+<h2 id="Connectify_3-7">Connectify 3.7</h2>
+<ul>
+<li>在我的K29上很稳定，不过只能连接8个wifi设备，目前从来没有因为网络限制出现移动设备不能上网的问题，只要电脑可以上网，手机等移动设备一定可以上网，不过我不推荐使用，一般的用户还是使用猎豹wifi比较好，因为做的漂亮，功能也强大些，就是更新比较频繁。</li>
+</ul>
+<h2 id="Preme_for_windows">Preme for windows</h2>
+<ul>
+<li>真是牛人的软件，几乎让鼠标在windows上的体验比肩mac上触摸板上的体验，如果说windows的笔记本的触摸板是渣，那么因为这软件，mac的鼠标同样是渣。上图（只有英文版，不过有视频演示）：<br><img src="http://upload-images.jianshu.io/upload_images/203212-aece28d140e5eee1.png?imageView2/2/w/1240/q/100" alt=""></li>
+</ul>
+<h2 id="USB_Extension">USB Extension</h2>
+<ul>
+<li>其实就是一个usb设备显示在桌面的插件，很多人习惯360的那种方式也是可以的，我是喜欢MAC的那种方式，讨厌浮窗的。上图：<br><img src="http://upload-images.jianshu.io/upload_images/203212-8dc15ef4a52944f8.png?imageView2/2/w/1240/q/100" alt=""></li>
+</ul>
+<h2 id="ASUS_AI_Charger">ASUS AI Charger</h2>
+<ul>
+<li>可以让iPad在windows上充电的软件。</li>
+</ul>
+<h2 id="Ditto">Ditto</h2>
+<ul>
+<li>我觉得很不漂亮，但很实用，剪切板管理软件。</li>
+</ul>
+<h2 id="Listary">Listary</h2>
+<ul>
+<li>非常非常强大的本地搜索软件，只是比Mac的差了很多，不支持网上搜索，也不支持编辑搜索的软件。比Mac那款神器的搜索软件差不少，但是胜在一个快，本地搜索几乎是瞬间的。也支持everything（虽然我不用everything这软件，但是很多大神都说它是神器）</li>
+</ul>
+<h2 id="Secret_folder">Secret folder</h2>
+<ul>
+<li>加密文件夹，可以让文件夹在文件管理器中凭空消失，不过不知道拆下硬盘后是否可以加密。</li>
+</ul>
+<h2 id="Media_Preview">Media Preview</h2>
+<ul>
+<li>几乎支持所有的视频预览图，直接上图看效果：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-88a5d4eaefd23403.png?imageView2/2/w/1240/q/100" alt=""></p>
+<h2 id="CBXManager">CBXManager</h2>
+<ul>
+<li>在百度贴吧里发现的软件，可以实现一个我很喜欢的功能，上图：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-d293d520cf672371.png?imageView2/2/w/1240/q/100" alt=""></p>
+<p>epub电子书的封面可以显示了！</p>
+<h2 id="软媒时间">软媒时间</h2>
+<ul>
+<li>可以让电脑的时间显示比手机的更棒。上图：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-3d86c0afa156ab38.png?imageView2/2/w/1240/q/100" alt=""></p>
+<h2 id="下载软件：">下载软件：</h2>
+<ul>
+<li><p>QQ旋风：其实不好用，腾讯对它的支持也少了，在扫黄后，还是可以用来下载些违法的内容的。</p>
+</li>
+<li><p>百度云管家：扫黄前神器，扫黄后只能下些普通的电影电视剧了，而且有些电影也会报错。</p>
+</li>
+<li><p>维棠下载：目前也是下载的一款神器，对于在线视频的分析下载是没有软件可以比拟的（不过有广告，去掉弹窗，一切都可以忍，据说可以下载付费电影，没实验过，追剧很方便）</p>
+</li>
+</ul>
+<h2 id="桌面应用管理的软件：">桌面应用管理的软件：</h2>
+<ul>
+<li>酷鱼快速启动：可以用来管理所有的应用软件，上图：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-0960f6c0c8440de1.png?imageView2/2/w/1240/q/100" alt=""></p>
+<h2 id="软媒桌面">软媒桌面</h2>
+<ul>
+<li>类似MAC的DOCK栏效果，上图：</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/203212-dee5c993c0790bcc.png?imageView2/2/w/1240/q/100" alt=""></p>
+<p>两者共同解决了windows应用点击后无明显反应的问题！</p>
+<h2 id="浏览器软件：">浏览器软件：</h2>
+<ul>
+<li><p>360浏览器：o(︶︿︶)o 唉，没办法，习惯了，功能目前来说已经不算强大了，但是我认识的人都在用这个浏览器，也确实有无法代替的功能，比如右键关闭标签，比如皮肤，比如显示的效果，其实说真的就是习惯了，现在像UC浏览器其实在功能上都比360要强大了，但是就是不想用。</p>
+</li>
+<li><p>AdSafe：虽然用久了闪退，但是确实是一个屏蔽广告最好的软件，支持浏览器flash广告，也支持视频网站的视频广告，更加支持软件自带的弹窗广告，而且一键操作！</p>
+</li>
+<li><p>办公软件：还是选择了WPS，虽然微软的OFFICE是主流，但是还是觉得WPS来的可靠些，不希望在关键时候出来一个激活信息。</p>
+</li>
+</ul>
+<p>完结。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="windows" scheme="http://www.prokitty.com/tags/windows/"/>
+    
+      <category term="工具" scheme="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[为什么有线程？]]></title>
+    <link href="http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/"/>
+    <id>http://www.prokitty.com/2015/02/02/献给markdown初学者/</id>
+    <published>2015-02-01T16:00:00.000Z</published>
+    <updated>2015-02-03T16:46:20.000Z</updated>
+    <content type="html"><![CDATA[<ol>
+<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
+<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
+<li>为什么会有线程？</li>
+</ol>
+<ul>
+<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
+<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
+<li>UAC，这货也不扯了</li>
+<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
+<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+    
+      <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://www.prokitty.com/2015/02/01/hello-world/"/>
+    <id>http://www.prokitty.com/2015/02/01/hello-world/</id>
+    <published>2015-01-31T16:00:00.000Z</published>
+    <updated>2015-02-03T12:49:42.000Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2>
+<h3 id="Create_a_new_post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="Believe" scheme="http://www.prokitty.com/tags/Believe/"/>
+    
+      <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+</feed>
