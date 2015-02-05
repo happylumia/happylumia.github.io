@@ -3,232 +3,346 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/05/ceshi/</loc>
-    <lastmod>2015-02-05T12:33:29.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/05/VimTips/</loc>
+    <lastmod>2015-02-05T15:00:36.000Z</lastmod>
     <data>
         <display>
-        <title>Ceshi</title>
-        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
+        <title>Vim Tips</title>
+        <pubTime>2015-02-05T14:16:22.000Z</pubTime>
         
         <tag>Linux </tag>
          
-         <content><![CDATA[<p><img src="F:\hexo\source\image\051101dsjivkzmhikdg4zz.gif" alt=""> </p>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
+         <content><![CDATA[<h1 id="模式">模式</h1>
+<p>一般模式（Nomal mode）：按Esc或Ctrl+[进入。左下角显示文件名或为空。可以移动光标、删除、选择、复制和粘贴。</p>
+<p>编辑模式（Edit mode）：输入“i, I, a, A, o, O, r, R”即进入编辑模式。当进入编辑模式时，会在屏幕的最下一行出现“INSERT”或“REPLACE”的字样。其中，输入“i, I, a, A, o, O”进入的是插入模式；输入“r, R”那是替换模式，即替换光标所在的字符。从编辑模式回到一般模式只需要按一下键盘左上方的“ESC”键即可。</p>
+<p>命令模式（Command mode）：在一般模式下，输入“:、/、？”即可将光标移动到终端的最底部。在该模式下，可以搜索某个字符或者字符串，也可以保存、替换、退出、显示行号等。</p>
+<p>vim三种模式的转换只能是：一般模式&lt;-&gt;编辑模式和一般模式&lt;-&gt;命令模式之间跳转。不能命令模式&lt;-&gt;编辑模式之间跳转。</p>
+<hr>
+<h1 id="移动命令">移动命令</h1>
+<pre><code>h   左移一个字符</code></pre>
+<pre><code>l   右移一个字符，这个命令很少用，一般用w代替。</code></pre>
+<pre><code>k   上移一个字符</code></pre>
+<pre><code>j   下移一个字符</code></pre>
 
-    
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
-    <lastmod>2015-02-05T05:34:54.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo主题博客汇总</title>
-        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
-<ul>
-<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
-<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
-<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
-<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
-<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
-<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
-<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
-<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
-<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
-<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
-<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
-<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
-<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
-<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
-<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
-<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
-<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
-</ul>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
+<blockquote>
+<p>以上四个命令可以配合数字使用，比如20j就是向下移动20行，5h就是向左移动5个字符，在Vim中，很多命令都可以配合数字使用，比如删除10个字符10x，在当前位置后插入3个！，3a！<esc><br>，这里的Esc是必须的，否则命令不生效。</esc></p>
+</blockquote>
+<pre><code>w   向前移动一个单词（光标停在单词首部），如果已到行尾，则转至下一行行首。此命令快，可以代替l命令。</code></pre>
 
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/</loc>
-    <lastmod>2015-02-04T17:57:18.000Z</lastmod>
-    <data>
-        <display>
-        <title>为什么有线程？</title>
-        <pubTime>2015-02-01T16:00:00.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
-<ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
-</ul>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="杂记" url="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
+<pre><code>b   向后移动一个单词 2b 向后移动2个单词。</code></pre>
 
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2015-02-04T03:32:52.000Z</lastmod>
-    <data>
-        <display>
-        <title>纪念那些自己喜爱的Windows软件</title>
-        <pubTime>2015-02-02T16:00:00.000Z</pubTime>
-        
-        <tag>windows </tag>
-         
-         <content><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://i2.tietuku.com/fbb9fe6a71969749.jpg" alt=""></p>
-<p>很多图标都经过修改。</p>
-<h2 id="聊天软件：">聊天软件：</h2>
-<ul>
-<li><p>QQ：真心离不开，即使是这个移动互联网盛行的时代，依旧是主力。可以使用轻聊版，有比肩MAC版本的清爽，也留下了完整的体验。</p>
-</li>
-<li><p>微信：偶尔在电脑上用用，必须用手机才可以登录。虽然很麻烦，但是在电脑上打字聊天确实比较方便，不知道大家朋友里有没有人只用微信的？反正我有，那些可恶的手机党啊！</p>
-</li>
-<li><p>飞信：部分代替短信的工具，虽然上的越来越少了，但是在上海还是有很多人用的，特别是企业里，加上好友后发通知都是免费的。</p>
-</li>
-<li><p>阿里旺旺：也是离不开啊，因为购物，如果发生纠纷，那么聊天记录是最好的保证。</p>
-</li>
-</ul>
-<h2 id="云同步软件：">云同步软件：</h2>
-<ul>
-<li>百度云管家，使用体验很一般，真的，经常出现问题，特别是笔记本睡眠醒来后，不过功能实在太过于强大了，其实我对于云的概念就停留在备份和在线操作。都来自于苹果的Time Machine（虽然我没有用过），多时间版本的文件备份和实时同步，超大的容量以及局域网的互联互通（曾经看到过有人用最新的Time Machine用蓝光视频）。那么本地可以，云是否也可以呢？百度云几乎可以做到这点。</li>
-</ul>
-<h2 id="清理电脑软件：">清理电脑软件：</h2>
-<ul>
-<li>CCleaner：不喜欢360或者其他的类似的软件，主要是功能太多，我不需要它提醒我开机多少时间，不需要知道我有多少漏洞没补，就是简单的清理我的电脑注册表垃圾，不过我并不认为缓存是垃圾。</li>
-</ul>
-<h2 id="杀毒软件：">杀毒软件：</h2>
-<ul>
-<li>MSE，我也觉得一般，不过它几乎没有打扰过我，所以我安装了它。支持在任务栏中显示搜索中-完成-未保护三个状态（这是我最喜欢的，免得有cpu大量被占有也不知道是什么软件的问题）</li>
-</ul>
-<h2 id="音乐软件：">音乐软件：</h2>
-<ul>
-<li>iTunes：本来也是习惯QQ音乐的，但是买了iPhone后就觉得没有选择了，也习惯了iTunes，觉得这个界面特别漂亮。</li>
-</ul>
-<p><img src="http://i2.tietuku.com/052ce856393a79e7.jpg" alt=""></p>
-<p>不过需要大量的时间管理维护这些专辑封面哦。</p>
-<h2 id="视频软件：">视频软件：</h2>
-<ul>
-<li>Potplayer：原来我也是QQ影音的忠实用户，不过QQ影音因为腾讯很久没有更新了，在很多细节上确实没有Potplayer好用，不过Potplayer最好也是选择32位的，64位在解码方面没有32位的来的强悍，我的电脑在QQ影音和64位的Potplayer中播放4K视频都卡，但是在32位中就比较流畅了。附上我的皮肤图（有需要的留言哦！）：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/40719ec1d04981b6.jpg" alt=""></p>
-<h2 id="Connectify_3-7">Connectify 3.7</h2>
-<ul>
-<li>在我的K29上很稳定，不过只能连接8个wifi设备，目前从来没有因为网络限制出现移动设备不能上网的问题，只要电脑可以上网，手机等移动设备一定可以上网，不过我不推荐使用，一般的用户还是使用猎豹wifi比较好，因为做的漂亮，功能也强大些，就是更新比较频繁。</li>
-</ul>
-<h2 id="Preme_for_windows">Preme for windows</h2>
-<ul>
-<li>真是牛人的软件，几乎让鼠标在windows上的体验比肩mac上触摸板上的体验，如果说windows的笔记本的触摸板是渣，那么因为这软件，mac的鼠标同样是渣。上图（只有英文版，不过有视频演示）：<br><img src="http://i2.tietuku.com/3c8b8e0313e7a10d.png" alt=""></li>
-</ul>
-<h2 id="USB_Extension">USB Extension</h2>
-<ul>
-<li>其实就是一个usb设备显示在桌面的插件，很多人习惯360的那种方式也是可以的，我是喜欢MAC的那种方式，讨厌浮窗的。上图：<br><img src="http://i2.tietuku.com/7b04d6524941863c.png" alt=""></li>
-</ul>
-<h2 id="ASUS_AI_Charger">ASUS AI Charger</h2>
-<ul>
-<li>可以让iPad在windows上充电的软件。</li>
-</ul>
-<h2 id="Ditto">Ditto</h2>
-<ul>
-<li>我觉得很不漂亮，但很实用，剪切板管理软件。</li>
-</ul>
-<h2 id="Listary">Listary</h2>
-<ul>
-<li>非常非常强大的本地搜索软件，只是比Mac的差了很多，不支持网上搜索，也不支持编辑搜索的软件。比Mac那款神器的搜索软件差不少，但是胜在一个快，本地搜索几乎是瞬间的。也支持everything（虽然我不用everything这软件，但是很多大神都说它是神器）</li>
-</ul>
-<h2 id="Secret_folder">Secret folder</h2>
-<ul>
-<li>加密文件夹，可以让文件夹在文件管理器中凭空消失，不过不知道拆下硬盘后是否可以加密。</li>
-</ul>
-<h2 id="Media_Preview">Media Preview</h2>
-<ul>
-<li>几乎支持所有的视频预览图，直接上图看效果：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/d5d68a4712abb23b.png" alt=""></p>
-<h2 id="CBXManager">CBXManager</h2>
-<ul>
-<li>在百度贴吧里发现的软件，可以实现一个我很喜欢的功能，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/1e9fcbf6bf96e51f.png" alt=""></p>
-<p>epub电子书的封面可以显示了！</p>
-<h2 id="软媒时间">软媒时间</h2>
-<ul>
-<li>可以让电脑的时间显示比手机的更棒。上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/1e22848cc30ae7c7.png" alt=""></p>
-<h2 id="下载软件：">下载软件：</h2>
-<ul>
-<li><p>QQ旋风：其实不好用，腾讯对它的支持也少了，在扫黄后，还是可以用来下载些违法的内容的。</p>
-</li>
-<li><p>百度云管家：扫黄前神器，扫黄后只能下些普通的电影电视剧了，而且有些电影也会报错。</p>
-</li>
-<li><p>维棠下载：目前也是下载的一款神器，对于在线视频的分析下载是没有软件可以比拟的（不过有广告，去掉弹窗，一切都可以忍，据说可以下载付费电影，没实验过，追剧很方便）</p>
-</li>
-</ul>
-<h2 id="桌面应用管理的软件：">桌面应用管理的软件：</h2>
-<ul>
-<li>酷鱼快速启动：可以用来管理所有的应用软件，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/35e6c1c176f70673.png" alt=""></p>
-<h2 id="软媒桌面">软媒桌面</h2>
-<ul>
-<li>类似MAC的DOCK栏效果，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/d6a8944ec46571f7.png" alt=""></p>
-<p>两者共同解决了windows应用点击后无明显反应的问题！</p>
-<h2 id="浏览器软件：">浏览器软件：</h2>
-<ul>
-<li><p>360浏览器：o(︶︿︶)o 唉，没办法，习惯了，功能目前来说已经不算强大了，但是我认识的人都在用这个浏览器，也确实有无法代替的功能，比如右键关闭标签，比如皮肤，比如显示的效果，其实说真的就是习惯了，现在像UC浏览器其实在功能上都比360要强大了，但是就是不想用。</p>
-</li>
-<li><p>AdSafe：虽然用久了闪退，但是确实是一个屏蔽广告最好的软件，支持浏览器flash广告，也支持视频网站的视频广告，更加支持软件自带的弹窗广告，而且一键操作！</p>
-</li>
-<li><p>办公软件：还是选择了WPS，虽然微软的OFFICE是主流，但是还是觉得WPS来的可靠些，不希望在关键时候出来一个激活信息。</p>
-</li>
-</ul>
-<p>完结。</p>
-]]></content>
+<pre><code>e   同w，只不过是光标停在单词尾部。</code></pre>
+
+<pre><code>ge  同b，光标停在单词尾部。</code></pre>
+
+<pre><code>^   移动到本行第一个非空白字符上。</code></pre>
+
+<pre><code>0  （数字0）移动到本行第一个字符上。</code></pre>
+
+<pre><code>HOME   移动到本行第一个字符。同0健。</code></pre>
+
+<pre><code>$   移动到行尾 3$ 移动到下面3行的行尾</code></pre>
+
+<pre><code>gg   移动到文件头。 = [[</code></pre>
+
+<pre><code>G（shift + g）   移动到文件尾。 = ]]</code></pre>
+
+<pre><code>f（find）   命令也可以用于移动，fx将找到光标后第一个为x的字符，3fd将找到第三个为d的字符。</code></pre>
+
+<pre><code>F   同f，反向查找。</code></pre>
+
+<blockquote>
+<p>跳到指定行，冒号+行号，回车，比如跳到240行就是 :240回车。另一个方法是行号+G，比如230G跳到230行。</p>
+</blockquote>
+<pre><code>Ctrl + e   向下滚动一行</code></pre>
+
+<pre><code>Ctrl + y   向上滚动一行</code></pre>
+
+<pre><code>Ctrl + d   向下滚动半屏</code></pre>
+
+<pre><code>Ctrl + u   向上滚动半屏</code></pre>
+
+<pre><code>Ctrl + f   向下滚动一屏</code></pre>
+
+<pre><code>Ctrl + b   向上滚动一屏</code></pre>
+
+
+<hr>
+<h1 id="插入命令">插入命令</h1>
+<pre><code>i    在当前位置生前插入</code></pre>
+
+<pre><code>I    在当前行首插入</code></pre>
+
+<pre><code>a    在当前位置后插入</code></pre>
+
+<pre><code>A    在当前行尾插入</code></pre>
+
+<pre><code>o    在当前行之后插入一行</code></pre>
+
+<pre><code>O    在当前行之前插入一行</code></pre>
+
+
+<hr>
+<h1 id="查找命令">查找命令</h1>
+<pre><code>/text　　查找text，按n健查找下一个，按N健查找前一个。</code></pre>
+
+<pre><code>?text　　查找text，反向查找，按n健查找下一个，按N健查找前一个。</code></pre>
+
+<blockquote>
+<p>vim中有一些特殊字符在查找时需要转义　　.*[]^%/?~$</p>
+</blockquote>
+<pre><code>:set ignorecase　　忽略大小写的查找</code></pre>
+
+<pre><code>:set noignorecase　　不忽略大小写的查找</code></pre>
+
+<blockquote>
+<p>查找很长的词，如果一个词很长，键入麻烦，可以将光标移动到该词上，按*或#键即可以该单词进行搜索，相当于/搜索。而#命令相当于?搜索。</p>
+</blockquote>
+<pre><code>:set hlsearch　　高亮搜索结果，所有结果都高亮显示，而不是只显示一个匹配。</code></pre>
+
+<pre><code>:set nohlsearch　　关闭高亮搜索显示。</code></pre>
+
+<pre><code>:nohlsearch　　关闭当前的高亮显示，如果再次搜索或者按下n或N键，则会再次高亮。</code></pre>
+
+<pre><code>:set incsearch　　逐步搜索模式，对当前键入的字符进行搜索而不必等待键入完成。</code></pre>
+
+<pre><code>:set wrapscan　　重新搜索，在搜索到文件头或尾时，返回继续搜索，默认开启。</code></pre>
+
+
+<hr>
+<h1 id="替换命令">替换命令</h1>
+<pre><code>ra     将当前字符替换为a，当期字符即光标所在字符</code></pre>
+
+<pre><code>s/old/new/    用old替换new，替换当前行的第一个匹配</code></pre>
+
+<pre><code>s/old/new/g    用old替换new，替换当前行的所有匹配</code></pre>
+
+<pre><code>%s/old/new/    用old替换new，替换所有行的第一个匹配</code></pre>
+
+<pre><code>%s/old/new/g   用old替换new，替换整个文件的所有匹配</code></pre>
+
+<pre><code>:10,20 s/^/ /g    在第10行知第20行每行前面加四个空格，用于缩进</code></pre>
+
+<pre><code>ddp    交换光标所在行和其下紧邻的一行。</code></pre>
+
+
+
+
+<hr>
+<h1 id="撤销和重做">撤销和重做</h1>
+<pre><code>u    撤销（Undo）</code></pre>
+
+<pre><code>U    撤销对整行的操作</code></pre>
+
+<pre><code>Ctrl + r    重做（Redo），即撤销的撤销</code></pre>
+
+
+
+
+<hr>
+<h1 id="删除命令">删除命令</h1>
+<pre><code>x    删除当前字符</code></pre>
+
+<pre><code>3x    删除当前光标开始向后三个字符</code></pre>
+
+<pre><code>X    删除当前字符的前一个字符。X=dh</code></pre>
+
+<pre><code>dl    删除当前字符， dl=x</code></pre>
+
+<pre><code>dh    删除前一个字符</code></pre>
+
+<pre><code>dd    删除当前行</code></pre>
+
+<pre><code>dj    删除上一行</code></pre>
+
+<pre><code>dk    删除下一行</code></pre>
+
+<pre><code>10d    删除当前行开始的10行。</code></pre>
+
+<pre><code>D     删除当前字符至行尾。D=d$</code></pre>
+
+<pre><code>$     删除当前字符之后的所有字符（本行）</code></pre>
+
+<pre><code>kdgg     删除当前行之前所有行（不包括当前行）</code></pre>
+
+<pre><code>jdG（jd shift + g）    删除当前行之后所有行（不包括当前行）</code></pre>
+
+<pre><code>:1,10d     删除1-10行</code></pre>
+
+<pre><code>:11,$d     删除11行及以后所有的行</code></pre>
+
+<pre><code>:1,$d     删除所有行</code></pre>
+
+<pre><code>J(shift + j)　　 删除两行之间的空行，实际上是合并两行</code></pre>
+
+
+
+
+<hr>
+<h1 id="拷贝和粘贴">拷贝和粘贴</h1>
+<pre><code>yy     拷贝当前行</code></pre>
+
+<pre><code>nyy    拷贝当前后开始的n行，比如2yy拷贝当前行及其下一行。</code></pre>
+
+<pre><code>p     在当前光标后粘贴,如果之前使用了yy命令来复制一行，那么就在当前行的下一行粘贴。</code></pre>
+
+<pre><code>shift+p    在当前行前粘贴</code></pre>
+
+<pre><code>:1,10 co 20    将1-10行插入到第20行之后。</code></pre>
+
+<pre><code>:1,$ co $    将整个文件复制一份并添加到文件尾部。</code></pre>
+
+<blockquote>
+<p>正常模式下按v（逐字）或V（逐行）进入可视模式，然后用jklh命令移动即可选择某些行或字符，再按y即可复制</p>
+</blockquote>
+<pre><code>ddp    交换当前行和其下一行</code></pre>
+
+<pre><code>xp     交换当前字符和其后一个字符</code></pre>
+
+
+
+
+
+<hr>
+<h1 id="剪切命令">剪切命令</h1>
+<blockquote>
+<p>正常模式下按v（逐字）或V（逐行）进入可视模式，然后用jklh命令移动即可选择某些行或字符，再按d即可剪切</p>
+</blockquote>
+<pre><code>ndd    剪切当前行之后的n行。利用p命令可以对剪切的内容进行粘贴。</code></pre>
+
+<pre><code>:1,10d    将1-10行剪切。利用p命令可将剪切后的内容进行粘贴。</code></pre>
+
+<pre><code>:1, 10 m 20    将第1-10行移动到第20行之后。</code></pre>
+
+
+
+
+
+<hr>
+<h1 id="退出命令">退出命令</h1>
+<pre><code>:wq     保存并退出。</code></pre>
+
+<pre><code>ZZ     保存并退出。</code></pre>
+
+<pre><code>:q!     强制退出并忽略所有更改。</code></pre>
+
+<pre><code>:e!     放弃所有修改，并打开原来文件。</code></pre>
+
+
+
+
+<hr>
+<h1 id="窗口命令">窗口命令</h1>
+<pre><code>:split或new     打开一个新窗口，光标停在顶层的窗口上</code></pre>
+
+<pre><code>:split file或:new file    用新窗口打开文件</code></pre>
+
+<pre><code>split      打开的窗口都是横向的，使用vsplit可以纵向打开窗口。</code></pre>
+
+<pre><code>Ctrl+ww     移动到下一个窗口</code></pre>
+
+<pre><code>Ctrl+wj     移动到下方的窗口</code></pre>
+
+<pre><code>Ctrl+wk     移动到上方的窗口</code></pre>
+
+
+
+
+<hr>
+<h1 id="关闭窗口">关闭窗口</h1>
+<pre><code>:close     最后一个窗口不能使用此命令，可以防止意外退出vim。</code></pre>
+
+<pre><code>:q      如果是最后一个被关闭的窗口，那么将退出vim。</code></pre>
+
+<pre><code>ZZ      保存并退出。</code></pre>
+
+<pre><code>:only      关闭所有窗口，只保留当前窗口</code></pre>
+
+<pre><code>录制宏      按q键加任意字母开始录制，再按q键结束录制（这意味着vim中的宏不可嵌套），使用的时候@加宏名，比如qa。。。q录制名为a的宏，@a使用这个宏。</code></pre>
+
+
+
+
+<hr>
+<h1 id="执行shell命令">执行shell命令</h1>
+<pre><code>:!command     执行shell命令</code></pre>
+
+<pre><code>:!ls      列出当前目录下文件</code></pre>
+
+<pre><code>:!perl -c script.pl      检查perl脚本语法，可以不用退出vim，非常方便。</code></pre>
+
+<pre><code>:!perl script.pl      执行perl脚本，可以不用退出vim，非常方便。</code></pre>
+
+<pre><code>:suspend或Ctrl Z     挂起vim，回到shell，按fg可以返回vim。</code></pre>
+
+
+
+
+<hr>
+<h1 id="注释命令">注释命令</h1>
+<pre><code>perl程序中#开始的行为注释，所以要注释某些行，只需在行首加入#</code></pre>
+
+<pre><code>3,5 s/^/#/g   注释第3-5行。</code></pre>
+
+<pre><code>3,5 s/^#//g    解除3-5行的注释。</code></pre>
+
+<pre><code>1,$ s/^/#/g    注释整个文档。</code></pre>
+
+<pre><code>:%s/^/#/g    注释整个文档，此法更快。</code></pre>
+
+
+
+
+<hr>
+<h1 id="帮助命令">帮助命令</h1>
+<pre><code>:help or F1    显示整个帮助。</code></pre>
+
+<pre><code>:help xxx    显示xxx的帮助，比如 :help i, :help CTRL-[（即Ctrl+[的帮助）。</code></pre>
+
+<pre><code>:help 'number'    Vim选项的帮助用单引号括起。</code></pre>
+
+<pre><code>:help  Esc     特殊键的帮助用<>扩起。</code></pre>
+
+<pre><code>:help -t     Vim启动参数的帮助用。</code></pre>
+
+<pre><code>：help i_Esc     插入模式下Esc的帮助，某个模式下的帮助用模式_主题的模式。</code></pre>
+
+<pre><code>帮助文件中位于||之间的内容是超链接，可以用Ctrl+]进入链接，Ctrl+o（Ctrl + t）返回。</code></pre>
+
+
+
+
+<hr>
+<h1 id="其他非编辑命令">其他非编辑命令</h1>
+<pre><code>.    重复前一次命令</code></pre>
+
+<pre><code>:set ruler?　　 查看是否设置了ruler，在.vimrc中，使用set命令设制的选项都可以通过这个命令查看</code></pre>
+
+<pre><code>:scriptnames　　 查看vim脚本文件的位置，比如.vimrc文件，语法文件及plugin等。</code></pre>
+
+<pre><code>:set list     显示非打印字符，如tab，空格，行尾等。如果tab无法显示，请确定用set lcs=tab:>-命令设置了.vimrc文件，并确保你的文件中的确有tab，如果开启了expendtab，那么tab将被扩展为空格。</code></pre>
+
+
+
+
+<hr>
+<h1 id="Vim教程">Vim教程</h1>
+<pre><code>在Unix系统上:$ vimtutor</code></pre>
+
+<pre><code>在Windows系统上:help tutor</code></pre>
+
+<pre><code>:syntax    列出已经定义的语法项</code></pre>
+
+<pre><code>:syntax clear    清除已定义的语法规则</code></pre>
+
+<pre><code>:syntax case match    大小写敏感，int和Int将视为不同的语法元素</code></pre>
+
+<pre><code>:syntax case ignore    大小写无关，int和Int将视为相同的语法元素，并使用同样的配色方案</code></pre>]]></content>
          
          
            
              
-              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+              <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
           
         </display>
     </data>
@@ -237,11 +351,11 @@
     
   <url>
     <loc>http://www.prokitty.com/2015/02/05/%E5%85%A8%E5%9B%BD%E5%90%84%E7%9C%81%E5%B8%82DNS%E6%9C%8D%E5%8A%A1%E5%99%A8IP%E5%9C%B0%E5%9D%80/</loc>
-    <lastmod>2015-02-03T16:51:48.000Z</lastmod>
+    <lastmod>2015-02-05T14:57:44.000Z</lastmod>
     <data>
         <display>
         <title>全国各省市Dns服务器Ip地址</title>
-        <pubTime>2015-02-05T15:16:00.000Z</pubTime>
+        <pubTime>2015-02-05T04:16:00.000Z</pubTime>
         
         <tag>DNS </tag>
          
@@ -606,6 +720,216 @@
            
              
               <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
+    <lastmod>2015-02-05T05:34:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo主题博客汇总</title>
+        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
+<ul>
+<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
+<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
+<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
+<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
+<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
+<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
+<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
+<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
+<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
+<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
+<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
+<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
+<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
+<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
+<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
+<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
+<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
+<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
+</ul>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/</loc>
+    <lastmod>2015-02-04T17:57:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>为什么有线程？</title>
+        <pubTime>2015-02-01T16:00:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<ol>
+<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
+<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
+<li>为什么会有线程？</li>
+</ol>
+<ul>
+<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
+<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
+<li>UAC，这货也不扯了</li>
+<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
+<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
+</ul>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="杂记" url="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/</loc>
+    <lastmod>2015-02-04T03:32:52.000Z</lastmod>
+    <data>
+        <display>
+        <title>纪念那些自己喜爱的Windows软件</title>
+        <pubTime>2015-02-02T16:00:00.000Z</pubTime>
+        
+        <tag>windows </tag>
+         
+         <content><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://i2.tietuku.com/fbb9fe6a71969749.jpg" alt=""></p>
+<p>很多图标都经过修改。</p>
+<h2 id="聊天软件：">聊天软件：</h2>
+<ul>
+<li><p>QQ：真心离不开，即使是这个移动互联网盛行的时代，依旧是主力。可以使用轻聊版，有比肩MAC版本的清爽，也留下了完整的体验。</p>
+</li>
+<li><p>微信：偶尔在电脑上用用，必须用手机才可以登录。虽然很麻烦，但是在电脑上打字聊天确实比较方便，不知道大家朋友里有没有人只用微信的？反正我有，那些可恶的手机党啊！</p>
+</li>
+<li><p>飞信：部分代替短信的工具，虽然上的越来越少了，但是在上海还是有很多人用的，特别是企业里，加上好友后发通知都是免费的。</p>
+</li>
+<li><p>阿里旺旺：也是离不开啊，因为购物，如果发生纠纷，那么聊天记录是最好的保证。</p>
+</li>
+</ul>
+<h2 id="云同步软件：">云同步软件：</h2>
+<ul>
+<li>百度云管家，使用体验很一般，真的，经常出现问题，特别是笔记本睡眠醒来后，不过功能实在太过于强大了，其实我对于云的概念就停留在备份和在线操作。都来自于苹果的Time Machine（虽然我没有用过），多时间版本的文件备份和实时同步，超大的容量以及局域网的互联互通（曾经看到过有人用最新的Time Machine用蓝光视频）。那么本地可以，云是否也可以呢？百度云几乎可以做到这点。</li>
+</ul>
+<h2 id="清理电脑软件：">清理电脑软件：</h2>
+<ul>
+<li>CCleaner：不喜欢360或者其他的类似的软件，主要是功能太多，我不需要它提醒我开机多少时间，不需要知道我有多少漏洞没补，就是简单的清理我的电脑注册表垃圾，不过我并不认为缓存是垃圾。</li>
+</ul>
+<h2 id="杀毒软件：">杀毒软件：</h2>
+<ul>
+<li>MSE，我也觉得一般，不过它几乎没有打扰过我，所以我安装了它。支持在任务栏中显示搜索中-完成-未保护三个状态（这是我最喜欢的，免得有cpu大量被占有也不知道是什么软件的问题）</li>
+</ul>
+<h2 id="音乐软件：">音乐软件：</h2>
+<ul>
+<li>iTunes：本来也是习惯QQ音乐的，但是买了iPhone后就觉得没有选择了，也习惯了iTunes，觉得这个界面特别漂亮。</li>
+</ul>
+<p><img src="http://i2.tietuku.com/052ce856393a79e7.jpg" alt=""></p>
+<p>不过需要大量的时间管理维护这些专辑封面哦。</p>
+<h2 id="视频软件：">视频软件：</h2>
+<ul>
+<li>Potplayer：原来我也是QQ影音的忠实用户，不过QQ影音因为腾讯很久没有更新了，在很多细节上确实没有Potplayer好用，不过Potplayer最好也是选择32位的，64位在解码方面没有32位的来的强悍，我的电脑在QQ影音和64位的Potplayer中播放4K视频都卡，但是在32位中就比较流畅了。附上我的皮肤图（有需要的留言哦！）：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/40719ec1d04981b6.jpg" alt=""></p>
+<h2 id="Connectify_3-7">Connectify 3.7</h2>
+<ul>
+<li>在我的K29上很稳定，不过只能连接8个wifi设备，目前从来没有因为网络限制出现移动设备不能上网的问题，只要电脑可以上网，手机等移动设备一定可以上网，不过我不推荐使用，一般的用户还是使用猎豹wifi比较好，因为做的漂亮，功能也强大些，就是更新比较频繁。</li>
+</ul>
+<h2 id="Preme_for_windows">Preme for windows</h2>
+<ul>
+<li>真是牛人的软件，几乎让鼠标在windows上的体验比肩mac上触摸板上的体验，如果说windows的笔记本的触摸板是渣，那么因为这软件，mac的鼠标同样是渣。上图（只有英文版，不过有视频演示）：<br><img src="http://i2.tietuku.com/3c8b8e0313e7a10d.png" alt=""></li>
+</ul>
+<h2 id="USB_Extension">USB Extension</h2>
+<ul>
+<li>其实就是一个usb设备显示在桌面的插件，很多人习惯360的那种方式也是可以的，我是喜欢MAC的那种方式，讨厌浮窗的。上图：<br><img src="http://i2.tietuku.com/7b04d6524941863c.png" alt=""></li>
+</ul>
+<h2 id="ASUS_AI_Charger">ASUS AI Charger</h2>
+<ul>
+<li>可以让iPad在windows上充电的软件。</li>
+</ul>
+<h2 id="Ditto">Ditto</h2>
+<ul>
+<li>我觉得很不漂亮，但很实用，剪切板管理软件。</li>
+</ul>
+<h2 id="Listary">Listary</h2>
+<ul>
+<li>非常非常强大的本地搜索软件，只是比Mac的差了很多，不支持网上搜索，也不支持编辑搜索的软件。比Mac那款神器的搜索软件差不少，但是胜在一个快，本地搜索几乎是瞬间的。也支持everything（虽然我不用everything这软件，但是很多大神都说它是神器）</li>
+</ul>
+<h2 id="Secret_folder">Secret folder</h2>
+<ul>
+<li>加密文件夹，可以让文件夹在文件管理器中凭空消失，不过不知道拆下硬盘后是否可以加密。</li>
+</ul>
+<h2 id="Media_Preview">Media Preview</h2>
+<ul>
+<li>几乎支持所有的视频预览图，直接上图看效果：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/d5d68a4712abb23b.png" alt=""></p>
+<h2 id="CBXManager">CBXManager</h2>
+<ul>
+<li>在百度贴吧里发现的软件，可以实现一个我很喜欢的功能，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/1e9fcbf6bf96e51f.png" alt=""></p>
+<p>epub电子书的封面可以显示了！</p>
+<h2 id="软媒时间">软媒时间</h2>
+<ul>
+<li>可以让电脑的时间显示比手机的更棒。上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/1e22848cc30ae7c7.png" alt=""></p>
+<h2 id="下载软件：">下载软件：</h2>
+<ul>
+<li><p>QQ旋风：其实不好用，腾讯对它的支持也少了，在扫黄后，还是可以用来下载些违法的内容的。</p>
+</li>
+<li><p>百度云管家：扫黄前神器，扫黄后只能下些普通的电影电视剧了，而且有些电影也会报错。</p>
+</li>
+<li><p>维棠下载：目前也是下载的一款神器，对于在线视频的分析下载是没有软件可以比拟的（不过有广告，去掉弹窗，一切都可以忍，据说可以下载付费电影，没实验过，追剧很方便）</p>
+</li>
+</ul>
+<h2 id="桌面应用管理的软件：">桌面应用管理的软件：</h2>
+<ul>
+<li>酷鱼快速启动：可以用来管理所有的应用软件，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/35e6c1c176f70673.png" alt=""></p>
+<h2 id="软媒桌面">软媒桌面</h2>
+<ul>
+<li>类似MAC的DOCK栏效果，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/d6a8944ec46571f7.png" alt=""></p>
+<p>两者共同解决了windows应用点击后无明显反应的问题！</p>
+<h2 id="浏览器软件：">浏览器软件：</h2>
+<ul>
+<li><p>360浏览器：o(︶︿︶)o 唉，没办法，习惯了，功能目前来说已经不算强大了，但是我认识的人都在用这个浏览器，也确实有无法代替的功能，比如右键关闭标签，比如皮肤，比如显示的效果，其实说真的就是习惯了，现在像UC浏览器其实在功能上都比360要强大了，但是就是不想用。</p>
+</li>
+<li><p>AdSafe：虽然用久了闪退，但是确实是一个屏蔽广告最好的软件，支持浏览器flash广告，也支持视频网站的视频广告，更加支持软件自带的弹窗广告，而且一键操作！</p>
+</li>
+<li><p>办公软件：还是选择了WPS，虽然微软的OFFICE是主流，但是还是觉得WPS来的可靠些，不希望在关键时候出来一个激活信息。</p>
+</li>
+</ul>
+<p>完结。</p>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
           
         </display>
     </data>
