@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.prokitty.com/"/>
-  <updated>2015-02-05T04:52:34.304Z</updated>
+  <updated>2015-02-05T12:33:41.266Z</updated>
   <id>http://www.prokitty.com/</id>
   
   <author>
@@ -15,7 +15,7 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[全国各省市DNS服务器IP地址]]></title>
+    <title><![CDATA[全国各省市Dns服务器Ip地址]]></title>
     <link href="http://www.prokitty.com/2015/02/05/%E5%85%A8%E5%9B%BD%E5%90%84%E7%9C%81%E5%B8%82DNS%E6%9C%8D%E5%8A%A1%E5%99%A8IP%E5%9C%B0%E5%9D%80/"/>
     <id>http://www.prokitty.com/2015/02/05/全国各省市DNS服务器IP地址/</id>
     <published>2015-02-05T15:16:00.000Z</published>
@@ -388,11 +388,30 @@
   </entry>
   
   <entry>
+    <title><![CDATA[Ceshi]]></title>
+    <link href="http://www.prokitty.com/2015/02/05/ceshi/"/>
+    <id>http://www.prokitty.com/2015/02/05/ceshi/</id>
+    <published>2015-02-04T17:36:00.000Z</published>
+    <updated>2015-02-05T12:33:29.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="F:\hexo\source\image\051101dsjivkzmhikdg4zz.gif" alt=""> </p>
+]]></content>
+    <summary type="html">
+    <![CDATA[smell it]]>
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+    
+      <category term="工具" scheme="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Hexo主题博客汇总]]></title>
     <link href="http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/"/>
     <id>http://www.prokitty.com/2015/02/05/hexo博客汇总/</id>
     <published>2015-02-04T17:36:00.000Z</published>
-    <updated>2015-02-04T17:57:15.000Z</updated>
+    <updated>2015-02-05T05:34:54.000Z</updated>
     <content type="html"><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
 <ul>
 <li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
@@ -410,6 +429,9 @@
 <li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
 <li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
 <li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
+<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
+<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
+<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
 </ul>
 ]]></content>
     <summary type="html">
@@ -490,7 +512,7 @@
   </entry>
   
   <entry>
-    <title><![CDATA[纪念那些自己喜爱的windows软件]]></title>
+    <title><![CDATA[纪念那些自己喜爱的Windows软件]]></title>
     <link href="http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/"/>
     <id>http://www.prokitty.com/2015/02/03/纪念那些自己喜爱的windows软件/</id>
     <published>2015-02-02T16:00:00.000Z</published>
