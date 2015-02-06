@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>为什么有线程？ | 朱邏輯公園</title>
+    <title>双机热备（高可用） | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="smell it">
+    <meta name="description" itemprop="description" content="just do it !">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="为什么有线程？ | 朱邏輯公園" />
+    <meta name="twitter:title" content="双机热备（高可用） | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="smell it" />
+        <meta name="twitter:description" content="just do it !" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/02/献给markdown初学者/" title="为什么有线程？" itemprop="url">为什么有线程？</a>
+      <a href="/2015/02/06/双机热备（高可用）/" title="双机热备（高可用）" itemprop="url">双机热备（高可用）</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-01T16:00:00.000Z" itemprop="datePublished">2015-02-02</time>
-    更新日期:<time datetime="2015-02-04T17:57:18.000Z" itemprop="dateModified">2015-02-05</time>
+    <time datetime="2015-02-06T13:50:14.000Z" itemprop="datePublished">2015-02-06</time>
+    更新日期:<time datetime="2015-02-06T16:59:42.000Z" itemprop="dateModified">2015-02-07</time>
     
   </p>
 </header>
@@ -92,22 +92,86 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装heartbeat："><span class="toc-number">1.</span> <span class="toc-text">安装heartbeat：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主上（chen）配置:"><span class="toc-number">2.</span> <span class="toc-text">主上（chen）配置:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把主上的三个配置拷贝到从上："><span class="toc-number">3.</span> <span class="toc-text">把主上的三个配置拷贝到从上：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#到从上(root)_编辑ha-cf"><span class="toc-number">4.</span> <span class="toc-text">到从上(root) 编辑ha.cf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动heartbeat_:"><span class="toc-number">5.</span> <span class="toc-text">启动heartbeat :</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#检查测试_:"><span class="toc-number">6.</span> <span class="toc-text">检查测试 :</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#_测试1："><span class="toc-number">7.</span> <span class="toc-text">　测试1：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试2："><span class="toc-number">8.</span> <span class="toc-text">测试2：</span></a></li></ol>
 		</div>
 		
-		<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
-<ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
-</ul>
-  
+		<pre><code></code></pre>
+双机热备特指基于高可用系统中的两台服务器的热备（或高可用），因两机高可用在国内使用较多，故得名双机热备，双机高可用按工作中的切换方式分为：主-备方式（Active-Standby方式）和双主机方式（Active-Active方式），主-备方式即指的是一台服务器处于某种业务的激活状态（即Active状态），另一台服务器处于该业务的备用状态（即Standby状态)。而双主机方式即指两种不同业务分别在两台服务器上互为主备状态（即Active-Standby和Standby-Active状态）。简单理解就是，有两台机器A和B，正常是A提供服务，B待命闲置，当A宕机或服务宕掉，会切换至B机器继续提供服务。下面我们使用heartbeat来做HA集群，并且把nginx服务作为HA对应的服务。
+
+# 试验准备：
+
+两个机器, 都是centos6.5，网卡eth1 ip如下：
+chen   192.168.36.128
+root  192.168.36.132
+
+# 安装epel扩展源：
+
+<pre><code>rpm -ivh  'http://www.lishiming.net/data/attachment/forum/epel-release-6-8_32.noarch.rpm'</code></pre>
+
+<h1 id="安装heartbeat：">安装heartbeat：</h1>
+<p>两个机器都安装heartbeat / libnet</p>
+<pre><code>yum  install -y heartbeat*   libnet  nginx</code></pre>
+
+<h1 id="主上（chen）配置:">主上（chen）配置:</h1>
+<pre><code>
+cd /usr/share/doc/heartbeat-3.0.4/
+cp  authkeys  ha.cf haresources   /etc/ha.d/
+cd /etc/ha.d
+vi  authkeys  #加入
+
+>3 md5 Hello!
+
+chmod 600 authkeys
+
+vi  haresources  #加入
+
+>chen 192.168.36.128/eth1:0 nginx   
+
+vi  ha.cf   #改为如下内容：
+
+>debugfile /var/log/ha-debug
+>logfile /var/log/ha-log
+>logfacility     local0
+>keepalive  2
+>deadtime  30
+>warntime  10
+>initdead  60
+>udpport  694
+>ucast eth1  192.168.36.132
+>auto_failback on
+>node    chen
+>node    root
+>ping 192.168.253.1  #裁判的ip
+>respawn hacluster /usr/lib/heartbeat/ipfail
+</code></pre>
+
+<h1 id="把主上的三个配置拷贝到从上：">把主上的三个配置拷贝到从上：</h1>
+<pre><code>cd /etc/ha.d/</code></pre>
+<pre><code>scp  authkeys  ha.cf haresources   root:/etc/ha.d/</code></pre>
+
+<h1 id="到从上(root)_编辑ha-cf">到从上(root) 编辑ha.cf</h1>
+<pre><code>vi  /etc/ha.d/ha.cf   #只需要更改一个地方</code></pre>
+<pre><code>ucast eth1 192.168.36.132 改为   ucast eth1 192.168.36.128  </code></pre>
+
+
+<h1 id="启动heartbeat_:">启动heartbeat :</h1>
+<p> 先主，后从</p>
+<pre><code>service heartbeat start</code></pre>
+
+
+<h1 id="检查测试_:">检查测试 :</h1>
+<pre><code>ifconfig   #看是否有 eth1:0
+ps aux |grep nginx    #看是否有nginx进程</code></pre>
+
+
+
+<h1 id="_测试1：">　测试1：</h1>
+<p>主上故意禁ping</p>
+<pre><code>iptables -I INPUT -p icmp -j DROP</code></pre>
+
+<h1 id="测试2：">测试2：</h1>
+<p>主上停止heartbeat服务</p>
+<pre><code>service heartbeat stop </code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 
@@ -119,7 +183,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
@@ -154,18 +218,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/03/纪念那些自己喜爱的windows软件/" title="纪念那些自己喜爱的Windows软件">
+ <a href="/2015/02/06/vim中粘贴数据的时候如何取消自动缩进/" title="Vim中粘贴数据的时候如何取消自动缩进">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  纪念那些自己喜爱的Windows软件</span>
+  Vim中粘贴数据的时候如何取消自动缩进</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/01/hello-world/"  title="Hello World">
+<a href="/2015/02/06/安装WordPress/"  title="安装Word Press">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>安装Word Press
 </span>
 </a>
 </div>
@@ -182,7 +246,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装heartbeat："><span class="toc-number">1.</span> <span class="toc-text">安装heartbeat：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主上（chen）配置:"><span class="toc-number">2.</span> <span class="toc-text">主上（chen）配置:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把主上的三个配置拷贝到从上："><span class="toc-number">3.</span> <span class="toc-text">把主上的三个配置拷贝到从上：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#到从上(root)_编辑ha-cf"><span class="toc-number">4.</span> <span class="toc-text">到从上(root) 编辑ha.cf</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动heartbeat_:"><span class="toc-number">5.</span> <span class="toc-text">启动heartbeat :</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#检查测试_:"><span class="toc-number">6.</span> <span class="toc-text">检查测试 :</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#_测试1："><span class="toc-number">7.</span> <span class="toc-text">　测试1：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试2："><span class="toc-number">8.</span> <span class="toc-text">测试2：</span></a></li></ol>
   </div>
 
 <div id="asidepart">

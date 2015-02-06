@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>为什么有线程？ | 朱邏輯公園</title>
+    <title>安装Word Press | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="smell it">
+    <meta name="description" itemprop="description" content="just do it !">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="为什么有线程？ | 朱邏輯公園" />
+    <meta name="twitter:title" content="安装Word Press | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="smell it" />
+        <meta name="twitter:description" content="just do it !" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/02/献给markdown初学者/" title="为什么有线程？" itemprop="url">为什么有线程？</a>
+      <a href="/2015/02/06/安装WordPress/" title="安装Word Press" itemprop="url">安装Word Press</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-01T16:00:00.000Z" itemprop="datePublished">2015-02-02</time>
-    更新日期:<time datetime="2015-02-04T17:57:18.000Z" itemprop="dateModified">2015-02-05</time>
+    <time datetime="2015-02-05T17:50:14.000Z" itemprop="datePublished">2015-02-06</time>
+    更新日期:<time datetime="2015-02-06T17:02:46.000Z" itemprop="dateModified">2015-02-07</time>
     
   </p>
 </header>
@@ -92,20 +92,36 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装前提："><span class="toc-number">2.</span> <span class="toc-text">安装前提：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装步骤："><span class="toc-number">3.</span> <span class="toc-text">安装步骤：</span></a></li></ol>
 		</div>
 		
-		<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
+		<p>WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。</p>
+<h1 id="准备工作">准备工作</h1>
 <ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
+<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/" target="_blank" rel="external">http://cn.wordpress.org/</a><br>(目前最新版下载链接 <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
+</ul>
+<pre><code>wget http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip
+</code></pre>
+
+<h1 id="安装前提：">安装前提：</h1>
+<ul>
+<li>已经安装了Mysql、Apache、PHP，LAMP环境部署完毕。</li>
+</ul>
+<h1 id="安装步骤：">安装步骤：</h1>
+<ul>
+<li>1.解压刚才下载的安装包：</li>
+</ul>
+<pre><code>unzip wordpress-3.0.1-zh_CN.zip
+</code></pre>
+
+<ul>
+<li><p>2.在MySQL中使用phpMyAdmin或者其他用户创建一个MySQL数据库，这个数据库用于保存WordPress的数据。</p>
+</li>
+<li><p>2.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
+</li>
+</ul>
+<ul>
+<li>3.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</li>
 </ul>
   
 	</div>
@@ -119,7 +135,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
@@ -154,18 +170,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/03/纪念那些自己喜爱的windows软件/" title="纪念那些自己喜爱的Windows软件">
+ <a href="/2015/02/06/双机热备（高可用）/" title="双机热备（高可用）">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  纪念那些自己喜爱的Windows软件</span>
+  双机热备（高可用）</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/01/hello-world/"  title="Hello World">
+<a href="/2015/02/05/VimTips/"  title="Vim Tips">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>Vim Tips
 </span>
 </a>
 </div>
@@ -182,7 +198,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-number">1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装前提："><span class="toc-number">2.</span> <span class="toc-text">安装前提：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装步骤："><span class="toc-number">3.</span> <span class="toc-text">安装步骤：</span></a></li></ol>
   </div>
 
 <div id="asidepart">

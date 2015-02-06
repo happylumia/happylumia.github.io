@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>为什么有线程？ | 朱邏輯公園</title>
+    <title>Vim中粘贴数据的时候如何取消自动缩进 | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="smell it">
+    <meta name="description" itemprop="description" content="just do it !">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="为什么有线程？ | 朱邏輯公園" />
+    <meta name="twitter:title" content="Vim中粘贴数据的时候如何取消自动缩进 | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="smell it" />
+        <meta name="twitter:description" content="just do it !" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/02/献给markdown初学者/" title="为什么有线程？" itemprop="url">为什么有线程？</a>
+      <a href="/2015/02/06/vim中粘贴数据的时候如何取消自动缩进/" title="Vim中粘贴数据的时候如何取消自动缩进" itemprop="url">Vim中粘贴数据的时候如何取消自动缩进</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-01T16:00:00.000Z" itemprop="datePublished">2015-02-02</time>
-    更新日期:<time datetime="2015-02-04T17:57:18.000Z" itemprop="dateModified">2015-02-05</time>
+    <time datetime="2015-02-06T15:50:14.000Z" itemprop="datePublished">2015-02-06</time>
+    更新日期:<time datetime="2015-02-06T17:01:39.000Z" itemprop="dateModified">2015-02-07</time>
     
   </p>
 </header>
@@ -95,18 +95,18 @@
 		
 		</div>
 		
-		<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
-<ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
-</ul>
+		<p>vim中在粘贴剪贴板中的数据时会自动增加缩进，这对python这种对缩进要求严格的语言来说简直是恶梦。如何让它不缩进,保持原格式呢？答案就是paste模式。</p>
+<p>在粘贴数据之前，输入下面指定开启paste模式：</p>
+<pre><code>:set paste</code></pre>
+
+<p>粘贴完毕后，输入下面指定关闭paste模式：</p>
+<pre><code>:set nopaste</code></pre>
+
+<p>每次都需要输入是不是太麻烦，那么在.vimrc中加入下面内容吧：</p>
+<pre><code>"Paste toggle - when pasting something in, don't indent.
+set pastetoggle=<f3></f3></code></pre>
+
+<p>这样就可以用F3来切换了。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -119,7 +119,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
@@ -153,19 +153,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/03/纪念那些自己喜爱的windows软件/" title="纪念那些自己喜爱的Windows软件">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  纪念那些自己喜爱的Windows软件</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/01/hello-world/"  title="Hello World">
+<a href="/2015/02/06/双机热备（高可用）/"  title="双机热备（高可用）">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>双机热备（高可用）
 </span>
 </a>
 </div>
