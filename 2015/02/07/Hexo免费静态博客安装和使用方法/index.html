@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>为什么有线程？ | 朱邏輯公園</title>
+    <title>Hexo免费静态博客安装和使用方法 | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="smell it">
+    <meta name="description" itemprop="description" content="love hexo themes！">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="为什么有线程？ | 朱邏輯公園" />
+    <meta name="twitter:title" content="Hexo免费静态博客安装和使用方法 | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="smell it" />
+        <meta name="twitter:description" content="love hexo themes！" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/02/献给markdown初学者/" title="为什么有线程？" itemprop="url">为什么有线程？</a>
+      <a href="/2015/02/07/Hexo免费静态博客安装和使用方法/" title="Hexo免费静态博客安装和使用方法" itemprop="url">Hexo免费静态博客安装和使用方法</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-01T16:00:00.000Z" itemprop="datePublished">2015-02-02</time>
-    更新日期:<time datetime="2015-02-04T17:57:18.000Z" itemprop="dateModified">2015-02-05</time>
+    <time datetime="2015-02-07T09:58:00.000Z" itemprop="datePublished">2015-02-07</time>
+    更新日期:<time datetime="2015-02-07T10:35:38.000Z" itemprop="dateModified">2015-02-07</time>
     
   </p>
 </header>
@@ -92,20 +92,154 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-搭建环境："><span class="toc-number">1.</span> <span class="toc-text">1.搭建环境：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-更换主题："><span class="toc-number">2.</span> <span class="toc-text">3.更换主题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-使用markdown："><span class="toc-number">3.</span> <span class="toc-text">5.使用markdown：</span></a></li></ol>
 		</div>
 		
-		<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
+		<p>今天换了台电脑，就发现不会安装hexo主题了，意识决定写一篇博客，加深下印象。</p>
+<p>直接进入主题：</p>
+<h1 id="1-搭建环境：">1.搭建环境：</h1>
 <ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
+<li><p>下载并安装好github工具:<a href="http://www.freehao123.com/dl-msysgit/" target="_blank" rel="external">github下载地址</a></p>
+</li>
+<li><p>下载并安装好Node.js软件：<a href="http://www.freehao123.com/dl-node-js/" target="_blank" rel="external">Node.js软件地址（32位）</a></p>
+</li>
+</ul>
+<p>-# 2.安装hexo：</p>
+<ul>
+<li><p>安装好了github和Node.js软件后，在自己希望存放主题的地方创建hexo目录，例如：F\hexo\。然后再目录里点击右键，选择git bash，进入git bash。</p>
+</li>
+<li><p>在bash中执行以下命令开始安装：</p>
+<pre><code>npm install -g hexo</code></pre>
+</li>
+<li><p>装成功后，到Hexo文件目录中执行如下命令：</p>
+<pre><code>hexo init <f\hexo\></f\hexo\></code></pre>，或者用CD的方法进入到指定的目录，再执行：
+<pre><code>hexo init</code></pre>
+</li>
+<li><p>接下来是生成静态页面，输入如下命令：</p>
+<pre><code>hexo generate</code></pre>
+</li>
+<li><p>接下来执行命令：<br><pre><code>hexo server</code></pre><br>接着在浏览器总打开<a href="http://localhost:4000就可以生成的博客页面了，当然主题是默认的。" target="_blank" rel="external">http://localhost:4000就可以生成的博客页面了，当然主题是默认的。</a></p>
+</li>
+</ul>
+<p>-要将博文git到github上，用如下命令：</p>
+<pre><code>hexo deploy <f\hexo\></f\hexo\></code></pre>
+
+<p>根据github提示一步步填写用户名和密码即可。</p>
+<h1 id="3-更换主题：">3.更换主题：</h1>
+<ul>
+<li>Hexo静态博客想要安装主题也容易，在Github上找到喜欢的主题，然后执行命令:</li>
+</ul>
+<pre><code>git clone https://github.com/A-limon/pacman.git themes/pacman
+</code></pre>
+
+<p>themes/pacman 是刚才创建的F\hexo目录中的，完整路径是：F\hexo\themes/pacman</p>
+<ul>
+<li><p>修改博客根目录下的config.yml配置文件中的theme属性，将其设置为pacman。同时请设置stylus属性中的compress值为true。</p>
+</li>
+<li><p>更新主题，更新之前先备份_config.yml 文件：</p>
+</li>
+</ul>
+<pre><code>cd themes/pacman
+git pull</code></pre>
+
+
+<ul>
+<li>配置主题：Pacman主题提供了丰富的配置属性，配置文件_config.yml位于主题根目录下。配置文件中已经包含了详细的英文注释和中文说明。</li>
+</ul>
+<pre><code>##### Menu
+menu:
+  Home: /
+  Archives: /archives 
+
+#### Widgets
+widgets: 
+- category
+- tag
+- rss
+
+#### RSS
+rss: 
+
+#### Image
+imglogo:
+  enable: true
+  src: /img/logo.svg 
+  favicon: /img/favicon.ico 
+  apple_icon: /img/pacman.jpg
+
+#### Author Avatar Picture
+author_img_enable: true
+dataURI: false
+author_img_data: 
+author_img: /img/author.jpg
+
+#### Font
+ShowCustomFont: true  
+
+#### Toc
+toc:
+  article: true 
+  aside: true 
+
+#### Fancybox
+fancybox: true 
+
+#### Author information
+author:
+  google_plus: 
+  intro_line1: 
+  intro_line2: 
+  weibo: 
+  twitter: 
+  github: 
+  facebook: 
+  tsina: 
+
+#### Comment
+duoshuo: 
+  enable: false        
+  short_name: 
+
+#### Share button
+jiathis:
+  enable: false  
+  id: 
+  tsina:
+
+#### Analytics
+google_analytics:
+  enable: false
+  id:
+  site:
+
+#### Custom Search
+google_cse: 
+  enable: false
+  cx:</code></pre>
+
+
+<blockquote>
+<p>widgets: 提供了6种小工具。<br>rss: 请填写你博客的RSS地址。<br>imglogo: 建议启用图片logo，格式建议为.svg或.png格式。同时建议提供配套的favicon以及在苹果设备上的图标（背景不要透明）。</p>
+</blockquote>
+<p>author_img_enable: 是否显示底部的作者头像。主题支持头像使用dataURI格式，若使用请修改dataURI的值为true并在下面的author_img_data后填上图片的值，确保它是一行而且被引号包住如果还是想用传统的jpg格式那么就把图片路径放在author_img后，同时把dataURI设置成false。<br>ShowCustomFont: 启用自定义字体，如果你有一定前端基础可以修改font.styl替换为你喜欢的字体。<br>toc: 是否启用在文章中或侧边栏中的目录功能。二者可以都为true或都为false。同时，如果你希望在特定的某一篇文章中关闭目录功能你可以在文章文件开头中的front-matter中加上一行toc: false。<br>fancybox: 默认关闭，如果你使用Hexo经常发表Gallery类型的文章，那么请设置为true（同时需要复制fancybox.js到你的博客目录下scripts文件夹中）。ps: 我很佩服用Hexo发表相册的文艺青年。<br>author: 作者信息，建议尽量填写完整。其中tsina是你的新浪微博ID，不同于用户名或微博主页地址。启用这个属性后，其他用户在微博上分享你文章的同时会自动@你。<br>duoshuo: 多说评论系统。在大陆地区更好用的评论系统，如果你想更换为disqus请参考默认主题后自行修改。<br>jiathis: 加网分享系统。默认关闭，因为主题已经内置了原生的分享功能。<br>google_analytics: Google Analytics追踪代码。请注意：*Google Analytics已经升级到了Universal Analytics。请先前往后台升级你的Google Analytics版本后再启用追踪代码 更多信息请点击这里了解。<br>google_cse: Google自定义搜索。如果开启自定义搜索需要先登录Google CSE，配置好你的站点，并获得此自定义搜索的ID。此外你需要在博客目录下的source文件夹中建立search文件夹并包含一个index.md文件。内容为：</p>
+<pre><code>
+layout: search
+title: search
+---
+</code></pre>
+# 4.发表博文：
+
+- 用Hexo来发表新文章，执行：
+
+<pre><code>hexo new "my new post"</code></pre>
+
+<p>其中my new post为文章标题。</p>
+<ul>
+<li>执行命令后，会在项目\source_posts中生成my new post.md文件，用sublime编辑器打开，开始写博客就行了。</li>
+</ul>
+<h1 id="5-使用markdown：">5.使用markdown：</h1>
+<ul>
+<li>写hexo博文，当然要用到Markdown语法，既美观，快速，还简单。<a href="http://wowubuntu.com/markdown/" target="_blank" rel="external">markdown</a></li>
 </ul>
   
 	</div>
@@ -113,13 +247,13 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Linux/">Linux</a>
+  <span></span> <a href="/tags/博客主题/">博客主题</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/hexo/">hexo</a>
 </div>
 
 
@@ -153,19 +287,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/03/纪念那些自己喜爱的windows软件/" title="纪念那些自己喜爱的Windows软件">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  纪念那些自己喜爱的Windows软件</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/01/hello-world/"  title="Hello World">
+<a href="/2015/02/07/为树莓派对时/"  title="为树莓派对时">
  <strong>NEXT:</strong><br/> 
- <span>Hello World
+ <span>为树莓派对时
 </span>
 </a>
 </div>
@@ -182,7 +308,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-搭建环境："><span class="toc-number">1.</span> <span class="toc-text">1.搭建环境：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-更换主题："><span class="toc-number">2.</span> <span class="toc-text">3.更换主题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-使用markdown："><span class="toc-number">3.</span> <span class="toc-text">5.使用markdown：</span></a></li></ol>
   </div>
 
 <div id="asidepart">
