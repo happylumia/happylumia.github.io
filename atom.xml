@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.prokitty.com/"/>
-  <updated>2015-02-08T18:34:50.181Z</updated>
+  <updated>2015-02-09T14:06:06.549Z</updated>
   <id>http://www.prokitty.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://www.prokitty.com/2015/02/07/Hexo%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/"/>
     <id>http://www.prokitty.com/2015/02/07/Hexo免费静态博客安装和使用方法/</id>
     <published>2015-02-07T09:58:00.000Z</published>
-    <updated>2015-02-07T10:35:38.000Z</updated>
+    <updated>2015-02-09T05:04:33.000Z</updated>
     <content type="html"><![CDATA[<p>今天换了台电脑，就发现不会安装hexo主题了，意识决定写一篇博客，加深下印象。</p>
 <p>直接进入主题：</p>
 <h1 id="1-搭建环境：">1.搭建环境：</h1>
@@ -29,7 +29,7 @@
 <li><p>下载并安装好Node.js软件：<a href="http://www.freehao123.com/dl-node-js/" target="_blank" rel="external">Node.js软件地址（32位）</a></p>
 </li>
 </ul>
-<p>-# 2.安装hexo：</p>
+<h1 id="2-安装hexo：">2.安装hexo：</h1>
 <ul>
 <li><p>安装好了github和Node.js软件后，在自己希望存放主题的地方创建hexo目录，例如：F\hexo\。然后再目录里点击右键，选择git bash，进入git bash。</p>
 </li>
@@ -183,7 +183,7 @@ title: search
     <link href="http://www.prokitty.com/2015/02/07/%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AF%B9%E6%97%B6/"/>
     <id>http://www.prokitty.com/2015/02/07/为树莓派对时/</id>
     <published>2015-02-07T09:00:00.000Z</published>
-    <updated>2015-02-07T09:04:05.000Z</updated>
+    <updated>2015-02-09T05:05:41.000Z</updated>
     <content type="html"><![CDATA[<h1 id="方法一：">方法一：</h1>
 <h2 id="1-安装ntp，输入">1.安装ntp，输入</h2>
 <pre><code>sudo apt-get install ntpdate</code></pre>
@@ -192,12 +192,12 @@ title: search
 <pre><code>tzselect</code></pre>
 
 <h2 id="3-按照自己的时区修改：">3.按照自己的时区修改：</h2>
-<h2 id="_4-配置网络对时，输入">　4.配置网络对时，输入</h2>
+<h2 id="4-配置网络对时，输入">4.配置网络对时，输入</h2>
 <pre><code>sudo ntpdate cn.pool.ntp.org</code></pre>
 
 
 <p>注：cn.pool.ntp.org 是国家授时中心ntp服务器</p>
-<h2 id="_5-输入“date”，看看时间是不是对上了">　5.输入“date”，看看时间是不是对上了</h2>
+<h2 id="5-输入“date”，看看时间是不是对上了">5.输入“date”，看看时间是不是对上了</h2>
 <h1 id="方法二：">方法二：</h1>
 <h2 id="_"> </h2>
 ]]></content>
@@ -426,7 +426,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/06/%E5%AE%89%E8%A3%85WordPress/"/>
     <id>http://www.prokitty.com/2015/02/06/安装WordPress/</id>
     <published>2015-02-05T17:50:14.000Z</published>
-    <updated>2015-02-06T17:02:46.000Z</updated>
+    <updated>2015-02-09T05:08:04.000Z</updated>
     <content type="html"><![CDATA[<p>WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。</p>
 <h1 id="准备工作">准备工作</h1>
 <ul>
@@ -449,11 +449,11 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 <ul>
 <li><p>2.在MySQL中使用phpMyAdmin或者其他用户创建一个MySQL数据库，这个数据库用于保存WordPress的数据。</p>
 </li>
-<li><p>2.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
+<li><p>3.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
 </li>
 </ul>
 <ul>
-<li>3.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</li>
+<li>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</li>
 </ul>
 ]]></content>
     <summary type="html">
