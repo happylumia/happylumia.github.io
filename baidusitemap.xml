@@ -3,223 +3,163 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/10/Nagios%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2015-02-10T13:51:57.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/01/0%E6%A8%A1%E6%9D%BF/</loc>
+    <lastmod>2015-02-10T14:33:06.000Z</lastmod>
     <data>
         <display>
-        <title>Nagios监控服务配置</title>
-        <pubTime>2015-02-10T04:57:00.000Z</pubTime>
+        <title>Hexo博客模板</title>
+        <pubTime>2015-01-31T16:00:00.000Z</pubTime>
         
-        <tag>Nagios </tag>
+        <tag>Hexo，博客模板，... </tag>
          
-         <content><![CDATA[<p>Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
-<h1 id="一、Nagios特点：">一、Nagios特点：</h1>
+         <content><![CDATA[<p>title: hexo博客模板<br>date: 2015-02-01 0:0:00<br>categories: 博客主题<br>tags:<br>-[Hexo]<br>-[博客模板]</p>
+<h2 id="description:_hexo_themes！">description: hexo themes！</h2>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/06/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87%EF%BC%88%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%89/</loc>
+    <lastmod>2015-02-10T14:26:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>双机热备（高可用）</title>
+        <pubTime>2015-02-06T13:50:14.000Z</pubTime>
+        
+        <tag>双机热备 </tag>
+         
+        <tag>高可用 </tag>
+         
+         <content><![CDATA[<p>双机热备特指基于高可用系统中的两台服务器的热备（或高可用），因两机高可用在国内使用较多，故得名双机热备，双机高可用按工作中的切换方式分为：主-备方式（Active-Standby方式）和双主机方式（Active-Active方式），主-备方式即指的是一台服务器处于某种业务的激活状态（即Active状态），另一台服务器处于该业务的备用状态（即Standby状态)。而双主机方式即指两种不同业务分别在两台服务器上互为主备状态（即Active-Standby和Standby-Active状态）。简单理解就是，有两台机器A和B，正常是A提供服务，B待命闲置，当A宕机或服务宕掉，会切换至B机器继续提供服务。下面我们使用heartbeat来做HA集群，并且把nginx服务作为HA对应的服务。</p>
+<h1 id="试验准备：">试验准备：</h1>
+<p>两个机器, 都是centos6.5，网卡eth1 ip如下：<br>chen   192.168.36.128<br>root  192.168.36.132</p>
+<h1 id="安装epel扩展源：">安装epel扩展源：</h1>
+<pre><code>rpm -ivh  'http://www.lishiming.net/data/attachment/forum/epel-release-6-8_32.noarch.rpm'</code></pre>
+
+<h1 id="安装heartbeat：">安装heartbeat：</h1>
+<p>两个机器都安装heartbeat / libnet</p>
+<pre><code>yum  install -y heartbeat*   libnet  nginx</code></pre>
+
+<h1 id="主上（chen）配置:">主上（chen）配置:</h1>
+<pre><code>
+cd /usr/share/doc/heartbeat-3.0.4/
+cp  authkeys  ha.cf haresources   /etc/ha.d/
+cd /etc/ha.d
+vi  authkeys  #加入
+
+>3 md5 Hello!
+
+chmod 600 authkeys
+
+vi  haresources  #加入
+
+>chen 192.168.36.128/eth1:0 nginx   
+
+vi  ha.cf   #改为如下内容：
+
+>debugfile /var/log/ha-debug
+>logfile /var/log/ha-log
+>logfacility     local0
+>keepalive  2
+>deadtime  30
+>warntime  10
+>initdead  60
+>udpport  694
+>ucast eth1  192.168.36.132
+>auto_failback on
+>node    chen
+>node    root
+>ping 192.168.253.1  #裁判的ip
+>respawn hacluster /usr/lib/heartbeat/ipfail
+</code></pre>
+
+<h1 id="把主上的三个配置拷贝到从上：">把主上的三个配置拷贝到从上：</h1>
+<pre><code>cd /etc/ha.d/</code></pre>
+<pre><code>scp  authkeys  ha.cf haresources   root:/etc/ha.d/</code></pre>
+
+<h1 id="到从上(root)_编辑ha-cf">到从上(root) 编辑ha.cf</h1>
+<pre><code>vi  /etc/ha.d/ha.cf   #只需要更改一个地方</code></pre>
+<pre><code>ucast eth1 192.168.36.132 改为   ucast eth1 192.168.36.128  </code></pre>
+
+
+<h1 id="启动heartbeat_:">启动heartbeat :</h1>
+<p> 先主，后从</p>
+<pre><code>service heartbeat start</code></pre>
+
+
+<h1 id="检查测试_:">检查测试 :</h1>
+<pre><code>ifconfig   #看是否有 eth1:0
+ps aux |grep nginx    #看是否有nginx进程</code></pre>
+
+
+<h1 id="测试1：">测试1：</h1>
+<p>主上故意禁ping</p>
+<pre><code>iptables -I INPUT -p icmp -j DROP</code></pre>
+
+<h1 id="测试2：">测试2：</h1>
+<p>主上停止heartbeat服务</p>
+<pre><code>service heartbeat stop </code></pre>]]></content>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/06/%E8%A6%81%E5%81%9Alinux%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%9C%8B%E5%8F%8B%EF%BC%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E6%8E%8C%E6%8F%A1%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%B8%AA%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2015-02-10T14:21:48.000Z</lastmod>
+    <data>
+        <display>
+        <title>要做Linux运维工程师的朋友，必须要掌握以下几个工具</title>
+        <pubTime>2015-02-06T15:50:14.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<p>本人是linux运维工程师，对这方面有点心得，现在我说说要掌握哪方面的工具吧<br>说到工具，在行外可以说是技能，在行内我们一般称为工具，就是运维必须要掌握的工具。<br>我就大概列出这几方面，这样入门就基本没问题了。<br>linux系统如果是学习可以选用redhat或centos，特别是centos在企业中用得最多，当然还会有其它版本的，但学习者还是以这2个版本学习就行，因为这两个版本都是兄弟，没区别的，有空可以再研究一下SUSE，有些公司也喜欢用，例如我公司 。。。。。<br>工具如下：</p>
 <ul>
-<li><p>网络监视服务（SMTP,POP3,HTTP,NNTP,PING）</p>
-</li>
-<li><p>服务器监视（服务器磁盘，服务器进程）</p>
-</li>
-<li><p>可添加插件对Nagios监视服务进行扩展</p>
-</li>
-<li><p>可并发处理监视服务</p>
-</li>
-<li><p>相关安装包：</p>
-</li>
-<li><p>Nagios core</p>
-</li>
-<li><p>Nagios plugins </p>
-</li>
-<li><p>Nagios addons</p>
-</li>
+<li>1、linux系统基础，这个不用说了，是基础中的基础，连这个都不会就别干了，参考书籍，可以看鸟哥linux基础篇，至少要掌握这书60%内容，没必须全部掌握，但基本命令总得会吧</li>
 </ul>
-<h1 id="二、服务器端：">二、服务器端：</h1>
 <ul>
-<li>查看安装服务器环境（LAMP）</li>
+<li>2、网络服务，服务有很多种，每间公司都会用到不同的，但基础的服务肯定要掌握，如FTP, DNS,SAMBA, 邮件, 这几个大概学一下就行，LAMP和LNMP是必须要熟练，我所指的不是光光会搭建，而是要很熟悉里面的相当配置才行，因为公司最关键的绝对是WEB服务器，所以nginx和apache要熟悉，特别是nginx一定要很熟悉才行，至少有些公司还会用tomcat，这个也最好学一下。其实网络服务方面不用太担心，一般公司的环境都已经搭建好，就算有新服务器或让你整改，公司会有相应的文档让你参照来弄，不会让你乱来的，但至少相关的配置一定要学熟，而且肯定是编译安装多，那些模块要熟悉一下他的作用，特别是PHP那些模块。<br>这面2点只是基础，也是必要条件，不能说是工具，下以才是真正的要掌握的工具。</li>
 </ul>
-<p><code># rpm -qa | grep httpd</code></p>
-<p><code># rpm -qa | grep php</code></p>
 <ul>
-<li>没有的话安装</li>
+<li>3、shell脚本和另一个脚本语言，shell是运维人员必须具备的，不懂这个连入职都不行，至少也要写出一些系统管理脚本，最简单也得写个监控CPU，内存比率的脚本吧，这是最最最基本了，别以为会写那些猜数字和计算什么数的，这些没什么作用，只作学习意义，写系统脚本才是最有意义，而另一个脚本语言是可选的，一般是3P，即python, perl和php，php就不需要考虑了，除非你要做开发，我个人建议学python会比较好，难实现自动化运维，perl是文本处理很强大，反正这两个学一个就行了。</li>
 </ul>
-<p><code># yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</code></p>
 <ul>
-<li>创建用户：</li>
+<li>4、sed和awk工具，必须要掌握，在掌握这两个工具同时，还要掌握正则表达式，这个就痛苦了，正则是最难学的表达式，但结合到sed和awk中会很强大，在处理文本内容和过滤WEB内容时十分有用，不过在学shell的同时一般会经常结合用到的，所以学第3点就会顺便学第4点。</li>
 </ul>
-<p><code># useradd -m -s /bin/bash nagios</code></p>
-<p><code># groupadd nagios</code></p>
-<p><code># usermod -G nagios nagios</code></p>
-<p><code># vi /etc/passwd</code></p>
-<p><code>nagios:x:500:500::/home/nagios:/sbin/nologin</code></p>
-<p>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
 <ul>
-<li><p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
-</li>
-<li><p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
-</li>
+<li>5、文本处理命令，sort , tr , cut, paste, uniq, tee等，必学，也是结合第3点时一并学习的。</li>
 </ul>
-<p><code># /usr/sbin/groupadd nagcmd</code></p>
-<p><code># /usr/sbin/usermod -G nagcmd nagios</code></p>
-<p><code># /usr/sbin/usermod -a -G nagcmd daemon</code>(因为是编译方式安装的apache，默认是以daemon用户运行)</p>
 <ul>
-<li>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
+<li>6、数据库，首选mysql，别问我为什么不学sqlserver和oracle，因为linux用得最多绝对是mysql，增删改查必学，特别要学熟查，其它方面可能不太需要，因为运维人员使用最多还是查，哪些优化和开发语句不会让你弄的。</li>
 </ul>
-<p><code>[root@server ~]#cd /usr/local/src/tarbag/</code></p>
-<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</code></p>
-<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</code></p>
-<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</code></p>
 <ul>
-<li>解压并编译安装Nagios：</li>
+<li>7、防火墙，不学不行，防火墙也算是个难点，说难不难，说易不易，最重要弄懂规则，如果学过CCNA的朋友可能会比较好学，因为iptables也有NAT表，原理是一样的，而FILTER表用得最多，反正不学就肯定不合格。</li>
 </ul>
-<p><code># tar xvzf nagios-3.2.2.tar.gz</code></p>
-<p><code># cd nagios-3.2.2</code></p>
 <ul>
-<li>运行Nagios配置脚本并使用先前开设的用户及用户组：</li>
+<li>8、监控工具，十分十分重要，我个人建议，最好学这3个，cacti，nagios，zibbix，企业用得最多应该是nagios和 zibbix，反正都学吧，但nagios会有点难，因为会涉及到用脚本写自动监控，那个地方很难。</li>
 </ul>
-<p><code># ./configure --prefix=/usr/local/nagios --with-command-group=nagcmd</code></p>
 <ul>
-<li>编译Nagios程序包源码：</li>
+<li>9、集群和热备，这个很重要，肯定要懂的，但到了公司就不会让你去弄，因为新手基本不让你碰，集群工具有很多，最好学是LVS，这是必学，最好也学学nginx集群，反向代理，还有热备，这个就更多工具能实现了，像我公司是自己开发热备工具的，mysql热备也要学，就是主从复制，这个别告诉我容易，其实不容易的，要学懂整个流程一点也不容易，只照着做根本没意思。</li>
 </ul>
-<p><code># make all</code></p>
 <ul>
-<li>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</li>
+<li>10、数据备份，不学不行，工具有很多，但至少要把RAID的原理弄懂，特别是企业最常用的1+0或0+1，自己做实验也要弄出来，备份工具有很多，如tar, dump, rsync等，最好多了解一下。<br>算了，说到这10点已经够你受了，应该可以入门了，因为有些技术会比较难学，例如apache和nginx中还有些很重要的技术，如系统调优和服务优化，还有程序优化，这些在没接触工作前很难学习到的，所以先把这10点学了吧，估计要学熟至少3个月不止，就脚本那部分已经让你很吃力了，我建议是先学熟shell，等工作后再学另一门脚本语言，这样会比较好。</li>
 </ul>
-<p><code># make install</code></p>
-<p><code># make install-init</code> //在/etc/rc.d/init.d安装启动脚本</p>
-<p><code># make install-config&amp;nbsp</code>//安装示例配置文件,安装的路径是<code>/usr/local/nagios/etc</code></p>
-<p><code># make install-commandmode&amp;nbsp</code>//配置目录权限</p>
-<p><code># ls /usr/local/nagios/</code></p>
-<p><code># bin etc libexec sbin share var</code></p>
-<h1 id="三、对nagios进行配置:">三、对nagios进行配置:</h1>
-<ul>
-<li><p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
-</li>
-<li><p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
-</li>
-</ul>
-<p><code># vi /usr/local/nagios/etc/objects/contacts.cfg</code></p>
-<h2 id="1、安装nagios插件">1、安装nagios插件</h2>
-<p><code># cd ../</code></p>
-<p><code># tar zxvf nagios-plugins-1.4.16.tar.gz</code></p>
-<p><code># cd nagios-plugins-1.4.16</code></p>
-<p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios</code>//指定安装目录及用户和组</p>
-<p><code># make;make install</code></p>
-<ul>
-<li>配置httpd`生成Nagios的Apache配置文件</li>
-</ul>
-<p><code># cd nagios-3.2.2</code></p>
-<p><code># make install-webconf</code></p>
-<p><code># /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/httpd/conf.d/nagios.conf</code></p>
-<p><code># cd sample-config</code></p>
-<ul>
-<li><p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
-</li>
-<li><p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
-</li>
-</ul>
-<p><code># ./htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</code></p>
-<ul>
-<li><p>密码：nagiosmonitor</p>
-</li>
-<li><p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
-</li>
-</ul>
-<p><code># cd ..</code></p>
-<p><code># tar zxvf nrpe-2.14.tar.gz</code></p>
-<p><code># cd nrpe-2.14</code></p>
-<p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios/</code></p>
-<p><code># make all</code></p>
-<p><code># make install-plugin;make install-daemon;make install-daemon-config</code></p>
-<p><code># ls /usr/local/nagios/libexec/</code></p>
-<p><code>check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
-<ul>
-<li>验证Nagios的样例配置文件</li>
-</ul>
-<p><code># /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg</code></p>
-<ul>
-<li><p>如果没有报错，可以启动Nagios服务</p>
-</li>
-<li><p>启动httpd及nagios服务并验证</p>
-</li>
-</ul>
-<p><code># chkconfig --add nagios</code>//设置nagios及http开机自启动</p>
-<p><code># chkconfig nagios on</code></p>
-<p><code># chkconfig httpd on</code></p>
-<p><code># service nagios start</code></p>
-<p><code># service httpd start</code></p>
-<h2 id="2、客户端安装">2、客户端安装</h2>
-<p><code>#useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
-<ul>
-<li>安装nagios-plugins</li>
-</ul>
-<p><code># tar -zxvf nagios-plugins-1.4.15.tar.gz</code></p>
-<p><code># cd nagios-plugins-1.4.15</code></p>
-<p><code># ./configure --prefix=/usr/local/nagios</code></p>
-<p><code># make&lt;li&gt;# make install</code></p>
-<p><code># chown nagios.nagios /usr/local/nagios/</code></p>
-<p><code># chown -R nagios.nagios /usr/local/nagios/libexec/</code></p>
-<ul>
-<li>安装nrpe插件</li>
-</ul>
-<p><code># tar -zxvf nrpe-2.12.tar.gz</code></p>
-<p><code># cd nrpe-2.12</code></p>
-<p><code># ./configure --prefix=/usr/local/nagios/</code></p>
-<p><code># make all&lt;li&gt;# make install-plugin</code></p>
-<ul>
-<li>安装check_nrpe这个插件</li>
-</ul>
-<p><code># make install-daemon</code> 安装daemon</p>
-<p><code># make install-daemon-config</code>安装配置文件</p>
-<ul>
-<li>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</li>
-</ul>
-<p><code># rpm -qa|grep openssl</code></p>
-<p><code># openssl-devel-0.9.8e-12.el5_4.6</code></p>
-<p><code># openssl-0.9.8e-12.el5_4.6</code></p>
-<p><code># yum install openssl-devel</code>或者下载：<a href="http://www.openssl.org/source/" target="_blank">http://www.openssl.org/source/</a></p>
-<p><code># tar zxvf openssl-1.0.0a.tar.gz</code></p>
-<p><code># cd openssl-1.0.0a</code></p>
-<p><code># ./config</code></p>
-<p><code># make;make test</code></p>
-<p><code># make install</code></p>
-<ul>
-<li>修改客户端配置文件</li>
-</ul>
-<p><code># vi /usr/local/nagios/etc/nrpe.cfg</code></p>
-<p><code># server_port:5666</code></p>
-<p><code># allowed_hosts=127.0.0.1，192.168.1.95&amp;nbsp</code>//添加服务器端的IP地址</p>
-<ul>
-<li><p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
-</li>
-<li><p>然后修改nrpe.cfg中的command部分。</p>
-</li>
-<li><p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
-</li>
-</ul>
-<p><code># /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d</code></p>
-<ul>
-<li>可以将此命令加入/etc/rc.local，以便开机自动启动</li>
-</ul>
-<p><code># echo &quot;/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d&quot; &gt;&gt; /etc/rc.local</code></p>
-<p><code># netstat -utpln |grep nrpe</code>//查看nrpe进程是否已正常启动</p>
-<p><code># /usr/local/nagios/libexec/check_nrpe -H 127.0.0.1 NRPE v2.14</code> //nrpe测试结果，此结果为nrpe已经正常工作了</p>
-<ul>
-<li>然后在nagios监控服务器上测试</li>
-</ul>
-<p><code>#/usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
-<ul>
-<li>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</li>
-</ul>
-<h2 id="3、定义监控内容">3、定义监控内容</h2>
-<p><code># vi /usr/local/nagios/etc/nrpe.cfg</code>//定义监控服务器内容</p>
-<p><code># command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10</code>#监控登陆的用户数量</p>
-<p><code># command[check_load]=/usr/local/nagios/libexec/check_load -w 15,10,5 -c 30,25,20</code> #监控CPU的负载</p>
-<p><code># command[check_sda2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/sda2</code> #监控磁盘利用率，这里的sda2必须是实际的硬盘分区，可使用fdisk –l查</p>
-<p><code># command[check_swap]=/usr/local/nagios//libexec/check_swap -w 20 -c 10</code>#监控交换空间</p>
-<p><code># command[check_zombie_procs]=/usr/local/nagios/libexec/check_procs -w 5 -c 10 -s Z</code> #监控进程中的僵尸进程</p>
-<p><code># command[check_total_procs]=/usr/local/nagios/libexec/check_procs -w 150 -c 200</code>#监控所有进程</p>
-<ul>
-<li>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</li>
-</ul>
+<p>以上就是踏入linux运维工程师需要掌握的工具，其实还有很多工具要掌握的，但你在学习环境中是很难学到，最后我再提醒一下，这里所指的工具相当于技能，而不是像windows或ubuntu那些图形化工具，那些工具没用的，还有，学linux就别装图形界面，这样虚拟机就不用吃太多内存，而且绝对不建议在真机上装linux，根本达不到学习效果。</p>
 ]]></content>
          
          
@@ -233,93 +173,16 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/11/linux%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</loc>
-    <lastmod>2015-02-10T13:38:39.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/09/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8/</loc>
+    <lastmod>2015-02-10T14:20:57.000Z</lastmod>
     <data>
         <display>
-        <title>经常遇到的Linux问题</title>
-        <pubTime>2015-02-10T16:57:00.000Z</pubTime>
+        <title>负载均衡与高可用</title>
+        <pubTime>2015-02-09T15:50:14.000Z</pubTime>
         
-        <tag>linux </tag>
+        <tag>负载均衡 </tag>
          
-         <content><![CDATA[<ul>
-<li><p>1 如何查看当前的Linux服务器的运行级别？</p>
-<p>答: <code>who -r</code> 和 <code>runlevel</code> 命令可以用来查看当前的Linux服务器的运行级别。</p>
-</li>
-<li><p>2 如何查看Linux的默认网关？</p>
-<p>答: 用 <code>route -n</code> 和<code>netstat -nr</code> 命令，我们可以查看默认网关。除了默认的网关信息，这两个命令还可以显示当前的路由表。</p>
-</li>
-<li><p>3 如何在Linux上重建初始化内存盘镜像文件？</p>
-<p>答: 在CentOS 5.X / RHEL 5.X中，可以用mkinitrd命令来创建初始化内存盘文件，举例如下：</p>
-<p><code># mkinitrd -f -v /boot/initrd-$(uname -r).img $(uname -r)</code></p>
-<p>如果你想要给特定的内核版本创建初始化内存盘，你就用所需的内核名替换掉 <code>uname -r</code>。</p>
-<p>在CentOS 6.X / RHEL 6.X中，则用dracut命令来创建初始化内存盘文件，举例如下：</p>
-<p><code># dracut -f</code></p>
-<p>以上命令能给当前的系统版本创建初始化内存盘，给特定的内核版本重建初始化内存盘文件则使用以下命令：</p>
-<p><code># dracut -f initramfs-2.x.xx-xx.el6.x86_64.img 2.x.xx-xx.el6.x86_64</code></p>
-</li>
-<li><p>4 cpio命令是什么？</p>
-<p>答: cpio就是复制入和复制出的意思。cpio可以向一个归档文件（或单个文件）复制文件、列表，还可以从中提取文件。</p>
-</li>
-<li><p>5 patch命令是什么？如何使用？</p>
-<p>答: 顾名思义，patch命令就是用来将修改（或补丁）写进文本文件里。patch命令通常是接收diff的输出并把文件的旧版本转换为新版本。举个例子，Linux内核源代码由百万行代码文件构成，所以无论何时，任何代码贡献者贡献出代码，只需发送改动的部分而不是整个源代码，然后接收者用patch命令将改动写进原始的源代码里。</p>
-<p>创建一个diff文件给patch使用，</p>
-<p><code># diff -Naur old_file new_file &gt; diff_file</code></p>
-<p>旧文件和新文件要么都是单个的文件要么都是包含文件的目录，-r参数支持目录树递归。</p>
-<p>一旦diff文件创建好，我们就能在旧的文件上打上补丁，把它变成新文件：</p>
-<p><code># patch &lt; diff_file</code></p>
-</li>
-<li><p>6 aspell有什么用 ?</p>
-<p>答: 顾名思义，aspell就是Linux操作系统上的一款交互式拼写检查器。aspell命令继任了更早的一个名为ispell的程序，并且作为一款免费替代品 ，最重要的是它非常好用。当aspell程序主要被其它一些需要拼写检查能力的程序所使用的时候，在命令行中作为一个独立运行的工具的它也能十分有效。</p>
-</li>
-<li><p>7 如何从命令行查看域SPF记录？</p>
-<p>答: 我们可以用dig命令来查看域SPF记录。举例如下：</p>
-<p><code># linuxtechi@localhost:~$ dig -t TXT google.com</code></p>
-</li>
-<li><p>8 如何识别Linux系统中指定文件(/etc/fstab)的关联包？</p>
-<p>答:<code># rpm -qf /etc/fstab</code></p>
-<p>以上命令能列出提供<code>/etc/fstab</code>这个文件的包。</p>
-</li>
-<li><p>9 哪条命令用来查看bond0的状态？</p>
-<p>答: <code>#cat /proc/net/bonding/bond0</code></p>
-</li>
-<li><p>10 Linux系统中的/proc文件系统有什么用？</p>
-<p>答: /proc文件系统是一个基于内存的文件系统，其维护着关于当前正在运行的内核状态信息，其中包括CPU、内存、分区划分、I/O地址、直接内存访问通道和正在运行的进程。这个文件系统所代表的并不是各种实际存储信息的文件，它们指向的是内存里的信息。/proc文件系统是由系统自动维护的。</p>
-</li>
-<li><p>11 如何在/usr目录下找出大小超过10MB的文件？</p>
-<p>答:<code># find /usr -size +10M</code></p>
-</li>
-<li><p>12 如何在/home目录下找出120天之前被修改过的文件？</p>
-<p>答:<code># find /home -mtime +120</code></p>
-</li>
-<li><p>13 如何在/var目录下找出90天之内未被访问过的文件？</p>
-<p>答:<code># find /var \! -atime -90</code></p>
-</li>
-<li><p>14 在整个目录树下查找文件<code>core</code>，如发现则无需提示直接删除它们。</p>
-<p>答:<code># find / -name core -exec rm {} \;</code></p>
-</li>
-<li><p>15 strings命令有什么作用？</p>
-<p>答: strings命令用来提取和显示非文本文件中的文本字符串。（LCTT 译注：当用来分析你系统上莫名其妙出现的二进制程序时，可以从中找到可疑的文件访问，对于追查入侵有用处）</p>
-</li>
-<li><p>16 tee 过滤器有什么作用 ?</p>
-<p>答: tee 过滤器用来向多个目标发送输出内容。如果用于管道的话，它可以将输出复制一份到一个文件，并复制另外一份到屏幕上（或一些其它程序）。</p>
-<p><code># linuxtechi@localhost:~$ ll /etc | nl | tee /tmp/ll.out</code></p>
-<p>在以上例子中，从ll输出可以捕获到 <code>/tmp/ll.out</code> 文件中，并且同样在屏幕上显示了出来。</p>
-</li>
-<li><p>17 <code>export PS1 = ”$LOGNAME@hostname:\$PWD:</code>这条命令是在做什么？</p>
-<p>答: 这条export命令会更改登录提示符来显示用户名、本机名和当前工作目录。</p>
-</li>
-<li><p>18 <code>ll | awk ‘{print $3,”owns”,$9}’</code>这条命令是在做什么？</p>
-<p>答: 这条ll命令会显示这些文件的文件名和它们的拥有者。</p>
-</li>
-<li><p>19 :Linux中的at命令有什么用？</p>
-<p>答: at命令用来安排一个程序在未来的做一次一次性执行。所有提交的任务都被放在 <code>/var/spool/at</code>目录下并且到了执行时间的时候通过atd守护进程来执行。</p>
-</li>
-<li><p>20 linux中lspci命令的作用是什么？</p>
-<p>答: lspci命令用来显示你的系统上PCI总线和附加设备的信息。指定-v，-vv或-vvv来获取越来越详细的输出，加上-r参数的话，命令的输出则会更具有易读性。</p>
-</li>
-</ul>
-]]></content>
+         <content><![CDATA[]]></content>
          
          
            
@@ -332,21 +195,125 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/08/vim%E4%B8%AD%E6%9D%83%E9%99%90%E4%B8%8D%E8%B6%B3%E6%97%B6%E4%B8%8D%E7%94%A8%E9%80%80%E5%87%BA%E8%80%8C%E5%BC%BA%E5%88%B6%E4%BF%9D%E5%AD%98/</loc>
-    <lastmod>2015-02-10T04:34:13.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/</loc>
+    <lastmod>2015-02-10T14:20:20.000Z</lastmod>
     <data>
         <display>
-        <title>Vim中权限不足时不用退出而强制保存</title>
-        <pubTime>2015-02-08T08:27:00.000Z</pubTime>
+        <title>纪念那些自己喜爱的Windows软件</title>
+        <pubTime>2015-02-02T16:00:00.000Z</pubTime>
         
-        <tag>vim </tag>
+        <tag>Windows </tag>
          
-         <content><![CDATA[<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
-<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
-<p>命令：</p>
-<pre><code>:w !sudo tee %</code></pre>
-
-<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+         <content><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://i2.tietuku.com/fbb9fe6a71969749.jpg" alt=""></p>
+<p>很多图标都经过修改。</p>
+<h2 id="聊天软件：">聊天软件：</h2>
+<ul>
+<li><p>QQ：真心离不开，即使是这个移动互联网盛行的时代，依旧是主力。可以使用轻聊版，有比肩MAC版本的清爽，也留下了完整的体验。</p>
+</li>
+<li><p>微信：偶尔在电脑上用用，必须用手机才可以登录。虽然很麻烦，但是在电脑上打字聊天确实比较方便，不知道大家朋友里有没有人只用微信的？反正我有，那些可恶的手机党啊！</p>
+</li>
+<li><p>飞信：部分代替短信的工具，虽然上的越来越少了，但是在上海还是有很多人用的，特别是企业里，加上好友后发通知都是免费的。</p>
+</li>
+<li><p>阿里旺旺：也是离不开啊，因为购物，如果发生纠纷，那么聊天记录是最好的保证。</p>
+</li>
+</ul>
+<h2 id="云同步软件：">云同步软件：</h2>
+<ul>
+<li>百度云管家，使用体验很一般，真的，经常出现问题，特别是笔记本睡眠醒来后，不过功能实在太过于强大了，其实我对于云的概念就停留在备份和在线操作。都来自于苹果的Time Machine（虽然我没有用过），多时间版本的文件备份和实时同步，超大的容量以及局域网的互联互通（曾经看到过有人用最新的Time Machine用蓝光视频）。那么本地可以，云是否也可以呢？百度云几乎可以做到这点。</li>
+</ul>
+<h2 id="清理电脑软件：">清理电脑软件：</h2>
+<ul>
+<li>CCleaner：不喜欢360或者其他的类似的软件，主要是功能太多，我不需要它提醒我开机多少时间，不需要知道我有多少漏洞没补，就是简单的清理我的电脑注册表垃圾，不过我并不认为缓存是垃圾。</li>
+</ul>
+<h2 id="杀毒软件：">杀毒软件：</h2>
+<ul>
+<li>MSE，我也觉得一般，不过它几乎没有打扰过我，所以我安装了它。支持在任务栏中显示搜索中-完成-未保护三个状态（这是我最喜欢的，免得有cpu大量被占有也不知道是什么软件的问题）</li>
+</ul>
+<h2 id="音乐软件：">音乐软件：</h2>
+<ul>
+<li>iTunes：本来也是习惯QQ音乐的，但是买了iPhone后就觉得没有选择了，也习惯了iTunes，觉得这个界面特别漂亮。</li>
+</ul>
+<p><img src="http://i2.tietuku.com/052ce856393a79e7.jpg" alt=""></p>
+<p>不过需要大量的时间管理维护这些专辑封面哦。</p>
+<h2 id="视频软件：">视频软件：</h2>
+<ul>
+<li>Potplayer：原来我也是QQ影音的忠实用户，不过QQ影音因为腾讯很久没有更新了，在很多细节上确实没有Potplayer好用，不过Potplayer最好也是选择32位的，64位在解码方面没有32位的来的强悍，我的电脑在QQ影音和64位的Potplayer中播放4K视频都卡，但是在32位中就比较流畅了。附上我的皮肤图（有需要的留言哦！）：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/40719ec1d04981b6.jpg" alt=""></p>
+<h2 id="Connectify_3-7">Connectify 3.7</h2>
+<ul>
+<li>在我的K29上很稳定，不过只能连接8个wifi设备，目前从来没有因为网络限制出现移动设备不能上网的问题，只要电脑可以上网，手机等移动设备一定可以上网，不过我不推荐使用，一般的用户还是使用猎豹wifi比较好，因为做的漂亮，功能也强大些，就是更新比较频繁。</li>
+</ul>
+<h2 id="Preme_for_windows">Preme for windows</h2>
+<ul>
+<li>真是牛人的软件，几乎让鼠标在windows上的体验比肩mac上触摸板上的体验，如果说windows的笔记本的触摸板是渣，那么因为这软件，mac的鼠标同样是渣。上图（只有英文版，不过有视频演示）：<br><img src="http://i2.tietuku.com/3c8b8e0313e7a10d.png" alt=""></li>
+</ul>
+<h2 id="USB_Extension">USB Extension</h2>
+<ul>
+<li>其实就是一个usb设备显示在桌面的插件，很多人习惯360的那种方式也是可以的，我是喜欢MAC的那种方式，讨厌浮窗的。上图：<br><img src="http://i2.tietuku.com/7b04d6524941863c.png" alt=""></li>
+</ul>
+<h2 id="ASUS_AI_Charger">ASUS AI Charger</h2>
+<ul>
+<li>可以让iPad在windows上充电的软件。</li>
+</ul>
+<h2 id="Ditto">Ditto</h2>
+<ul>
+<li>我觉得很不漂亮，但很实用，剪切板管理软件。</li>
+</ul>
+<h2 id="Listary">Listary</h2>
+<ul>
+<li>非常非常强大的本地搜索软件，只是比Mac的差了很多，不支持网上搜索，也不支持编辑搜索的软件。比Mac那款神器的搜索软件差不少，但是胜在一个快，本地搜索几乎是瞬间的。也支持everything（虽然我不用everything这软件，但是很多大神都说它是神器）</li>
+</ul>
+<h2 id="Secret_folder">Secret folder</h2>
+<ul>
+<li>加密文件夹，可以让文件夹在文件管理器中凭空消失，不过不知道拆下硬盘后是否可以加密。</li>
+</ul>
+<h2 id="Media_Preview">Media Preview</h2>
+<ul>
+<li>几乎支持所有的视频预览图，直接上图看效果：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/d5d68a4712abb23b.png" alt=""></p>
+<h2 id="CBXManager">CBXManager</h2>
+<ul>
+<li>在百度贴吧里发现的软件，可以实现一个我很喜欢的功能，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/1e9fcbf6bf96e51f.png" alt=""></p>
+<p>epub电子书的封面可以显示了！</p>
+<h2 id="软媒时间">软媒时间</h2>
+<ul>
+<li>可以让电脑的时间显示比手机的更棒。上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/1e22848cc30ae7c7.png" alt=""></p>
+<h2 id="下载软件：">下载软件：</h2>
+<ul>
+<li><p>QQ旋风：其实不好用，腾讯对它的支持也少了，在扫黄后，还是可以用来下载些违法的内容的。</p>
+</li>
+<li><p>百度云管家：扫黄前神器，扫黄后只能下些普通的电影电视剧了，而且有些电影也会报错。</p>
+</li>
+<li><p>维棠下载：目前也是下载的一款神器，对于在线视频的分析下载是没有软件可以比拟的（不过有广告，去掉弹窗，一切都可以忍，据说可以下载付费电影，没实验过，追剧很方便）</p>
+</li>
+</ul>
+<h2 id="桌面应用管理的软件：">桌面应用管理的软件：</h2>
+<ul>
+<li>酷鱼快速启动：可以用来管理所有的应用软件，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/35e6c1c176f70673.png" alt=""></p>
+<h2 id="软媒桌面">软媒桌面</h2>
+<ul>
+<li>类似MAC的DOCK栏效果，上图：</li>
+</ul>
+<p><img src="http://i2.tietuku.com/d6a8944ec46571f7.png" alt=""></p>
+<p>两者共同解决了windows应用点击后无明显反应的问题！</p>
+<h2 id="浏览器软件：">浏览器软件：</h2>
+<ul>
+<li><p>360浏览器：o(︶︿︶)o 唉，没办法，习惯了，功能目前来说已经不算强大了，但是我认识的人都在用这个浏览器，也确实有无法代替的功能，比如右键关闭标签，比如皮肤，比如显示的效果，其实说真的就是习惯了，现在像UC浏览器其实在功能上都比360要强大了，但是就是不想用。</p>
+</li>
+<li><p>AdSafe：虽然用久了闪退，但是确实是一个屏蔽广告最好的软件，支持浏览器flash广告，也支持视频网站的视频广告，更加支持软件自带的弹窗广告，而且一键操作！</p>
+</li>
+<li><p>办公软件：还是选择了WPS，虽然微软的OFFICE是主流，但是还是觉得WPS来的可靠些，不希望在关键时候出来一个激活信息。</p>
+</li>
+</ul>
+<p>完结。</p>
 ]]></content>
          
          
@@ -360,16 +327,92 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/09/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8/</loc>
-    <lastmod>2015-02-10T04:33:26.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/04/%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%AF%97%E5%93%81/</loc>
+    <lastmod>2015-02-10T14:19:00.000Z</lastmod>
     <data>
         <display>
-        <title>负载均衡与高可用</title>
-        <pubTime>2015-02-09T15:50:14.000Z</pubTime>
+        <title>二十四诗品</title>
+        <pubTime>2015-02-03T16:00:00.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>诗词 </tag>
          
-         <content><![CDATA[]]></content>
+         <content><![CDATA[<h2 id="雄浑">雄浑</h2>
+<p><strong>大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。</strong></p>
+<h2 id="冲淡">冲淡</h2>
+<p><strong>素处以默，妙机其微。饮之太和，独鹤与飞。犹之惠风，荏苒在衣。阅音修篁，美曰载归。遇之匪深，即之愈希。脱有形似，握手已违。</strong></p>
+<h2 id="纤农">纤农</h2>
+<p><strong>采采流水，蓬蓬远春。窈窕深谷，时见美人。碧桃满树，风日水滨。柳阴路曲，流莺比邻。乘之愈往，识之愈真。如将不尽，与古为新。</strong></p>
+<h2 id="沉著">沉著</h2>
+<p><strong>绿杉野屋，落日气清。脱巾独步，时闻鸟声。鸿雁不来，之子远行。所思不远，若为平生。海风碧云，夜渚月明。如有佳语，大河前横。</strong></p>
+<h2 id="高古">高古</h2>
+<p><strong>畸人乘真，手把芙蓉。泛彼浩劫，窅然空踪。月出东斗，好风相从。太华夜碧，人闻清钟。虚伫神素，脱然畦封。黄唐在独，落落玄宗。</strong></p>
+<h2 id="典雅">典雅</h2>
+<p><strong>玉壶买春，赏雨茅屋。坐中佳士，左右修竹。白云初晴，幽鸟相逐。眠琴绿阴，上有飞瀑。落花无言，人淡如菊。书之岁华，其曰可读。</strong></p>
+<h2 id="洗炼">洗炼</h2>
+<p><strong>如矿出金，如铅出银。超心炼冶，绝爱缁磷。空潭泻春，古镜照神。体素储洁，乘月返真。载瞻星辰，载歌幽人。流水今日，明月前身。</strong></p>
+<h2 id="劲健">劲健</h2>
+<p><strong>行神如空，行气如虹。巫峡千寻，走云连风。饮真茹强，蓄素守中。喻彼行健，是谓存雄。天地与立，神化攸同。期之以实，御之以终。</strong></p>
+<h2 id="绮丽">绮丽</h2>
+<p><strong>神存富贵，始轻黄金。浓尽必枯，淡者屡深。雾余水畔，红杏在林。月明华屋，画桥碧阴。金尊酒满，伴客弹琴。取之自足，良殚美襟。</strong></p>
+<h2 id="自然">自然</h2>
+<p><strong>俯拾即是，不取诸邻。俱道适往，著手成春。如逢花开，如瞻岁新。真与不夺，强得易贫。幽人空山，过雨采苹。薄言情悟，悠悠天钧。</strong></p>
+<h2 id="含蓄">含蓄</h2>
+<p><strong>不著一字，尽得风流。语不涉己，若不堪忧。是有真宰，与之沉浮。如满绿酒，花时反秋。悠悠空尘，忽忽海沤。浅深聚散，万取一收。</strong></p>
+<h2 id="豪放">豪放</h2>
+<p><strong>观花匪禁，吞吐大荒。由道反气，虚得以狂。天风浪浪，海山苍苍。真力弥满，万象在旁。前招三辰，后引凤凰。晓策六鳌，濯足扶桑。</strong></p>
+<h2 id="精神">精神</h2>
+<p><strong>欲返不尽，相期与来。明漪绝底，奇花初胎。青春鹦鹉，杨柳楼台。碧山人来，清酒深杯。生气远出，不著死灰。妙造自然，伊谁与裁。</strong></p>
+<h2 id="缜密">缜密</h2>
+<p><strong>是有真迹，如不可知。意象欲生，造化已奇。水流花开，清露未晞。要路愈远，幽行为迟。语不欲犯，思不欲痴。犹春于绿，明月雪时。</strong></p>
+<h2 id="疏野">疏野</h2>
+<p><strong>惟性所宅，真取不羁。控物自富，与率为期。筑室松下，脱帽看诗。但知旦暮，不辨何时。倘然适意，岂必有为。若其天放，如是得之。</strong></p>
+<h2 id="清奇">清奇</h2>
+<p><strong>娟娟群松，下有漪流。晴雪满竹，隔溪渔舟。可人如玉，步屧寻幽。载瞻载止，空碧悠悠，神出古异，淡不可收。如月之曙，如气之秋。</strong></p>
+<h2 id="委曲">委曲</h2>
+<p><strong>登彼太行，翠绕羊肠。杳霭流玉，悠悠花香。力之于时，声之于羌。似往已回，如幽匪藏。水理漩洑，鹏风翱翔。道不自器，与之圆方。</strong></p>
+<h2 id="实境">实境</h2>
+<p><strong>取语甚直，计思匪深。忽逢幽人，如见道心。清涧之曲，碧松之阴。一客荷樵，一客听琴。情性所至，妙不自寻。遇之自天，泠然希音。</strong></p>
+<h2 id="悲慨">悲慨</h2>
+<p><strong>大风卷水，林木为摧。适苦欲死，招憩不来。百岁如流，富贵冷灰。大道日丧，若为雄才。壮士拂剑，浩然弥哀。萧萧落叶，漏雨苍苔。</strong></p>
+<h2 id="形容">形容</h2>
+<p><strong>绝伫灵素，少回清真。如觅水影，如写阳春。风云变态，花草精神。海之波澜，山之嶙峋。俱似大道，妙契同尘。离形得似，庶几斯人。</strong></p>
+<h2 id="超诣">超诣</h2>
+<p><strong>匪神之灵，匪几之微。如将白云，清风与归。远引若至，临之已非。少有道契，终与俗违。乱山乔木，碧苔芳晖。诵之思之，其声愈希。</strong></p>
+<h2 id="飘逸">飘逸</h2>
+<p><strong>落落欲往，矫矫不群。缑山之鹤，华顶之云。高人画中，令色氤氲。御风蓬叶，泛彼无垠。如不可执，如将有闻。识者已领，期之愈分。</strong></p>
+<h2 id="旷达">旷达</h2>
+<p><strong>生者百岁，相去几何。欢乐苦短，忧愁实多。何如尊酒，日往烟萝。花覆茅檐，疏雨相过。倒酒既尽，杖藜行歌。孰不有古，南山峨峨。</strong></p>
+<h2 id="流动">流动</h2>
+<p><strong>若纳水輨，如转丸珠。夫岂可道，假体如愚。荒荒坤轴，悠悠天枢。载要其端，载同其符。超超神明，返返冥无。来往千载，是之谓乎。</strong></p>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="杂记" url="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/08/vim%E4%B8%AD%E6%9D%83%E9%99%90%E4%B8%8D%E8%B6%B3%E6%97%B6%E4%B8%8D%E7%94%A8%E9%80%80%E5%87%BA%E8%80%8C%E5%BC%BA%E5%88%B6%E4%BF%9D%E5%AD%98/</loc>
+    <lastmod>2015-02-10T14:18:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>Vim中权限不足时不用退出而强制保存</title>
+        <pubTime>2015-02-08T08:27:00.000Z</pubTime>
+        
+        <tag>Vim </tag>
+         
+         <content><![CDATA[<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
+<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
+<p>命令：</p>
+<pre><code>:w !sudo tee %</code></pre>
+
+<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+]]></content>
          
          
            
@@ -383,18 +426,18 @@
     
   <url>
     <loc>http://www.prokitty.com/2015/02/06/%E5%AE%89%E8%A3%85WordPress/</loc>
-    <lastmod>2015-02-09T05:08:04.000Z</lastmod>
+    <lastmod>2015-02-10T14:18:04.000Z</lastmod>
     <data>
         <display>
         <title>安装Word Press</title>
         <pubTime>2015-02-05T17:50:14.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>WordPress </tag>
          
          <content><![CDATA[<p>WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。</p>
 <h1 id="准备工作">准备工作</h1>
 <ul>
-<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/" target="_blank" rel="external">http://cn.wordpress.org/</a><br>(目前最新版下载链接 <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
+<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/(目前最新版下载链接" target="_blank" rel="external">http://cn.wordpress.org/(目前最新版下载链接</a> <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
 </ul>
 <pre><code>wget http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip
 </code></pre>
@@ -415,16 +458,15 @@
 </li>
 <li><p>3.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
 </li>
-</ul>
-<ul>
-<li>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</li>
+<li><p>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</p>
+</li>
 </ul>
 ]]></content>
          
          
            
              
-              <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
           
         </display>
     </data>
@@ -432,37 +474,76 @@
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/07/%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AF%B9%E6%97%B6/</loc>
-    <lastmod>2015-02-09T05:05:41.000Z</lastmod>
+    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
+    <lastmod>2015-02-10T14:17:05.000Z</lastmod>
     <data>
         <display>
-        <title>为树莓派对时</title>
-        <pubTime>2015-02-07T09:00:00.000Z</pubTime>
+        <title>Hexo主题博客汇总</title>
+        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>Hexo </tag>
          
-         <content><![CDATA[<h1 id="方法一：">方法一：</h1>
-<h2 id="1-安装ntp，输入">1.安装ntp，输入</h2>
-<pre><code>sudo apt-get install ntpdate</code></pre>
-
-<h2 id="2-修改时区，输入">2.修改时区，输入</h2>
-<pre><code>tzselect</code></pre>
-
-<h2 id="3-按照自己的时区修改：">3.按照自己的时区修改：</h2>
-<h2 id="4-配置网络对时，输入">4.配置网络对时，输入</h2>
-<pre><code>sudo ntpdate cn.pool.ntp.org</code></pre>
-
-
-<p>注：cn.pool.ntp.org 是国家授时中心ntp服务器</p>
-<h2 id="5-输入“date”，看看时间是不是对上了">5.输入“date”，看看时间是不是对上了</h2>
-<h1 id="方法二：">方法二：</h1>
-<h2 id="_"> </h2>
+         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
+<ul>
+<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
+<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
+<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
+<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
+<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
+<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
+<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
+<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
+<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
+<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
+<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
+<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
+<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
+<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
+<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
+<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
+<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
+<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
+</ul>
 ]]></content>
          
          
            
              
-              <breadCrumb title="树莓派" url="http://www.prokitty.com/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/</loc>
+    <lastmod>2015-02-10T14:16:48.000Z</lastmod>
+    <data>
+        <display>
+        <title>为什么有线程？</title>
+        <pubTime>2015-02-01T16:00:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<ol>
+<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
+<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
+<li>为什么会有线程？</li>
+</ol>
+<ul>
+<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
+<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
+<li>UAC，这货也不扯了</li>
+<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
+<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
+</ul>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="主题" url="http://www.prokitty.com/categories/%E4%B8%BB%E9%A2%98/"/>
           
         </display>
     </data>
@@ -471,13 +552,13 @@
     
   <url>
     <loc>http://www.prokitty.com/2015/02/07/Hexo%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2015-02-09T05:04:33.000Z</lastmod>
+    <lastmod>2015-02-10T14:15:38.000Z</lastmod>
     <data>
         <display>
         <title>Hexo免费静态博客安装和使用方法</title>
         <pubTime>2015-02-07T09:58:00.000Z</pubTime>
         
-        <tag>博客主题 </tag>
+        <tag>Hexo </tag>
          
          <content><![CDATA[<p>今天换了台电脑，就发现不会安装hexo主题了，意识决定写一篇博客，加深下印象。</p>
 <p>直接进入主题：</p>
@@ -603,18 +684,28 @@ google_cse:
 
 
 <blockquote>
-<p>widgets: 提供了6种小工具。<br>rss: 请填写你博客的RSS地址。<br>imglogo: 建议启用图片logo，格式建议为.svg或.png格式。同时建议提供配套的favicon以及在苹果设备上的图标（背景不要透明）。</p>
+<p>widgets: 提供了6种小工具。<br>-rss: 请填写你博客的RSS地址。</p>
 </blockquote>
-<p>author_img_enable: 是否显示底部的作者头像。主题支持头像使用dataURI格式，若使用请修改dataURI的值为true并在下面的author_img_data后填上图片的值，确保它是一行而且被引号包住如果还是想用传统的jpg格式那么就把图片路径放在author_img后，同时把dataURI设置成false。<br>ShowCustomFont: 启用自定义字体，如果你有一定前端基础可以修改font.styl替换为你喜欢的字体。<br>toc: 是否启用在文章中或侧边栏中的目录功能。二者可以都为true或都为false。同时，如果你希望在特定的某一篇文章中关闭目录功能你可以在文章文件开头中的front-matter中加上一行toc: false。<br>fancybox: 默认关闭，如果你使用Hexo经常发表Gallery类型的文章，那么请设置为true（同时需要复制fancybox.js到你的博客目录下scripts文件夹中）。ps: 我很佩服用Hexo发表相册的文艺青年。<br>author: 作者信息，建议尽量填写完整。其中tsina是你的新浪微博ID，不同于用户名或微博主页地址。启用这个属性后，其他用户在微博上分享你文章的同时会自动@你。<br>duoshuo: 多说评论系统。在大陆地区更好用的评论系统，如果你想更换为disqus请参考默认主题后自行修改。<br>jiathis: 加网分享系统。默认关闭，因为主题已经内置了原生的分享功能。<br>google_analytics: Google Analytics追踪代码。请注意：*Google Analytics已经升级到了Universal Analytics。请先前往后台升级你的Google Analytics版本后再启用追踪代码 更多信息请点击这里了解。<br>google_cse: Google自定义搜索。如果开启自定义搜索需要先登录Google CSE，配置好你的站点，并获得此自定义搜索的ID。此外你需要在博客目录下的source文件夹中建立search文件夹并包含一个index.md文件。内容为：</p>
+<p>-imglogo: 建议启用图片logo，格式建议为.svg或.png格式。同时建议提供配套的favicon以及在苹果设备上的图标（背景不要透明）。</p>
+<p>-author_img_enable: 是否显示底部的作者头像。主题支持头像使用dataURI格式，若使用请修改dataURI的值为true并在下面的author_img_data后填上图片的值，确保它是一行而且被引号包住如果还是想用传统的jpg格式那么就把图片路径放在author_img后，同时把dataURI设置成false。</p>
+<p>-ShowCustomFont: 启用自定义字体，如果你有一定前端基础可以修改font.styl替换为你喜欢的字体。</p>
+<p>-toc: 是否启用在文章中或侧边栏中的目录功能。二者可以都为true或都为false。同时，如果你希望在特定的某一篇文章中关闭目录功能你可以在文章文件开头中的front-matter中加上一行toc: false。</p>
+<p>-fancybox: 默认关闭，如果你使用Hexo经常发表Gallery类型的文章，那么请设置为true（同时需要复制fancybox.js到你的博客目录下scripts文件夹中）。ps: 我很佩服用Hexo发表相册的文艺青年。</p>
+<p>-author: 作者信息，建议尽量填写完整。其中tsina是你的新浪微博ID，不同于用户名或微博主页地址。启用这个属性后，其他用户在微博上分享你文章的同时会自动@你。</p>
+<p>-duoshuo: 多说评论系统。在大陆地区更好用的评论系统，如果你想更换为disqus请参考默认主题后自行修改。</p>
+<p>-jiathis: 加网分享系统。默认关闭，因为主题已经内置了原生的分享功能。</p>
+<p>-google_analytics: Google Analytics追踪代码。请注意：*Google Analytics已经升级到了Universal Analytics。请先前往后台升级你的Google Analytics版本后再启用追踪代码 更多信息请点击这里了解。</p>
+<p>-google_cse: Google自定义搜索。如果开启自定义搜索需要先登录Google CSE，配置好你的站点，并获得此自定义搜索的ID。此外你需要在博客目录下的source文件夹中建立search文件夹并包含一个index.md文件。内容为：</p>
 <pre><code>
 layout: search
 title: search
 ---
 </code></pre>
-# 4.发表博文：
 
-- 用Hexo来发表新文章，执行：
-
+<h1 id="4-发表博文：">4.发表博文：</h1>
+<ul>
+<li>用Hexo来发表新文章，执行：</li>
+</ul>
 <pre><code>hexo new "my new post"</code></pre>
 
 <p>其中my new post为文章标题。</p>
@@ -630,151 +721,7 @@ title: search
          
            
              
-              <breadCrumb title="hexo" url="http://www.prokitty.com/categories/hexo/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/06/%E8%A6%81%E5%81%9Alinux%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%9C%8B%E5%8F%8B%EF%BC%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E6%8E%8C%E6%8F%A1%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%B8%AA%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2015-02-08T16:26:32.000Z</lastmod>
-    <data>
-        <display>
-        <title>要做Linux运维工程师的朋友，必须要掌握以下几个工具</title>
-        <pubTime>2015-02-06T15:50:14.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<p>本人是linux运维工程师，对这方面有点心得，现在我说说要掌握哪方面的工具吧<br>说到工具，在行外可以说是技能，在行内我们一般称为工具，就是运维必须要掌握的工具。<br>我就大概列出这几方面，这样入门就基本没问题了。<br>linux系统如果是学习可以选用redhat或centos，特别是centos在企业中用得最多，当然还会有其它版本的，但学习者还是以这2个版本学习就行，因为这两个版本都是兄弟，没区别的，有空可以再研究一下SUSE，有些公司也喜欢用，例如我公司 。。。。。<br>工具如下：</p>
-<ul>
-<li>1、linux系统基础，这个不用说了，是基础中的基础，连这个都不会就别干了，参考书籍，可以看鸟哥linux基础篇，至少要掌握这书60%内容，没必须全部掌握，但基本命令总得会吧</li>
-</ul>
-<ul>
-<li>2、网络服务，服务有很多种，每间公司都会用到不同的，但基础的服务肯定要掌握，如FTP, DNS,SAMBA, 邮件, 这几个大概学一下就行，LAMP和LNMP是必须要熟练，我所指的不是光光会搭建，而是要很熟悉里面的相当配置才行，因为公司最关键的绝对是WEB服务器，所以nginx和apache要熟悉，特别是nginx一定要很熟悉才行，至少有些公司还会用tomcat，这个也最好学一下。其实网络服务方面不用太担心，一般公司的环境都已经搭建好，就算有新服务器或让你整改，公司会有相应的文档让你参照来弄，不会让你乱来的，但至少相关的配置一定要学熟，而且肯定是编译安装多，那些模块要熟悉一下他的作用，特别是PHP那些模块。<br>这面2点只是基础，也是必要条件，不能说是工具，下以才是真正的要掌握的工具。</li>
-</ul>
-<ul>
-<li>3、shell脚本和另一个脚本语言，shell是运维人员必须具备的，不懂这个连入职都不行，至少也要写出一些系统管理脚本，最简单也得写个监控CPU，内存比率的脚本吧，这是最最最基本了，别以为会写那些猜数字和计算什么数的，这些没什么作用，只作学习意义，写系统脚本才是最有意义，而另一个脚本语言是可选的，一般是3P，即python, perl和php，php就不需要考虑了，除非你要做开发，我个人建议学python会比较好，难实现自动化运维，perl是文本处理很强大，反正这两个学一个就行了。</li>
-</ul>
-<ul>
-<li>4、sed和awk工具，必须要掌握，在掌握这两个工具同时，还要掌握正则表达式，这个就痛苦了，正则是最难学的表达式，但结合到sed和awk中会很强大，在处理文本内容和过滤WEB内容时十分有用，不过在学shell的同时一般会经常结合用到的，所以学第3点就会顺便学第4点。</li>
-</ul>
-<ul>
-<li>5、文本处理命令，sort , tr , cut, paste, uniq, tee等，必学，也是结合第3点时一并学习的。</li>
-</ul>
-<ul>
-<li>6、数据库，首选mysql，别问我为什么不学sqlserver和oracle，因为linux用得最多绝对是mysql，增删改查必学，特别要学熟查，其它方面可能不太需要，因为运维人员使用最多还是查，哪些优化和开发语句不会让你弄的。</li>
-</ul>
-<ul>
-<li>7、防火墙，不学不行，防火墙也算是个难点，说难不难，说易不易，最重要弄懂规则，如果学过CCNA的朋友可能会比较好学，因为iptables也有NAT表，原理是一样的，而FILTER表用得最多，反正不学就肯定不合格。</li>
-</ul>
-<ul>
-<li>8、监控工具，十分十分重要，我个人建议，最好学这3个，cacti，nagios，zibbix，企业用得最多应该是nagios和 zibbix，反正都学吧，但nagios会有点难，因为会涉及到用脚本写自动监控，那个地方很难。</li>
-</ul>
-<ul>
-<li>9、集群和热备，这个很重要，肯定要懂的，但到了公司就不会让你去弄，因为新手基本不让你碰，集群工具有很多，最好学是LVS，这是必学，最好也学学nginx集群，反向代理，还有热备，这个就更多工具能实现了，像我公司是自己开发热备工具的，mysql热备也要学，就是主从复制，这个别告诉我容易，其实不容易的，要学懂整个流程一点也不容易，只照着做根本没意思。</li>
-</ul>
-<ul>
-<li>10、数据备份，不学不行，工具有很多，但至少要把RAID的原理弄懂，特别是企业最常用的1+0或0+1，自己做实验也要弄出来，备份工具有很多，如tar, dump, rsync等，最好多了解一下。<br>算了，说到这10点已经够你受了，应该可以入门了，因为有些技术会比较难学，例如apache和nginx中还有些很重要的技术，如系统调优和服务优化，还有程序优化，这些在没接触工作前很难学习到的，所以先把这10点学了吧，估计要学熟至少3个月不止，就脚本那部分已经让你很吃力了，我建议是先学熟shell，等工作后再学另一门脚本语言，这样会比较好。</li>
-</ul>
-<p>以上就是踏入linux运维工程师需要掌握的工具，其实还有很多工具要掌握的，但你在学习环境中是很难学到，最后我再提醒一下，这里所指的工具相当于技能，而不是像windows或ubuntu那些图形化工具，那些工具没用的，还有，学linux就别装图形界面，这样虚拟机就不用吃太多内存，而且绝对不建议在真机上装linux，根本达不到学习效果。</p>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="运维" url="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/06/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87%EF%BC%88%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%89/</loc>
-    <lastmod>2015-02-06T17:16:26.000Z</lastmod>
-    <data>
-        <display>
-        <title>双机热备（高可用）</title>
-        <pubTime>2015-02-06T13:50:14.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<p>双机热备特指基于高可用系统中的两台服务器的热备（或高可用），因两机高可用在国内使用较多，故得名双机热备，双机高可用按工作中的切换方式分为：主-备方式（Active-Standby方式）和双主机方式（Active-Active方式），主-备方式即指的是一台服务器处于某种业务的激活状态（即Active状态），另一台服务器处于该业务的备用状态（即Standby状态)。而双主机方式即指两种不同业务分别在两台服务器上互为主备状态（即Active-Standby和Standby-Active状态）。简单理解就是，有两台机器A和B，正常是A提供服务，B待命闲置，当A宕机或服务宕掉，会切换至B机器继续提供服务。下面我们使用heartbeat来做HA集群，并且把nginx服务作为HA对应的服务。</p>
-<h1 id="试验准备：">试验准备：</h1>
-<p>两个机器, 都是centos6.5，网卡eth1 ip如下：<br>chen   192.168.36.128<br>root  192.168.36.132</p>
-<h1 id="安装epel扩展源：">安装epel扩展源：</h1>
-<pre><code>rpm -ivh  'http://www.lishiming.net/data/attachment/forum/epel-release-6-8_32.noarch.rpm'</code></pre>
-
-<h1 id="安装heartbeat：">安装heartbeat：</h1>
-<p>两个机器都安装heartbeat / libnet</p>
-<pre><code>yum  install -y heartbeat*   libnet  nginx</code></pre>
-
-<h1 id="主上（chen）配置:">主上（chen）配置:</h1>
-<pre><code>
-cd /usr/share/doc/heartbeat-3.0.4/
-cp  authkeys  ha.cf haresources   /etc/ha.d/
-cd /etc/ha.d
-vi  authkeys  #加入
-
->3 md5 Hello!
-
-chmod 600 authkeys
-
-vi  haresources  #加入
-
->chen 192.168.36.128/eth1:0 nginx   
-
-vi  ha.cf   #改为如下内容：
-
->debugfile /var/log/ha-debug
->logfile /var/log/ha-log
->logfacility     local0
->keepalive  2
->deadtime  30
->warntime  10
->initdead  60
->udpport  694
->ucast eth1  192.168.36.132
->auto_failback on
->node    chen
->node    root
->ping 192.168.253.1  #裁判的ip
->respawn hacluster /usr/lib/heartbeat/ipfail
-</code></pre>
-
-<h1 id="把主上的三个配置拷贝到从上：">把主上的三个配置拷贝到从上：</h1>
-<pre><code>cd /etc/ha.d/</code></pre>
-<pre><code>scp  authkeys  ha.cf haresources   root:/etc/ha.d/</code></pre>
-
-<h1 id="到从上(root)_编辑ha-cf">到从上(root) 编辑ha.cf</h1>
-<pre><code>vi  /etc/ha.d/ha.cf   #只需要更改一个地方</code></pre>
-<pre><code>ucast eth1 192.168.36.132 改为   ucast eth1 192.168.36.128  </code></pre>
-
-
-<h1 id="启动heartbeat_:">启动heartbeat :</h1>
-<p> 先主，后从</p>
-<pre><code>service heartbeat start</code></pre>
-
-
-<h1 id="检查测试_:">检查测试 :</h1>
-<pre><code>ifconfig   #看是否有 eth1:0
-ps aux |grep nginx    #看是否有nginx进程</code></pre>
-
-
-<h1 id="测试1：">测试1：</h1>
-<p>主上故意禁ping</p>
-<pre><code>iptables -I INPUT -p icmp -j DROP</code></pre>
-
-<h1 id="测试2：">测试2：</h1>
-<p>主上停止heartbeat服务</p>
-<pre><code>service heartbeat stop </code></pre>]]></content>
-         
-         
-           
-             
-              <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
           
         </display>
     </data>
@@ -783,13 +730,13 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     
   <url>
     <loc>http://www.prokitty.com/2015/02/06/vim%E4%B8%AD%E7%B2%98%E8%B4%B4%E6%95%B0%E6%8D%AE%E7%9A%84%E6%97%B6%E5%80%99%E5%A6%82%E4%BD%95%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E7%BC%A9%E8%BF%9B/</loc>
-    <lastmod>2015-02-06T17:13:22.000Z</lastmod>
+    <lastmod>2015-02-10T14:14:05.000Z</lastmod>
     <data>
         <display>
         <title>Vim中粘贴数据的时候如何取消自动缩进</title>
         <pubTime>2015-02-06T15:50:14.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>Vim </tag>
          
          <content><![CDATA[<p>vim中在粘贴剪贴板中的数据时会自动增加缩进，这对python这种对缩进要求严格的语言来说简直是恶梦。如何让它不缩进,保持原格式呢？答案就是paste模式。</p>
 <p>在粘贴数据之前，输入下面指定开启paste模式：</p>
@@ -817,57 +764,14 @@ set pastetoggle=F3 </code></pre>
 
     
   <url>
-    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
-    <lastmod>2015-02-06T16:58:45.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo主题博客汇总</title>
-        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
-<ul>
-<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
-<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
-<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
-<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
-<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
-<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
-<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
-<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
-<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
-<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
-<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
-<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
-<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
-<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
-<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
-<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
-<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
-</ul>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.prokitty.com/2015/02/05/VimTips/</loc>
-    <lastmod>2015-02-06T16:58:44.000Z</lastmod>
+    <lastmod>2015-02-10T14:13:18.000Z</lastmod>
     <data>
         <display>
         <title>Vim Tips</title>
         <pubTime>2015-02-05T14:16:22.000Z</pubTime>
         
-        <tag>Linux </tag>
+        <tag>Vim </tag>
          
          <content><![CDATA[<h1 id="模式">模式</h1>
 <p>一般模式（Nomal mode）：按Esc或Ctrl+[进入。左下角显示文件名或为空。可以移动光标、删除、选择、复制和粘贴。</p>
@@ -1200,6 +1104,307 @@ set pastetoggle=F3 </code></pre>
            
              
               <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/11/linux%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</loc>
+    <lastmod>2015-02-10T14:11:42.000Z</lastmod>
+    <data>
+        <display>
+        <title>经常遇到的Linux问题</title>
+        <pubTime>2015-02-10T16:57:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<ul>
+<li><p>1 如何查看当前的Linux服务器的运行级别？</p>
+<p>答: <code>who -r</code> 和 <code>runlevel</code> 命令可以用来查看当前的Linux服务器的运行级别。</p>
+</li>
+<li><p>2 如何查看Linux的默认网关？</p>
+<p>答: 用 <code>route -n</code> 和<code>netstat -nr</code> 命令，我们可以查看默认网关。除了默认的网关信息，这两个命令还可以显示当前的路由表。</p>
+</li>
+<li><p>3 如何在Linux上重建初始化内存盘镜像文件？</p>
+<p>答: 在CentOS 5.X / RHEL 5.X中，可以用mkinitrd命令来创建初始化内存盘文件，举例如下：</p>
+<p><code># mkinitrd -f -v /boot/initrd-$(uname -r).img $(uname -r)</code></p>
+<p>如果你想要给特定的内核版本创建初始化内存盘，你就用所需的内核名替换掉 <code>uname -r</code>。</p>
+<p>在CentOS 6.X / RHEL 6.X中，则用dracut命令来创建初始化内存盘文件，举例如下：</p>
+<p><code># dracut -f</code></p>
+<p>以上命令能给当前的系统版本创建初始化内存盘，给特定的内核版本重建初始化内存盘文件则使用以下命令：</p>
+<p><code># dracut -f initramfs-2.x.xx-xx.el6.x86_64.img 2.x.xx-xx.el6.x86_64</code></p>
+</li>
+<li><p>4 cpio命令是什么？</p>
+<p>答: cpio就是复制入和复制出的意思。cpio可以向一个归档文件（或单个文件）复制文件、列表，还可以从中提取文件。</p>
+</li>
+<li><p>5 patch命令是什么？如何使用？</p>
+<p>答: 顾名思义，patch命令就是用来将修改（或补丁）写进文本文件里。patch命令通常是接收diff的输出并把文件的旧版本转换为新版本。举个例子，Linux内核源代码由百万行代码文件构成，所以无论何时，任何代码贡献者贡献出代码，只需发送改动的部分而不是整个源代码，然后接收者用patch命令将改动写进原始的源代码里。</p>
+<p>创建一个diff文件给patch使用，</p>
+<p><code># diff -Naur old_file new_file &gt; diff_file</code></p>
+<p>旧文件和新文件要么都是单个的文件要么都是包含文件的目录，-r参数支持目录树递归。</p>
+<p>一旦diff文件创建好，我们就能在旧的文件上打上补丁，把它变成新文件：</p>
+<p><code># patch &lt; diff_file</code></p>
+</li>
+<li><p>6 aspell有什么用 ?</p>
+<p>答: 顾名思义，aspell就是Linux操作系统上的一款交互式拼写检查器。aspell命令继任了更早的一个名为ispell的程序，并且作为一款免费替代品 ，最重要的是它非常好用。当aspell程序主要被其它一些需要拼写检查能力的程序所使用的时候，在命令行中作为一个独立运行的工具的它也能十分有效。</p>
+</li>
+<li><p>7 如何从命令行查看域SPF记录？</p>
+<p>答: 我们可以用dig命令来查看域SPF记录。举例如下：</p>
+<p><code># linuxtechi@localhost:~$ dig -t TXT google.com</code></p>
+</li>
+<li><p>8 如何识别Linux系统中指定文件(/etc/fstab)的关联包？</p>
+<p>答:<code># rpm -qf /etc/fstab</code></p>
+<p>以上命令能列出提供<code>/etc/fstab</code>这个文件的包。</p>
+</li>
+<li><p>9 哪条命令用来查看bond0的状态？</p>
+<p>答: <code>#cat /proc/net/bonding/bond0</code></p>
+</li>
+<li><p>10 Linux系统中的/proc文件系统有什么用？</p>
+<p>答: /proc文件系统是一个基于内存的文件系统，其维护着关于当前正在运行的内核状态信息，其中包括CPU、内存、分区划分、I/O地址、直接内存访问通道和正在运行的进程。这个文件系统所代表的并不是各种实际存储信息的文件，它们指向的是内存里的信息。/proc文件系统是由系统自动维护的。</p>
+</li>
+<li><p>11 如何在/usr目录下找出大小超过10MB的文件？</p>
+<p>答:<code># find /usr -size +10M</code></p>
+</li>
+<li><p>12 如何在/home目录下找出120天之前被修改过的文件？</p>
+<p>答:<code># find /home -mtime +120</code></p>
+</li>
+<li><p>13 如何在/var目录下找出90天之内未被访问过的文件？</p>
+<p>答:<code># find /var \! -atime -90</code></p>
+</li>
+<li><p>14 在整个目录树下查找文件<code>core</code>，如发现则无需提示直接删除它们。</p>
+<p>答:<code># find / -name core -exec rm {} \;</code></p>
+</li>
+<li><p>15 strings命令有什么作用？</p>
+<p>答: strings命令用来提取和显示非文本文件中的文本字符串。（LCTT 译注：当用来分析你系统上莫名其妙出现的二进制程序时，可以从中找到可疑的文件访问，对于追查入侵有用处）</p>
+</li>
+<li><p>16 tee 过滤器有什么作用 ?</p>
+<p>答: tee 过滤器用来向多个目标发送输出内容。如果用于管道的话，它可以将输出复制一份到一个文件，并复制另外一份到屏幕上（或一些其它程序）。</p>
+<p><code># linuxtechi@localhost:~$ ll /etc | nl | tee /tmp/ll.out</code></p>
+<p>在以上例子中，从ll输出可以捕获到 <code>/tmp/ll.out</code> 文件中，并且同样在屏幕上显示了出来。</p>
+</li>
+<li><p>17 <code>export PS1 = ”$LOGNAME@hostname:\$PWD:</code>这条命令是在做什么？</p>
+<p>答: 这条export命令会更改登录提示符来显示用户名、本机名和当前工作目录。</p>
+</li>
+<li><p>18 <code>ll | awk ‘{print $3,”owns”,$9}’</code>这条命令是在做什么？</p>
+<p>答: 这条ll命令会显示这些文件的文件名和它们的拥有者。</p>
+</li>
+<li><p>19 :Linux中的at命令有什么用？</p>
+<p>答: at命令用来安排一个程序在未来的做一次一次性执行。所有提交的任务都被放在 <code>/var/spool/at</code>目录下并且到了执行时间的时候通过atd守护进程来执行。</p>
+</li>
+<li><p>20 linux中lspci命令的作用是什么？</p>
+<p>答: lspci命令用来显示你的系统上PCI总线和附加设备的信息。指定-v，-vv或-vvv来获取越来越详细的输出，加上-r参数的话，命令的输出则会更具有易读性。</p>
+</li>
+</ul>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/07/%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AF%B9%E6%97%B6/</loc>
+    <lastmod>2015-02-10T14:10:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>为树莓派对时</title>
+        <pubTime>2015-02-07T09:00:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+         <content><![CDATA[<h2 id="1-安装ntp，输入">1.安装ntp，输入</h2>
+<pre><code>sudo apt-get install ntpdate</code></pre>
+
+<h2 id="2-修改时区，输入">2.修改时区，输入</h2>
+<pre><code>tzselect</code></pre>
+
+<h2 id="3-按照自己的时区修改：">3.按照自己的时区修改：</h2>
+<h2 id="4-配置网络对时，输入">4.配置网络对时，输入</h2>
+<pre><code>sudo ntpdate cn.pool.ntp.org</code></pre>
+
+
+<p>注：cn.pool.ntp.org 是国家授时中心ntp服务器</p>
+<h2 id="5-输入“date”，看看时间是不是对上了">5.输入“date”，看看时间是不是对上了</h2>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="树莓派" url="http://www.prokitty.com/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.prokitty.com/2015/02/10/Nagios%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2015-02-10T14:03:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>Nagios监控服务配置</title>
+        <pubTime>2015-02-10T04:57:00.000Z</pubTime>
+        
+        <tag>Nagios </tag>
+         
+         <content><![CDATA[<p>Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
+<h1 id="一、Nagios特点：">一、Nagios特点：</h1>
+<ul>
+<li><p>网络监视服务（SMTP,POP3,HTTP,NNTP,PING）</p>
+</li>
+<li><p>服务器监视（服务器磁盘，服务器进程）</p>
+</li>
+<li><p>可添加插件对Nagios监视服务进行扩展</p>
+</li>
+<li><p>可并发处理监视服务</p>
+</li>
+</ul>
+<p>相关安装包：</p>
+<ul>
+<li><p>Nagios core</p>
+</li>
+<li><p>Nagios plugins </p>
+</li>
+<li><p>Nagios addons</p>
+</li>
+</ul>
+<h1 id="二、服务器端：">二、服务器端：</h1>
+<p>查看安装服务器环境（LAMP）</p>
+<p><code># rpm -qa | grep httpd</code></p>
+<p><code># rpm -qa | grep php</code></p>
+<p>没有的话安装</p>
+<p><code># yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</code></p>
+<p>创建用户：</p>
+<p><code># useradd -m -s /bin/bash nagios</code></p>
+<p><code># groupadd nagios</code></p>
+<p><code># usermod -G nagios nagios</code></p>
+<p><code># vi /etc/passwd</code></p>
+<p>将其中的<code>nagios:x:500:500::/home/nagios:/sbin/nologin</code>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
+<p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
+<p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
+<p><code># /usr/sbin/groupadd nagcmd</code></p>
+<p><code># /usr/sbin/usermod -G nagcmd nagios</code></p>
+<p><code># /usr/sbin/usermod -a -G nagcmd daemon</code>(因为是编译方式安装的apache，默认是以daemon用户运行)</p>
+<p>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</p>
+<p><code>[root@server ~]#cd /usr/local/src/tarbag/</code></p>
+<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</code></p>
+<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</code></p>
+<p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</code></p>
+<p>解压并编译安装Nagios：</p>
+<p><code># tar xvzf nagios-3.2.2.tar.gz</code></p>
+<p><code># cd nagios-3.2.2</code></p>
+<p>运行Nagios配置脚本并使用先前开设的用户及用户组：</p>
+<p><code># ./configure --prefix=/usr/local/nagios --with-command-group=nagcmd</code></p>
+<p>编译Nagios程序包源码：</p>
+<p><code># make all</code></p>
+<p>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</p>
+<p><code># make install</code></p>
+<p><code># make install-init</code> //在/etc/rc.d/init.d安装启动脚本</p>
+<p><code># make install-config&amp;nbsp</code>//安装示例配置文件,安装的路径是<code>/usr/local/nagios/etc</code></p>
+<p><code># make install-commandmode&amp;nbsp</code>//配置目录权限</p>
+<p><code># ls /usr/local/nagios/</code></p>
+<p><code># bin etc libexec sbin share var</code></p>
+<h1 id="三、对nagios进行配置:">三、对nagios进行配置:</h1>
+<p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
+<p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
+<p><code># vi /usr/local/nagios/etc/objects/contacts.cfg</code></p>
+<h2 id="1、安装nagios插件">1、安装nagios插件</h2>
+<p><code># cd ../</code></p>
+<p><code># tar zxvf nagios-plugins-1.4.16.tar.gz</code></p>
+<p><code># cd nagios-plugins-1.4.16</code></p>
+<p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios</code>//指定安装目录及用户和组</p>
+<p><code># make;make install</code></p>
+<p>配置httpd`生成Nagios的Apache配置文件</p>
+<p><code># cd nagios-3.2.2</code></p>
+<p><code># make install-webconf</code></p>
+<p><code># /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/httpd/conf.d/nagios.conf</code></p>
+<p><code># cd sample-config</code></p>
+<p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
+<p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
+<p><code># ./htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</code></p>
+<p>密码：nagiosmonitor</p>
+<p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
+<p><code># cd ..</code></p>
+<p><code># tar zxvf nrpe-2.14.tar.gz</code></p>
+<p><code># cd nrpe-2.14</code></p>
+<p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios/</code></p>
+<p><code># make all</code></p>
+<p><code># make install-plugin;make install-daemon;make install-daemon-config</code></p>
+<p><code># ls /usr/local/nagios/libexec/</code></p>
+<p><code># check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
+<p>验证Nagios的样例配置文件</p>
+<p><code># /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg</code></p>
+<p>如果没有报错，可以启动Nagios服务</p>
+<p>启动httpd及nagios服务并验证</p>
+<p><code># chkconfig --add nagios</code>//设置nagios及http开机自启动</p>
+<p><code># chkconfig nagios on</code></p>
+<p><code># chkconfig httpd on</code></p>
+<p><code># service nagios start</code></p>
+<p><code># service httpd start</code></p>
+<h2 id="2、客户端安装">2、客户端安装</h2>
+<p><code># useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
+<p>安装nagios-plugins</p>
+<p><code># tar -zxvf nagios-plugins-1.4.15.tar.gz</code></p>
+<p><code># cd nagios-plugins-1.4.15</code></p>
+<p><code># ./configure --prefix=/usr/local/nagios</code></p>
+<p><code># make&lt;li&gt;# make install</code></p>
+<p><code># chown nagios.nagios /usr/local/nagios/</code></p>
+<p><code># chown -R nagios.nagios /usr/local/nagios/libexec/</code></p>
+<p>安装nrpe插件</p>
+<p><code># tar -zxvf nrpe-2.12.tar.gz</code></p>
+<p><code># cd nrpe-2.12</code></p>
+<p><code># ./configure --prefix=/usr/local/nagios/</code></p>
+<p><code># make all&lt;li&gt;# make install-plugin</code></p>
+<p>安装check_nrpe这个插件</p>
+<p><code># make install-daemon</code> 安装daemon</p>
+<p><code># make install-daemon-config</code>安装配置文件</p>
+<p>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</p>
+<p><code># rpm -qa|grep openssl</code></p>
+<p><code># openssl-devel-0.9.8e-12.el5_4.6</code></p>
+<p><code># openssl-0.9.8e-12.el5_4.6</code></p>
+<p><code># yum install openssl-devel</code>或者下载：<a href="http://www.openssl.org/source/" target="_blank">http://www.openssl.org/source/</a></p>
+<p><code># tar zxvf openssl-1.0.0a.tar.gz</code></p>
+<p><code># cd openssl-1.0.0a</code></p>
+<p><code># ./config</code></p>
+<p><code># make;make test</code></p>
+<p><code># make install</code></p>
+<p>修改客户端配置文件</p>
+<p><code># vi /usr/local/nagios/etc/nrpe.cfg</code></p>
+<p><code># server_port:5666</code></p>
+<p><code># allowed_hosts=127.0.0.1，192.168.1.95&amp;nbsp</code>//添加服务器端的IP地址</p>
+<p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
+<p>然后修改nrpe.cfg中的command部分。</p>
+<p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
+<p><code># /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d</code></p>
+<p>可以将此命令加入/etc/rc.local，以便开机自动启动</p>
+<p><code># echo &quot;/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d&quot; &gt;&gt; /etc/rc.local</code></p>
+<p><code># netstat -utpln |grep nrpe</code>//查看nrpe进程是否已正常启动</p>
+<p><code># /usr/local/nagios/libexec/check_nrpe -H 127.0.0.1 NRPE v2.14</code> //nrpe测试结果，此结果为nrpe已经正常工作了</p>
+<p>然后在nagios监控服务器上测试</p>
+<p><code># /usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
+<p>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</p>
+<h2 id="3、定义监控内容">3、定义监控内容</h2>
+<p><code># vi /usr/local/nagios/etc/nrpe.cfg</code>//定义监控服务器内容</p>
+<p><code># command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10</code>#监控登陆的用户数量</p>
+<p><code># command[check_load]=/usr/local/nagios/libexec/check_load -w 15,10,5 -c 30,25,20</code> #监控CPU的负载</p>
+<p><code># command[check_sda2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/sda2</code> #监控磁盘利用率，这里的sda2必须是实际的硬盘分区，可使用fdisk –l查</p>
+<p><code># command[check_swap]=/usr/local/nagios//libexec/check_swap -w 20 -c 10</code>#监控交换空间</p>
+<p><code># command[check_zombie_procs]=/usr/local/nagios/libexec/check_procs -w 5 -c 10 -s Z</code> #监控进程中的僵尸进程</p>
+<p><code># command[check_total_procs]=/usr/local/nagios/libexec/check_procs -w 150 -c 200</code>#监控所有进程</p>
+<p>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</p>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="运维" url="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
           
         </display>
     </data>
@@ -1583,242 +1788,6 @@ set pastetoggle=F3 </code></pre>
     </url>
 
     
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/</loc>
-    <lastmod>2015-02-04T17:57:18.000Z</lastmod>
-    <data>
-        <display>
-        <title>为什么有线程？</title>
-        <pubTime>2015-02-01T16:00:00.000Z</pubTime>
-        
-        <tag>Linux </tag>
-         
-         <content><![CDATA[<ol>
-<li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
-<li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
-<li>为什么会有线程？</li>
-</ol>
-<ul>
-<li>NT其实有一大弱点，就是r3有几个进程是不能结束的，crash掉会马上BSOD，但这和今天的话题无关。</li>
-<li>当下的NT内核提供了ASLR，大大提高了进程被inject后shellcode run起来的难度；<br>传统NT的ACL模型就不废话了</li>
-<li>UAC，这货也不扯了</li>
-<li>EFS和Bitlocker，EFS的易受攻击性已经是被证明的，所以这货只能提供有限的安全性，但是Bitloacker在正确配置的情况下，可以提供几乎不存在什么弱点的安全保护，相关话题我就不在这里扯了，有兴趣的自己看看相关资料。</li>
-<li>UMDF，因为内核驱动会导致BSOD，所以现在NT内核提供用户模式驱动，这货崩掉只会导致一个系统服务crash，重启服务即可（并不是重启计算机，比如USB的，只需要重新插一下就行了）</li>
-</ul>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="杂记" url="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/</loc>
-    <lastmod>2015-02-04T03:32:52.000Z</lastmod>
-    <data>
-        <display>
-        <title>纪念那些自己喜爱的Windows软件</title>
-        <pubTime>2015-02-02T16:00:00.000Z</pubTime>
-        
-        <tag>windows </tag>
-         
-         <content><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://i2.tietuku.com/fbb9fe6a71969749.jpg" alt=""></p>
-<p>很多图标都经过修改。</p>
-<h2 id="聊天软件：">聊天软件：</h2>
-<ul>
-<li><p>QQ：真心离不开，即使是这个移动互联网盛行的时代，依旧是主力。可以使用轻聊版，有比肩MAC版本的清爽，也留下了完整的体验。</p>
-</li>
-<li><p>微信：偶尔在电脑上用用，必须用手机才可以登录。虽然很麻烦，但是在电脑上打字聊天确实比较方便，不知道大家朋友里有没有人只用微信的？反正我有，那些可恶的手机党啊！</p>
-</li>
-<li><p>飞信：部分代替短信的工具，虽然上的越来越少了，但是在上海还是有很多人用的，特别是企业里，加上好友后发通知都是免费的。</p>
-</li>
-<li><p>阿里旺旺：也是离不开啊，因为购物，如果发生纠纷，那么聊天记录是最好的保证。</p>
-</li>
-</ul>
-<h2 id="云同步软件：">云同步软件：</h2>
-<ul>
-<li>百度云管家，使用体验很一般，真的，经常出现问题，特别是笔记本睡眠醒来后，不过功能实在太过于强大了，其实我对于云的概念就停留在备份和在线操作。都来自于苹果的Time Machine（虽然我没有用过），多时间版本的文件备份和实时同步，超大的容量以及局域网的互联互通（曾经看到过有人用最新的Time Machine用蓝光视频）。那么本地可以，云是否也可以呢？百度云几乎可以做到这点。</li>
-</ul>
-<h2 id="清理电脑软件：">清理电脑软件：</h2>
-<ul>
-<li>CCleaner：不喜欢360或者其他的类似的软件，主要是功能太多，我不需要它提醒我开机多少时间，不需要知道我有多少漏洞没补，就是简单的清理我的电脑注册表垃圾，不过我并不认为缓存是垃圾。</li>
-</ul>
-<h2 id="杀毒软件：">杀毒软件：</h2>
-<ul>
-<li>MSE，我也觉得一般，不过它几乎没有打扰过我，所以我安装了它。支持在任务栏中显示搜索中-完成-未保护三个状态（这是我最喜欢的，免得有cpu大量被占有也不知道是什么软件的问题）</li>
-</ul>
-<h2 id="音乐软件：">音乐软件：</h2>
-<ul>
-<li>iTunes：本来也是习惯QQ音乐的，但是买了iPhone后就觉得没有选择了，也习惯了iTunes，觉得这个界面特别漂亮。</li>
-</ul>
-<p><img src="http://i2.tietuku.com/052ce856393a79e7.jpg" alt=""></p>
-<p>不过需要大量的时间管理维护这些专辑封面哦。</p>
-<h2 id="视频软件：">视频软件：</h2>
-<ul>
-<li>Potplayer：原来我也是QQ影音的忠实用户，不过QQ影音因为腾讯很久没有更新了，在很多细节上确实没有Potplayer好用，不过Potplayer最好也是选择32位的，64位在解码方面没有32位的来的强悍，我的电脑在QQ影音和64位的Potplayer中播放4K视频都卡，但是在32位中就比较流畅了。附上我的皮肤图（有需要的留言哦！）：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/40719ec1d04981b6.jpg" alt=""></p>
-<h2 id="Connectify_3-7">Connectify 3.7</h2>
-<ul>
-<li>在我的K29上很稳定，不过只能连接8个wifi设备，目前从来没有因为网络限制出现移动设备不能上网的问题，只要电脑可以上网，手机等移动设备一定可以上网，不过我不推荐使用，一般的用户还是使用猎豹wifi比较好，因为做的漂亮，功能也强大些，就是更新比较频繁。</li>
-</ul>
-<h2 id="Preme_for_windows">Preme for windows</h2>
-<ul>
-<li>真是牛人的软件，几乎让鼠标在windows上的体验比肩mac上触摸板上的体验，如果说windows的笔记本的触摸板是渣，那么因为这软件，mac的鼠标同样是渣。上图（只有英文版，不过有视频演示）：<br><img src="http://i2.tietuku.com/3c8b8e0313e7a10d.png" alt=""></li>
-</ul>
-<h2 id="USB_Extension">USB Extension</h2>
-<ul>
-<li>其实就是一个usb设备显示在桌面的插件，很多人习惯360的那种方式也是可以的，我是喜欢MAC的那种方式，讨厌浮窗的。上图：<br><img src="http://i2.tietuku.com/7b04d6524941863c.png" alt=""></li>
-</ul>
-<h2 id="ASUS_AI_Charger">ASUS AI Charger</h2>
-<ul>
-<li>可以让iPad在windows上充电的软件。</li>
-</ul>
-<h2 id="Ditto">Ditto</h2>
-<ul>
-<li>我觉得很不漂亮，但很实用，剪切板管理软件。</li>
-</ul>
-<h2 id="Listary">Listary</h2>
-<ul>
-<li>非常非常强大的本地搜索软件，只是比Mac的差了很多，不支持网上搜索，也不支持编辑搜索的软件。比Mac那款神器的搜索软件差不少，但是胜在一个快，本地搜索几乎是瞬间的。也支持everything（虽然我不用everything这软件，但是很多大神都说它是神器）</li>
-</ul>
-<h2 id="Secret_folder">Secret folder</h2>
-<ul>
-<li>加密文件夹，可以让文件夹在文件管理器中凭空消失，不过不知道拆下硬盘后是否可以加密。</li>
-</ul>
-<h2 id="Media_Preview">Media Preview</h2>
-<ul>
-<li>几乎支持所有的视频预览图，直接上图看效果：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/d5d68a4712abb23b.png" alt=""></p>
-<h2 id="CBXManager">CBXManager</h2>
-<ul>
-<li>在百度贴吧里发现的软件，可以实现一个我很喜欢的功能，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/1e9fcbf6bf96e51f.png" alt=""></p>
-<p>epub电子书的封面可以显示了！</p>
-<h2 id="软媒时间">软媒时间</h2>
-<ul>
-<li>可以让电脑的时间显示比手机的更棒。上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/1e22848cc30ae7c7.png" alt=""></p>
-<h2 id="下载软件：">下载软件：</h2>
-<ul>
-<li><p>QQ旋风：其实不好用，腾讯对它的支持也少了，在扫黄后，还是可以用来下载些违法的内容的。</p>
-</li>
-<li><p>百度云管家：扫黄前神器，扫黄后只能下些普通的电影电视剧了，而且有些电影也会报错。</p>
-</li>
-<li><p>维棠下载：目前也是下载的一款神器，对于在线视频的分析下载是没有软件可以比拟的（不过有广告，去掉弹窗，一切都可以忍，据说可以下载付费电影，没实验过，追剧很方便）</p>
-</li>
-</ul>
-<h2 id="桌面应用管理的软件：">桌面应用管理的软件：</h2>
-<ul>
-<li>酷鱼快速启动：可以用来管理所有的应用软件，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/35e6c1c176f70673.png" alt=""></p>
-<h2 id="软媒桌面">软媒桌面</h2>
-<ul>
-<li>类似MAC的DOCK栏效果，上图：</li>
-</ul>
-<p><img src="http://i2.tietuku.com/d6a8944ec46571f7.png" alt=""></p>
-<p>两者共同解决了windows应用点击后无明显反应的问题！</p>
-<h2 id="浏览器软件：">浏览器软件：</h2>
-<ul>
-<li><p>360浏览器：o(︶︿︶)o 唉，没办法，习惯了，功能目前来说已经不算强大了，但是我认识的人都在用这个浏览器，也确实有无法代替的功能，比如右键关闭标签，比如皮肤，比如显示的效果，其实说真的就是习惯了，现在像UC浏览器其实在功能上都比360要强大了，但是就是不想用。</p>
-</li>
-<li><p>AdSafe：虽然用久了闪退，但是确实是一个屏蔽广告最好的软件，支持浏览器flash广告，也支持视频网站的视频广告，更加支持软件自带的弹窗广告，而且一键操作！</p>
-</li>
-<li><p>办公软件：还是选择了WPS，虽然微软的OFFICE是主流，但是还是觉得WPS来的可靠些，不希望在关键时候出来一个激活信息。</p>
-</li>
-</ul>
-<p>完结。</p>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="工具" url="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/04/%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%AF%97%E5%93%81/</loc>
-    <lastmod>2015-02-03T16:51:37.000Z</lastmod>
-    <data>
-        <display>
-        <title>二十四诗品</title>
-        <pubTime>2015-02-03T16:00:00.000Z</pubTime>
-        
-        <tag>诗词 </tag>
-         
-         <content><![CDATA[<h2 id="雄浑">雄浑</h2>
-<p><strong>大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。</strong></p>
-<h2 id="冲淡">冲淡</h2>
-<p><strong>素处以默，妙机其微。饮之太和，独鹤与飞。犹之惠风，荏苒在衣。阅音修篁，美曰载归。遇之匪深，即之愈希。脱有形似，握手已违。</strong></p>
-<h2 id="纤农">纤农</h2>
-<p><strong>采采流水，蓬蓬远春。窈窕深谷，时见美人。碧桃满树，风日水滨。柳阴路曲，流莺比邻。乘之愈往，识之愈真。如将不尽，与古为新。</strong></p>
-<h2 id="沉著">沉著</h2>
-<p><strong>绿杉野屋，落日气清。脱巾独步，时闻鸟声。鸿雁不来，之子远行。所思不远，若为平生。海风碧云，夜渚月明。如有佳语，大河前横。</strong></p>
-<h2 id="高古">高古</h2>
-<p><strong>畸人乘真，手把芙蓉。泛彼浩劫，窅然空踪。月出东斗，好风相从。太华夜碧，人闻清钟。虚伫神素，脱然畦封。黄唐在独，落落玄宗。</strong></p>
-<h2 id="典雅">典雅</h2>
-<p><strong>玉壶买春，赏雨茅屋。坐中佳士，左右修竹。白云初晴，幽鸟相逐。眠琴绿阴，上有飞瀑。落花无言，人淡如菊。书之岁华，其曰可读。</strong></p>
-<h2 id="洗炼">洗炼</h2>
-<p><strong>如矿出金，如铅出银。超心炼冶，绝爱缁磷。空潭泻春，古镜照神。体素储洁，乘月返真。载瞻星辰，载歌幽人。流水今日，明月前身。</strong></p>
-<h2 id="劲健">劲健</h2>
-<p><strong>行神如空，行气如虹。巫峡千寻，走云连风。饮真茹强，蓄素守中。喻彼行健，是谓存雄。天地与立，神化攸同。期之以实，御之以终。</strong></p>
-<h2 id="绮丽">绮丽</h2>
-<p><strong>神存富贵，始轻黄金。浓尽必枯，淡者屡深。雾余水畔，红杏在林。月明华屋，画桥碧阴。金尊酒满，伴客弹琴。取之自足，良殚美襟。</strong></p>
-<h2 id="自然">自然</h2>
-<p><strong>俯拾即是，不取诸邻。俱道适往，著手成春。如逢花开，如瞻岁新。真与不夺，强得易贫。幽人空山，过雨采苹。薄言情悟，悠悠天钧。</strong></p>
-<h2 id="含蓄">含蓄</h2>
-<p><strong>不著一字，尽得风流。语不涉己，若不堪忧。是有真宰，与之沉浮。如满绿酒，花时反秋。悠悠空尘，忽忽海沤。浅深聚散，万取一收。</strong></p>
-<h2 id="豪放">豪放</h2>
-<p><strong>观花匪禁，吞吐大荒。由道反气，虚得以狂。天风浪浪，海山苍苍。真力弥满，万象在旁。前招三辰，后引凤凰。晓策六鳌，濯足扶桑。</strong></p>
-<h2 id="精神">精神</h2>
-<p><strong>欲返不尽，相期与来。明漪绝底，奇花初胎。青春鹦鹉，杨柳楼台。碧山人来，清酒深杯。生气远出，不著死灰。妙造自然，伊谁与裁。</strong></p>
-<h2 id="缜密">缜密</h2>
-<p><strong>是有真迹，如不可知。意象欲生，造化已奇。水流花开，清露未晞。要路愈远，幽行为迟。语不欲犯，思不欲痴。犹春于绿，明月雪时。</strong></p>
-<h2 id="疏野">疏野</h2>
-<p><strong>惟性所宅，真取不羁。控物自富，与率为期。筑室松下，脱帽看诗。但知旦暮，不辨何时。倘然适意，岂必有为。若其天放，如是得之。</strong></p>
-<h2 id="清奇">清奇</h2>
-<p><strong>娟娟群松，下有漪流。晴雪满竹，隔溪渔舟。可人如玉，步屧寻幽。载瞻载止，空碧悠悠，神出古异，淡不可收。如月之曙，如气之秋。</strong></p>
-<h2 id="委曲">委曲</h2>
-<p><strong>登彼太行，翠绕羊肠。杳霭流玉，悠悠花香。力之于时，声之于羌。似往已回，如幽匪藏。水理漩洑，鹏风翱翔。道不自器，与之圆方。</strong></p>
-<h2 id="实境">实境</h2>
-<p><strong>取语甚直，计思匪深。忽逢幽人，如见道心。清涧之曲，碧松之阴。一客荷樵，一客听琴。情性所至，妙不自寻。遇之自天，泠然希音。</strong></p>
-<h2 id="悲慨">悲慨</h2>
-<p><strong>大风卷水，林木为摧。适苦欲死，招憩不来。百岁如流，富贵冷灰。大道日丧，若为雄才。壮士拂剑，浩然弥哀。萧萧落叶，漏雨苍苔。</strong></p>
-<h2 id="形容">形容</h2>
-<p><strong>绝伫灵素，少回清真。如觅水影，如写阳春。风云变态，花草精神。海之波澜，山之嶙峋。俱似大道，妙契同尘。离形得似，庶几斯人。</strong></p>
-<h2 id="超诣">超诣</h2>
-<p><strong>匪神之灵，匪几之微。如将白云，清风与归。远引若至，临之已非。少有道契，终与俗违。乱山乔木，碧苔芳晖。诵之思之，其声愈希。</strong></p>
-<h2 id="飘逸">飘逸</h2>
-<p><strong>落落欲往，矫矫不群。缑山之鹤，华顶之云。高人画中，令色氤氲。御风蓬叶，泛彼无垠。如不可执，如将有闻。识者已领，期之愈分。</strong></p>
-<h2 id="旷达">旷达</h2>
-<p><strong>生者百岁，相去几何。欢乐苦短，忧愁实多。何如尊酒，日往烟萝。花覆茅檐，疏雨相过。倒酒既尽，杖藜行歌。孰不有古，南山峨峨。</strong></p>
-<h2 id="流动">流动</h2>
-<p><strong>若纳水輨，如转丸珠。夫岂可道，假体如愚。荒荒坤轴，悠悠天枢。载要其端，载同其符。超超神明，返返冥无。来往千载，是之谓乎。</strong></p>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="杂记" url="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
-          
-        </display>
-    </data>
-    </url>
-
     
   <url>
     <loc>http://www.prokitty.com/2015/02/01/hello-world/</loc>

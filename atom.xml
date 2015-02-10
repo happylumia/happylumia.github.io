@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.prokitty.com/"/>
-  <updated>2015-02-10T13:52:11.809Z</updated>
+  <updated>2015-02-10T15:30:38.220Z</updated>
   <id>http://www.prokitty.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://www.prokitty.com/2015/02/11/linux%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/"/>
     <id>http://www.prokitty.com/2015/02/11/linux常见问题整理/</id>
     <published>2015-02-10T16:57:00.000Z</published>
-    <updated>2015-02-10T13:38:39.000Z</updated>
+    <updated>2015-02-10T14:11:42.000Z</updated>
     <content type="html"><![CDATA[<ul>
 <li><p>1 如何查看当前的Linux服务器的运行级别？</p>
 <p>答: <code>who -r</code> 和 <code>runlevel</code> 命令可以用来查看当前的Linux服务器的运行级别。</p>
@@ -103,7 +103,7 @@
     
     </summary>
     
-      <category term="linux" scheme="http://www.prokitty.com/tags/linux/"/>
+      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
     
       <category term="运维" scheme="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
     
@@ -114,7 +114,7 @@
     <link href="http://www.prokitty.com/2015/02/10/Nagios%E7%9B%91%E6%8E%A7%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE/"/>
     <id>http://www.prokitty.com/2015/02/10/Nagios监控服务配置/</id>
     <published>2015-02-10T04:57:00.000Z</published>
-    <updated>2015-02-10T13:51:57.000Z</updated>
+    <updated>2015-02-10T14:03:26.000Z</updated>
     <content type="html"><![CDATA[<p>Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
 <h1 id="一、Nagios特点：">一、Nagios特点：</h1>
 <ul>
@@ -126,8 +126,9 @@
 </li>
 <li><p>可并发处理监视服务</p>
 </li>
-<li><p>相关安装包：</p>
-</li>
+</ul>
+<p>相关安装包：</p>
+<ul>
 <li><p>Nagios core</p>
 </li>
 <li><p>Nagios plugins </p>
@@ -136,56 +137,35 @@
 </li>
 </ul>
 <h1 id="二、服务器端：">二、服务器端：</h1>
-<ul>
-<li>查看安装服务器环境（LAMP）</li>
-</ul>
+<p>查看安装服务器环境（LAMP）</p>
 <p><code># rpm -qa | grep httpd</code></p>
 <p><code># rpm -qa | grep php</code></p>
-<ul>
-<li>没有的话安装</li>
-</ul>
+<p>没有的话安装</p>
 <p><code># yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</code></p>
-<ul>
-<li>创建用户：</li>
-</ul>
+<p>创建用户：</p>
 <p><code># useradd -m -s /bin/bash nagios</code></p>
 <p><code># groupadd nagios</code></p>
 <p><code># usermod -G nagios nagios</code></p>
 <p><code># vi /etc/passwd</code></p>
-<p><code>nagios:x:500:500::/home/nagios:/sbin/nologin</code></p>
-<p>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
-<ul>
-<li><p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
-</li>
-<li><p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
-</li>
-</ul>
+<p>将其中的<code>nagios:x:500:500::/home/nagios:/sbin/nologin</code>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
+<p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
+<p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
 <p><code># /usr/sbin/groupadd nagcmd</code></p>
 <p><code># /usr/sbin/usermod -G nagcmd nagios</code></p>
 <p><code># /usr/sbin/usermod -a -G nagcmd daemon</code>(因为是编译方式安装的apache，默认是以daemon用户运行)</p>
-<ul>
-<li>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
-</ul>
+<p>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</p>
 <p><code>[root@server ~]#cd /usr/local/src/tarbag/</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</code></p>
-<ul>
-<li>解压并编译安装Nagios：</li>
-</ul>
+<p>解压并编译安装Nagios：</p>
 <p><code># tar xvzf nagios-3.2.2.tar.gz</code></p>
 <p><code># cd nagios-3.2.2</code></p>
-<ul>
-<li>运行Nagios配置脚本并使用先前开设的用户及用户组：</li>
-</ul>
+<p>运行Nagios配置脚本并使用先前开设的用户及用户组：</p>
 <p><code># ./configure --prefix=/usr/local/nagios --with-command-group=nagcmd</code></p>
-<ul>
-<li>编译Nagios程序包源码：</li>
-</ul>
+<p>编译Nagios程序包源码：</p>
 <p><code># make all</code></p>
-<ul>
-<li>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</li>
-</ul>
+<p>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</p>
 <p><code># make install</code></p>
 <p><code># make install-init</code> //在/etc/rc.d/init.d安装启动脚本</p>
 <p><code># make install-config&amp;nbsp</code>//安装示例配置文件,安装的路径是<code>/usr/local/nagios/etc</code></p>
@@ -193,12 +173,8 @@
 <p><code># ls /usr/local/nagios/</code></p>
 <p><code># bin etc libexec sbin share var</code></p>
 <h1 id="三、对nagios进行配置:">三、对nagios进行配置:</h1>
-<ul>
-<li><p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
-</li>
-<li><p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
-</li>
-</ul>
+<p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
+<p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
 <p><code># vi /usr/local/nagios/etc/objects/contacts.cfg</code></p>
 <h2 id="1、安装nagios插件">1、安装nagios插件</h2>
 <p><code># cd ../</code></p>
@@ -206,26 +182,16 @@
 <p><code># cd nagios-plugins-1.4.16</code></p>
 <p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios</code>//指定安装目录及用户和组</p>
 <p><code># make;make install</code></p>
-<ul>
-<li>配置httpd`生成Nagios的Apache配置文件</li>
-</ul>
+<p>配置httpd`生成Nagios的Apache配置文件</p>
 <p><code># cd nagios-3.2.2</code></p>
 <p><code># make install-webconf</code></p>
 <p><code># /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/httpd/conf.d/nagios.conf</code></p>
 <p><code># cd sample-config</code></p>
-<ul>
-<li><p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
-</li>
-<li><p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
-</li>
-</ul>
+<p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
+<p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
 <p><code># ./htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</code></p>
-<ul>
-<li><p>密码：nagiosmonitor</p>
-</li>
-<li><p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
-</li>
-</ul>
+<p>密码：nagiosmonitor</p>
+<p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
 <p><code># cd ..</code></p>
 <p><code># tar zxvf nrpe-2.14.tar.gz</code></p>
 <p><code># cd nrpe-2.14</code></p>
@@ -233,48 +199,34 @@
 <p><code># make all</code></p>
 <p><code># make install-plugin;make install-daemon;make install-daemon-config</code></p>
 <p><code># ls /usr/local/nagios/libexec/</code></p>
-<p><code>check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
-<ul>
-<li>验证Nagios的样例配置文件</li>
-</ul>
+<p><code># check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
+<p>验证Nagios的样例配置文件</p>
 <p><code># /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg</code></p>
-<ul>
-<li><p>如果没有报错，可以启动Nagios服务</p>
-</li>
-<li><p>启动httpd及nagios服务并验证</p>
-</li>
-</ul>
+<p>如果没有报错，可以启动Nagios服务</p>
+<p>启动httpd及nagios服务并验证</p>
 <p><code># chkconfig --add nagios</code>//设置nagios及http开机自启动</p>
 <p><code># chkconfig nagios on</code></p>
 <p><code># chkconfig httpd on</code></p>
 <p><code># service nagios start</code></p>
 <p><code># service httpd start</code></p>
 <h2 id="2、客户端安装">2、客户端安装</h2>
-<p><code>#useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
-<ul>
-<li>安装nagios-plugins</li>
-</ul>
+<p><code># useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
+<p>安装nagios-plugins</p>
 <p><code># tar -zxvf nagios-plugins-1.4.15.tar.gz</code></p>
 <p><code># cd nagios-plugins-1.4.15</code></p>
 <p><code># ./configure --prefix=/usr/local/nagios</code></p>
 <p><code># make&lt;li&gt;# make install</code></p>
 <p><code># chown nagios.nagios /usr/local/nagios/</code></p>
 <p><code># chown -R nagios.nagios /usr/local/nagios/libexec/</code></p>
-<ul>
-<li>安装nrpe插件</li>
-</ul>
+<p>安装nrpe插件</p>
 <p><code># tar -zxvf nrpe-2.12.tar.gz</code></p>
 <p><code># cd nrpe-2.12</code></p>
 <p><code># ./configure --prefix=/usr/local/nagios/</code></p>
 <p><code># make all&lt;li&gt;# make install-plugin</code></p>
-<ul>
-<li>安装check_nrpe这个插件</li>
-</ul>
+<p>安装check_nrpe这个插件</p>
 <p><code># make install-daemon</code> 安装daemon</p>
 <p><code># make install-daemon-config</code>安装配置文件</p>
-<ul>
-<li>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</li>
-</ul>
+<p>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</p>
 <p><code># rpm -qa|grep openssl</code></p>
 <p><code># openssl-devel-0.9.8e-12.el5_4.6</code></p>
 <p><code># openssl-0.9.8e-12.el5_4.6</code></p>
@@ -284,34 +236,21 @@
 <p><code># ./config</code></p>
 <p><code># make;make test</code></p>
 <p><code># make install</code></p>
-<ul>
-<li>修改客户端配置文件</li>
-</ul>
+<p>修改客户端配置文件</p>
 <p><code># vi /usr/local/nagios/etc/nrpe.cfg</code></p>
 <p><code># server_port:5666</code></p>
 <p><code># allowed_hosts=127.0.0.1，192.168.1.95&amp;nbsp</code>//添加服务器端的IP地址</p>
-<ul>
-<li><p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
-</li>
-<li><p>然后修改nrpe.cfg中的command部分。</p>
-</li>
-<li><p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
-</li>
-</ul>
+<p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
+<p>然后修改nrpe.cfg中的command部分。</p>
+<p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
 <p><code># /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d</code></p>
-<ul>
-<li>可以将此命令加入/etc/rc.local，以便开机自动启动</li>
-</ul>
+<p>可以将此命令加入/etc/rc.local，以便开机自动启动</p>
 <p><code># echo &quot;/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d&quot; &gt;&gt; /etc/rc.local</code></p>
 <p><code># netstat -utpln |grep nrpe</code>//查看nrpe进程是否已正常启动</p>
 <p><code># /usr/local/nagios/libexec/check_nrpe -H 127.0.0.1 NRPE v2.14</code> //nrpe测试结果，此结果为nrpe已经正常工作了</p>
-<ul>
-<li>然后在nagios监控服务器上测试</li>
-</ul>
-<p><code>#/usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
-<ul>
-<li>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</li>
-</ul>
+<p>然后在nagios监控服务器上测试</p>
+<p><code># /usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
+<p>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</p>
 <h2 id="3、定义监控内容">3、定义监控内容</h2>
 <p><code># vi /usr/local/nagios/etc/nrpe.cfg</code>//定义监控服务器内容</p>
 <p><code># command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10</code>#监控登陆的用户数量</p>
@@ -320,9 +259,7 @@
 <p><code># command[check_swap]=/usr/local/nagios//libexec/check_swap -w 20 -c 10</code>#监控交换空间</p>
 <p><code># command[check_zombie_procs]=/usr/local/nagios/libexec/check_procs -w 5 -c 10 -s Z</code> #监控进程中的僵尸进程</p>
 <p><code># command[check_total_procs]=/usr/local/nagios/libexec/check_procs -w 150 -c 200</code>#监控所有进程</p>
-<ul>
-<li>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</li>
-</ul>
+<p>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。]]>
@@ -340,16 +277,16 @@
     <link href="http://www.prokitty.com/2015/02/09/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8/"/>
     <id>http://www.prokitty.com/2015/02/09/负载均衡与高可用/</id>
     <published>2015-02-09T15:50:14.000Z</published>
-    <updated>2015-02-10T04:33:26.000Z</updated>
+    <updated>2015-02-10T14:20:57.000Z</updated>
     <content type="html"><![CDATA[]]></content>
     <summary type="html">
-    <![CDATA[just do it !]]>
+    <![CDATA[负载均衡高可用！]]>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="负载均衡" scheme="http://www.prokitty.com/tags/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
     
-      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
+      <category term="运维" scheme="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -358,7 +295,7 @@
     <link href="http://www.prokitty.com/2015/02/08/vim%E4%B8%AD%E6%9D%83%E9%99%90%E4%B8%8D%E8%B6%B3%E6%97%B6%E4%B8%8D%E7%94%A8%E9%80%80%E5%87%BA%E8%80%8C%E5%BC%BA%E5%88%B6%E4%BF%9D%E5%AD%98/"/>
     <id>http://www.prokitty.com/2015/02/08/vim中权限不足时不用退出而强制保存/</id>
     <published>2015-02-08T08:27:00.000Z</published>
-    <updated>2015-02-10T04:34:13.000Z</updated>
+    <updated>2015-02-10T14:18:37.000Z</updated>
     <content type="html"><![CDATA[<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
 <p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
 <p>命令：</p>
@@ -367,13 +304,13 @@
 <p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[only for you ubuntu vim!]]>
+    <![CDATA[only for your Debian vim!]]>
     
     </summary>
     
-      <category term="vim" scheme="http://www.prokitty.com/tags/vim/"/>
+      <category term="Vim" scheme="http://www.prokitty.com/tags/Vim/"/>
     
-      <category term="工具" scheme="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
     
   </entry>
   
@@ -382,7 +319,7 @@
     <link href="http://www.prokitty.com/2015/02/07/Hexo%E5%85%8D%E8%B4%B9%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/"/>
     <id>http://www.prokitty.com/2015/02/07/Hexo免费静态博客安装和使用方法/</id>
     <published>2015-02-07T09:58:00.000Z</published>
-    <updated>2015-02-09T05:04:33.000Z</updated>
+    <updated>2015-02-10T14:15:38.000Z</updated>
     <content type="html"><![CDATA[<p>今天换了台电脑，就发现不会安装hexo主题了，意识决定写一篇博客，加深下印象。</p>
 <p>直接进入主题：</p>
 <h1 id="1-搭建环境：">1.搭建环境：</h1>
@@ -507,18 +444,28 @@ google_cse:
 
 
 <blockquote>
-<p>widgets: 提供了6种小工具。<br>rss: 请填写你博客的RSS地址。<br>imglogo: 建议启用图片logo，格式建议为.svg或.png格式。同时建议提供配套的favicon以及在苹果设备上的图标（背景不要透明）。</p>
+<p>widgets: 提供了6种小工具。<br>-rss: 请填写你博客的RSS地址。</p>
 </blockquote>
-<p>author_img_enable: 是否显示底部的作者头像。主题支持头像使用dataURI格式，若使用请修改dataURI的值为true并在下面的author_img_data后填上图片的值，确保它是一行而且被引号包住如果还是想用传统的jpg格式那么就把图片路径放在author_img后，同时把dataURI设置成false。<br>ShowCustomFont: 启用自定义字体，如果你有一定前端基础可以修改font.styl替换为你喜欢的字体。<br>toc: 是否启用在文章中或侧边栏中的目录功能。二者可以都为true或都为false。同时，如果你希望在特定的某一篇文章中关闭目录功能你可以在文章文件开头中的front-matter中加上一行toc: false。<br>fancybox: 默认关闭，如果你使用Hexo经常发表Gallery类型的文章，那么请设置为true（同时需要复制fancybox.js到你的博客目录下scripts文件夹中）。ps: 我很佩服用Hexo发表相册的文艺青年。<br>author: 作者信息，建议尽量填写完整。其中tsina是你的新浪微博ID，不同于用户名或微博主页地址。启用这个属性后，其他用户在微博上分享你文章的同时会自动@你。<br>duoshuo: 多说评论系统。在大陆地区更好用的评论系统，如果你想更换为disqus请参考默认主题后自行修改。<br>jiathis: 加网分享系统。默认关闭，因为主题已经内置了原生的分享功能。<br>google_analytics: Google Analytics追踪代码。请注意：*Google Analytics已经升级到了Universal Analytics。请先前往后台升级你的Google Analytics版本后再启用追踪代码 更多信息请点击这里了解。<br>google_cse: Google自定义搜索。如果开启自定义搜索需要先登录Google CSE，配置好你的站点，并获得此自定义搜索的ID。此外你需要在博客目录下的source文件夹中建立search文件夹并包含一个index.md文件。内容为：</p>
+<p>-imglogo: 建议启用图片logo，格式建议为.svg或.png格式。同时建议提供配套的favicon以及在苹果设备上的图标（背景不要透明）。</p>
+<p>-author_img_enable: 是否显示底部的作者头像。主题支持头像使用dataURI格式，若使用请修改dataURI的值为true并在下面的author_img_data后填上图片的值，确保它是一行而且被引号包住如果还是想用传统的jpg格式那么就把图片路径放在author_img后，同时把dataURI设置成false。</p>
+<p>-ShowCustomFont: 启用自定义字体，如果你有一定前端基础可以修改font.styl替换为你喜欢的字体。</p>
+<p>-toc: 是否启用在文章中或侧边栏中的目录功能。二者可以都为true或都为false。同时，如果你希望在特定的某一篇文章中关闭目录功能你可以在文章文件开头中的front-matter中加上一行toc: false。</p>
+<p>-fancybox: 默认关闭，如果你使用Hexo经常发表Gallery类型的文章，那么请设置为true（同时需要复制fancybox.js到你的博客目录下scripts文件夹中）。ps: 我很佩服用Hexo发表相册的文艺青年。</p>
+<p>-author: 作者信息，建议尽量填写完整。其中tsina是你的新浪微博ID，不同于用户名或微博主页地址。启用这个属性后，其他用户在微博上分享你文章的同时会自动@你。</p>
+<p>-duoshuo: 多说评论系统。在大陆地区更好用的评论系统，如果你想更换为disqus请参考默认主题后自行修改。</p>
+<p>-jiathis: 加网分享系统。默认关闭，因为主题已经内置了原生的分享功能。</p>
+<p>-google_analytics: Google Analytics追踪代码。请注意：*Google Analytics已经升级到了Universal Analytics。请先前往后台升级你的Google Analytics版本后再启用追踪代码 更多信息请点击这里了解。</p>
+<p>-google_cse: Google自定义搜索。如果开启自定义搜索需要先登录Google CSE，配置好你的站点，并获得此自定义搜索的ID。此外你需要在博客目录下的source文件夹中建立search文件夹并包含一个index.md文件。内容为：</p>
 <pre><code>
 layout: search
 title: search
 ---
 </code></pre>
-# 4.发表博文：
 
-- 用Hexo来发表新文章，执行：
-
+<h1 id="4-发表博文：">4.发表博文：</h1>
+<ul>
+<li>用Hexo来发表新文章，执行：</li>
+</ul>
 <pre><code>hexo new "my new post"</code></pre>
 
 <p>其中my new post为文章标题。</p>
@@ -535,9 +482,9 @@ title: search
     
     </summary>
     
-      <category term="博客主题" scheme="http://www.prokitty.com/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
+      <category term="Hexo" scheme="http://www.prokitty.com/tags/Hexo/"/>
     
-      <category term="hexo" scheme="http://www.prokitty.com/categories/hexo/"/>
+      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   
@@ -546,9 +493,8 @@ title: search
     <link href="http://www.prokitty.com/2015/02/07/%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE%E5%AF%B9%E6%97%B6/"/>
     <id>http://www.prokitty.com/2015/02/07/为树莓派对时/</id>
     <published>2015-02-07T09:00:00.000Z</published>
-    <updated>2015-02-09T05:05:41.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="方法一：">方法一：</h1>
-<h2 id="1-安装ntp，输入">1.安装ntp，输入</h2>
+    <updated>2015-02-10T14:10:59.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="1-安装ntp，输入">1.安装ntp，输入</h2>
 <pre><code>sudo apt-get install ntpdate</code></pre>
 
 <h2 id="2-修改时区，输入">2.修改时区，输入</h2>
@@ -561,8 +507,6 @@ title: search
 
 <p>注：cn.pool.ntp.org 是国家授时中心ntp服务器</p>
 <h2 id="5-输入“date”，看看时间是不是对上了">5.输入“date”，看看时间是不是对上了</h2>
-<h1 id="方法二：">方法二：</h1>
-<h2 id="_"> </h2>
 ]]></content>
     <summary type="html">
     <![CDATA[raspberrypi for you ,this is ntpdate network.]]>
@@ -580,7 +524,7 @@ title: search
     <link href="http://www.prokitty.com/2015/02/06/%E8%A6%81%E5%81%9Alinux%E8%BF%90%E7%BB%B4%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%9C%8B%E5%8F%8B%EF%BC%8C%E5%BF%85%E9%A1%BB%E8%A6%81%E6%8E%8C%E6%8F%A1%E4%BB%A5%E4%B8%8B%E5%87%A0%E4%B8%AA%E5%B7%A5%E5%85%B7/"/>
     <id>http://www.prokitty.com/2015/02/06/要做linux运维工程师的朋友，必须要掌握以下几个工具/</id>
     <published>2015-02-06T15:50:14.000Z</published>
-    <updated>2015-02-08T16:26:32.000Z</updated>
+    <updated>2015-02-10T14:21:48.000Z</updated>
     <content type="html"><![CDATA[<p>本人是linux运维工程师，对这方面有点心得，现在我说说要掌握哪方面的工具吧<br>说到工具，在行外可以说是技能，在行内我们一般称为工具，就是运维必须要掌握的工具。<br>我就大概列出这几方面，这样入门就基本没问题了。<br>linux系统如果是学习可以选用redhat或centos，特别是centos在企业中用得最多，当然还会有其它版本的，但学习者还是以这2个版本学习就行，因为这两个版本都是兄弟，没区别的，有空可以再研究一下SUSE，有些公司也喜欢用，例如我公司 。。。。。<br>工具如下：</p>
 <ul>
 <li>1、linux系统基础，这个不用说了，是基础中的基础，连这个都不会就别干了，参考书籍，可以看鸟哥linux基础篇，至少要掌握这书60%内容，没必须全部掌握，但基本命令总得会吧</li>
@@ -630,7 +574,7 @@ title: search
     <link href="http://www.prokitty.com/2015/02/06/vim%E4%B8%AD%E7%B2%98%E8%B4%B4%E6%95%B0%E6%8D%AE%E7%9A%84%E6%97%B6%E5%80%99%E5%A6%82%E4%BD%95%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E7%BC%A9%E8%BF%9B/"/>
     <id>http://www.prokitty.com/2015/02/06/vim中粘贴数据的时候如何取消自动缩进/</id>
     <published>2015-02-06T15:50:14.000Z</published>
-    <updated>2015-02-06T17:13:22.000Z</updated>
+    <updated>2015-02-10T14:14:05.000Z</updated>
     <content type="html"><![CDATA[<p>vim中在粘贴剪贴板中的数据时会自动增加缩进，这对python这种对缩进要求严格的语言来说简直是恶梦。如何让它不缩进,保持原格式呢？答案就是paste模式。</p>
 <p>在粘贴数据之前，输入下面指定开启paste模式：</p>
 <pre><code>:set paste</code></pre>
@@ -650,7 +594,7 @@ set pastetoggle=F3 </code></pre>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="Vim" scheme="http://www.prokitty.com/tags/Vim/"/>
     
       <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
     
@@ -661,7 +605,7 @@ set pastetoggle=F3 </code></pre>
     <link href="http://www.prokitty.com/2015/02/06/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87%EF%BC%88%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%89/"/>
     <id>http://www.prokitty.com/2015/02/06/双机热备（高可用）/</id>
     <published>2015-02-06T13:50:14.000Z</published>
-    <updated>2015-02-06T17:16:26.000Z</updated>
+    <updated>2015-02-10T14:26:02.000Z</updated>
     <content type="html"><![CDATA[<p>双机热备特指基于高可用系统中的两台服务器的热备（或高可用），因两机高可用在国内使用较多，故得名双机热备，双机高可用按工作中的切换方式分为：主-备方式（Active-Standby方式）和双主机方式（Active-Active方式），主-备方式即指的是一台服务器处于某种业务的激活状态（即Active状态），另一台服务器处于该业务的备用状态（即Standby状态)。而双主机方式即指两种不同业务分别在两台服务器上互为主备状态（即Active-Standby和Standby-Active状态）。简单理解就是，有两台机器A和B，正常是A提供服务，B待命闲置，当A宕机或服务宕掉，会切换至B机器继续提供服务。下面我们使用heartbeat来做HA集群，并且把nginx服务作为HA对应的服务。</p>
 <h1 id="试验准备：">试验准备：</h1>
 <p>两个机器, 都是centos6.5，网卡eth1 ip如下：<br>chen   192.168.36.128<br>root  192.168.36.132</p>
@@ -736,7 +680,9 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="双机热备" scheme="http://www.prokitty.com/tags/%E5%8F%8C%E6%9C%BA%E7%83%AD%E5%A4%87/"/>
+    
+      <category term="高可用" scheme="http://www.prokitty.com/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/"/>
     
       <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
     
@@ -747,11 +693,11 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/06/%E5%AE%89%E8%A3%85WordPress/"/>
     <id>http://www.prokitty.com/2015/02/06/安装WordPress/</id>
     <published>2015-02-05T17:50:14.000Z</published>
-    <updated>2015-02-09T05:08:04.000Z</updated>
+    <updated>2015-02-10T14:18:04.000Z</updated>
     <content type="html"><![CDATA[<p>WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。</p>
 <h1 id="准备工作">准备工作</h1>
 <ul>
-<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/" target="_blank" rel="external">http://cn.wordpress.org/</a><br>(目前最新版下载链接 <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
+<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/(目前最新版下载链接" target="_blank" rel="external">http://cn.wordpress.org/(目前最新版下载链接</a> <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
 </ul>
 <pre><code>wget http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip
 </code></pre>
@@ -772,19 +718,18 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 </li>
 <li><p>3.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
 </li>
-</ul>
-<ul>
-<li>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</li>
+<li><p>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</p>
+</li>
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[just do it !]]>
+    <![CDATA[WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。]]>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="WordPress" scheme="http://www.prokitty.com/tags/WordPress/"/>
     
-      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
+      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   
@@ -793,7 +738,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/05/VimTips/"/>
     <id>http://www.prokitty.com/2015/02/05/VimTips/</id>
     <published>2015-02-05T14:16:22.000Z</published>
-    <updated>2015-02-06T16:58:44.000Z</updated>
+    <updated>2015-02-10T14:13:18.000Z</updated>
     <content type="html"><![CDATA[<h1 id="模式">模式</h1>
 <p>一般模式（Nomal mode）：按Esc或Ctrl+[进入。左下角显示文件名或为空。可以移动光标、删除、选择、复制和粘贴。</p>
 <p>编辑模式（Edit mode）：输入“i, I, a, A, o, O, r, R”即进入编辑模式。当进入编辑模式时，会在屏幕的最下一行出现“INSERT”或“REPLACE”的字样。其中，输入“i, I, a, A, o, O”进入的是插入模式；输入“r, R”那是替换模式，即替换光标所在的字符。从编辑模式回到一般模式只需要按一下键盘左上方的“ESC”键即可。</p>
@@ -1125,7 +1070,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="Vim" scheme="http://www.prokitty.com/tags/Vim/"/>
     
       <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
     
@@ -1509,7 +1454,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/"/>
     <id>http://www.prokitty.com/2015/02/05/hexo博客汇总/</id>
     <published>2015-02-04T17:36:00.000Z</published>
-    <updated>2015-02-06T16:58:45.000Z</updated>
+    <updated>2015-02-10T14:17:05.000Z</updated>
     <content type="html"><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
 <ul>
 <li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
@@ -1533,13 +1478,13 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[smell it]]>
+    <![CDATA[hexo themes！]]>
     
     </summary>
     
-      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+      <category term="Hexo" scheme="http://www.prokitty.com/tags/Hexo/"/>
     
-      <category term="工具" scheme="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
+      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   
@@ -1548,7 +1493,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/04/%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%AF%97%E5%93%81/"/>
     <id>http://www.prokitty.com/2015/02/04/二十四诗品/</id>
     <published>2015-02-03T16:00:00.000Z</published>
-    <updated>2015-02-03T16:51:37.000Z</updated>
+    <updated>2015-02-10T14:19:00.000Z</updated>
     <content type="html"><![CDATA[<h2 id="雄浑">雄浑</h2>
 <p><strong>大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。</strong></p>
 <h2 id="冲淡">冲淡</h2>
@@ -1599,7 +1544,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 <p><strong>若纳水輨，如转丸珠。夫岂可道，假体如愚。荒荒坤轴，悠悠天枢。载要其端，载同其符。超超神明，返返冥无。来往千载，是之谓乎。</strong></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[smell it]]>
+    <![CDATA[大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。]]>
     
     </summary>
     
@@ -1614,7 +1559,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/03/%E7%BA%AA%E5%BF%B5%E9%82%A3%E4%BA%9B%E8%87%AA%E5%B7%B1%E5%96%9C%E7%88%B1%E7%9A%84windows%E8%BD%AF%E4%BB%B6/"/>
     <id>http://www.prokitty.com/2015/02/03/纪念那些自己喜爱的windows软件/</id>
     <published>2015-02-02T16:00:00.000Z</published>
-    <updated>2015-02-04T03:32:52.000Z</updated>
+    <updated>2015-02-10T14:20:20.000Z</updated>
     <content type="html"><![CDATA[<p>作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。<br>我的笔记本：联想的K29，2013年入手，有五年的windows使用经历，前一部笔记本是东芝L600。<br>我的桌面<br><img src="http://i2.tietuku.com/fbb9fe6a71969749.jpg" alt=""></p>
 <p>很多图标都经过修改。</p>
 <h2 id="聊天软件：">聊天软件：</h2>
@@ -1727,11 +1672,11 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 <p>完结。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[smell it]]>
+    <![CDATA[作为一个普通的消费者来说，很有可能在不久的未来入手MAC，所以把自己在windows上喜欢用的习惯用的软件都做一个记录，留作纪念。]]>
     
     </summary>
     
-      <category term="windows" scheme="http://www.prokitty.com/tags/windows/"/>
+      <category term="Windows" scheme="http://www.prokitty.com/tags/Windows/"/>
     
       <category term="工具" scheme="http://www.prokitty.com/categories/%E5%B7%A5%E5%85%B7/"/>
     
@@ -1742,7 +1687,7 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
     <link href="http://www.prokitty.com/2015/02/02/%E7%8C%AE%E7%BB%99markdown%E5%88%9D%E5%AD%A6%E8%80%85/"/>
     <id>http://www.prokitty.com/2015/02/02/献给markdown初学者/</id>
     <published>2015-02-01T16:00:00.000Z</published>
-    <updated>2015-02-04T17:57:18.000Z</updated>
+    <updated>2015-02-10T14:16:48.000Z</updated>
     <content type="html"><![CDATA[<ol>
 <li>我的博客网站，欢迎来访！<br><a href="http://www.prokitty.com" target="_blank" rel="external">侏罗纪的人类</a></li>
 <li>欣赏一下吧！<br><img src="http://f6.topit.me/6/da/6d/1146133300a296dda6l.jpg" alt=""><br><img src="http://i10.topit.me/l154/1015492930eda4e718.jpg" alt=""></li>
@@ -1757,13 +1702,13 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[smell it]]>
+    <![CDATA[我的博客网站，欢迎来访]]>
     
     </summary>
     
       <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
     
-      <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+      <category term="主题" scheme="http://www.prokitty.com/categories/%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   
@@ -1800,6 +1745,26 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
       <category term="Believe" scheme="http://www.prokitty.com/tags/Believe/"/>
     
       <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hexo博客模板]]></title>
+    <link href="http://www.prokitty.com/2015/02/01/0%E6%A8%A1%E6%9D%BF/"/>
+    <id>http://www.prokitty.com/2015/02/01/0模板/</id>
+    <published>2015-01-31T16:00:00.000Z</published>
+    <updated>2015-02-10T14:33:06.000Z</updated>
+    <content type="html"><![CDATA[<p>title: hexo博客模板<br>date: 2015-02-01 0:0:00<br>categories: 博客主题<br>tags:<br>-[Hexo]<br>-[博客模板]</p>
+<h2 id="description:_hexo_themes！">description: hexo themes！</h2>
+]]></content>
+    <summary type="html">
+    <![CDATA[hexo themes！]]>
+    
+    </summary>
+    
+      <category term="Hexo，博客模板，..." scheme="http://www.prokitty.com/tags/Hexo%EF%BC%8C%E5%8D%9A%E5%AE%A2%E6%A8%A1%E6%9D%BF%EF%BC%8C/"/>
+    
+      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   

@@ -83,7 +83,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-02-10T04:57:00.000Z" itemprop="datePublished">2015-02-10</time>
-    更新日期:<time datetime="2015-02-10T13:51:57.000Z" itemprop="dateModified">2015-02-10</time>
+    更新日期:<time datetime="2015-02-10T14:03:26.000Z" itemprop="dateModified">2015-02-10</time>
     
   </p>
 </header>
@@ -106,8 +106,9 @@
 </li>
 <li><p>可并发处理监视服务</p>
 </li>
-<li><p>相关安装包：</p>
-</li>
+</ul>
+<p>相关安装包：</p>
+<ul>
 <li><p>Nagios core</p>
 </li>
 <li><p>Nagios plugins </p>
@@ -116,56 +117,35 @@
 </li>
 </ul>
 <h1 id="二、服务器端：">二、服务器端：</h1>
-<ul>
-<li>查看安装服务器环境（LAMP）</li>
-</ul>
+<p>查看安装服务器环境（LAMP）</p>
 <p><code># rpm -qa | grep httpd</code></p>
 <p><code># rpm -qa | grep php</code></p>
-<ul>
-<li>没有的话安装</li>
-</ul>
+<p>没有的话安装</p>
 <p><code># yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</code></p>
-<ul>
-<li>创建用户：</li>
-</ul>
+<p>创建用户：</p>
 <p><code># useradd -m -s /bin/bash nagios</code></p>
 <p><code># groupadd nagios</code></p>
 <p><code># usermod -G nagios nagios</code></p>
 <p><code># vi /etc/passwd</code></p>
-<p><code>nagios:x:500:500::/home/nagios:/sbin/nologin</code></p>
-<p>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
-<ul>
-<li><p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
-</li>
-<li><p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
-</li>
-</ul>
+<p>将其中的<code>nagios:x:500:500::/home/nagios:/sbin/nologin</code>改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></p>
+<p>创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</p>
+<p>因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</p>
 <p><code># /usr/sbin/groupadd nagcmd</code></p>
 <p><code># /usr/sbin/usermod -G nagcmd nagios</code></p>
 <p><code># /usr/sbin/usermod -a -G nagcmd daemon</code>(因为是编译方式安装的apache，默认是以daemon用户运行)</p>
-<ul>
-<li>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
-</ul>
+<p>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</p>
 <p><code>[root@server ~]#cd /usr/local/src/tarbag/</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</code></p>
 <p><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</code></p>
-<ul>
-<li>解压并编译安装Nagios：</li>
-</ul>
+<p>解压并编译安装Nagios：</p>
 <p><code># tar xvzf nagios-3.2.2.tar.gz</code></p>
 <p><code># cd nagios-3.2.2</code></p>
-<ul>
-<li>运行Nagios配置脚本并使用先前开设的用户及用户组：</li>
-</ul>
+<p>运行Nagios配置脚本并使用先前开设的用户及用户组：</p>
 <p><code># ./configure --prefix=/usr/local/nagios --with-command-group=nagcmd</code></p>
-<ul>
-<li>编译Nagios程序包源码：</li>
-</ul>
+<p>编译Nagios程序包源码：</p>
 <p><code># make all</code></p>
-<ul>
-<li>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</li>
-</ul>
+<p>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</p>
 <p><code># make install</code></p>
 <p><code># make install-init</code> //在/etc/rc.d/init.d安装启动脚本</p>
 <p><code># make install-config&amp;nbsp</code>//安装示例配置文件,安装的路径是<code>/usr/local/nagios/etc</code></p>
@@ -173,12 +153,8 @@
 <p><code># ls /usr/local/nagios/</code></p>
 <p><code># bin etc libexec sbin share var</code></p>
 <h1 id="三、对nagios进行配置:">三、对nagios进行配置:</h1>
-<ul>
-<li><p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
-</li>
-<li><p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
-</li>
-</ul>
+<p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
+<p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
 <p><code># vi /usr/local/nagios/etc/objects/contacts.cfg</code></p>
 <h2 id="1、安装nagios插件">1、安装nagios插件</h2>
 <p><code># cd ../</code></p>
@@ -186,26 +162,16 @@
 <p><code># cd nagios-plugins-1.4.16</code></p>
 <p><code># ./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios</code>//指定安装目录及用户和组</p>
 <p><code># make;make install</code></p>
-<ul>
-<li>配置httpd`生成Nagios的Apache配置文件</li>
-</ul>
+<p>配置httpd`生成Nagios的Apache配置文件</p>
 <p><code># cd nagios-3.2.2</code></p>
 <p><code># make install-webconf</code></p>
 <p><code># /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/httpd/conf.d/nagios.conf</code></p>
 <p><code># cd sample-config</code></p>
-<ul>
-<li><p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
-</li>
-<li><p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
-</li>
-</ul>
+<p>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中</p>
+<p>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。</p>
 <p><code># ./htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</code></p>
-<ul>
-<li><p>密码：nagiosmonitor</p>
-</li>
-<li><p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
-</li>
-</ul>
+<p>密码：nagiosmonitor</p>
+<p>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。</p>
 <p><code># cd ..</code></p>
 <p><code># tar zxvf nrpe-2.14.tar.gz</code></p>
 <p><code># cd nrpe-2.14</code></p>
@@ -213,48 +179,34 @@
 <p><code># make all</code></p>
 <p><code># make install-plugin;make install-daemon;make install-daemon-config</code></p>
 <p><code># ls /usr/local/nagios/libexec/</code></p>
-<p><code>check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
-<ul>
-<li>验证Nagios的样例配置文件</li>
-</ul>
+<p><code># check_apt check_ftp check_mailq check_overcr check_tcp　.......</code></p>
+<p>验证Nagios的样例配置文件</p>
 <p><code># /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg</code></p>
-<ul>
-<li><p>如果没有报错，可以启动Nagios服务</p>
-</li>
-<li><p>启动httpd及nagios服务并验证</p>
-</li>
-</ul>
+<p>如果没有报错，可以启动Nagios服务</p>
+<p>启动httpd及nagios服务并验证</p>
 <p><code># chkconfig --add nagios</code>//设置nagios及http开机自启动</p>
 <p><code># chkconfig nagios on</code></p>
 <p><code># chkconfig httpd on</code></p>
 <p><code># service nagios start</code></p>
 <p><code># service httpd start</code></p>
 <h2 id="2、客户端安装">2、客户端安装</h2>
-<p><code>#useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
-<ul>
-<li>安装nagios-plugins</li>
-</ul>
+<p><code># useradd -s /sbin/nologin nagios</code> //添加nagios用户</p>
+<p>安装nagios-plugins</p>
 <p><code># tar -zxvf nagios-plugins-1.4.15.tar.gz</code></p>
 <p><code># cd nagios-plugins-1.4.15</code></p>
 <p><code># ./configure --prefix=/usr/local/nagios</code></p>
 <p><code># make&lt;li&gt;# make install</code></p>
 <p><code># chown nagios.nagios /usr/local/nagios/</code></p>
 <p><code># chown -R nagios.nagios /usr/local/nagios/libexec/</code></p>
-<ul>
-<li>安装nrpe插件</li>
-</ul>
+<p>安装nrpe插件</p>
 <p><code># tar -zxvf nrpe-2.12.tar.gz</code></p>
 <p><code># cd nrpe-2.12</code></p>
 <p><code># ./configure --prefix=/usr/local/nagios/</code></p>
 <p><code># make all&lt;li&gt;# make install-plugin</code></p>
-<ul>
-<li>安装check_nrpe这个插件</li>
-</ul>
+<p>安装check_nrpe这个插件</p>
 <p><code># make install-daemon</code> 安装daemon</p>
 <p><code># make install-daemon-config</code>安装配置文件</p>
-<ul>
-<li>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</li>
-</ul>
+<p>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers</p>
 <p><code># rpm -qa|grep openssl</code></p>
 <p><code># openssl-devel-0.9.8e-12.el5_4.6</code></p>
 <p><code># openssl-0.9.8e-12.el5_4.6</code></p>
@@ -264,34 +216,21 @@
 <p><code># ./config</code></p>
 <p><code># make;make test</code></p>
 <p><code># make install</code></p>
-<ul>
-<li>修改客户端配置文件</li>
-</ul>
+<p>修改客户端配置文件</p>
 <p><code># vi /usr/local/nagios/etc/nrpe.cfg</code></p>
 <p><code># server_port:5666</code></p>
 <p><code># allowed_hosts=127.0.0.1，192.168.1.95&amp;nbsp</code>//添加服务器端的IP地址</p>
-<ul>
-<li><p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
-</li>
-<li><p>然后修改nrpe.cfg中的command部分。</p>
-</li>
-<li><p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
-</li>
-</ul>
+<p>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。</p>
+<p>然后修改nrpe.cfg中的command部分。</p>
+<p>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）</p>
 <p><code># /usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d</code></p>
-<ul>
-<li>可以将此命令加入/etc/rc.local，以便开机自动启动</li>
-</ul>
+<p>可以将此命令加入/etc/rc.local，以便开机自动启动</p>
 <p><code># echo &quot;/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d&quot; &gt;&gt; /etc/rc.local</code></p>
 <p><code># netstat -utpln |grep nrpe</code>//查看nrpe进程是否已正常启动</p>
 <p><code># /usr/local/nagios/libexec/check_nrpe -H 127.0.0.1 NRPE v2.14</code> //nrpe测试结果，此结果为nrpe已经正常工作了</p>
-<ul>
-<li>然后在nagios监控服务器上测试</li>
-</ul>
-<p><code>#/usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
-<ul>
-<li>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</li>
-</ul>
+<p>然后在nagios监控服务器上测试</p>
+<p><code># /usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip</p>
+<p>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</p>
 <h2 id="3、定义监控内容">3、定义监控内容</h2>
 <p><code># vi /usr/local/nagios/etc/nrpe.cfg</code>//定义监控服务器内容</p>
 <p><code># command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10</code>#监控登陆的用户数量</p>
@@ -300,9 +239,7 @@
 <p><code># command[check_swap]=/usr/local/nagios//libexec/check_swap -w 20 -c 10</code>#监控交换空间</p>
 <p><code># command[check_zombie_procs]=/usr/local/nagios/libexec/check_procs -w 5 -c 10 -s Z</code> #监控进程中的僵尸进程</p>
 <p><code># command[check_total_procs]=/usr/local/nagios/libexec/check_procs -w 150 -c 200</code>#监控所有进程</p>
-<ul>
-<li>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</li>
-</ul>
+<p>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -390,17 +327,19 @@
 	<p class="asidetitle">分类</p>
 		<ul>
 		
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>6</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>5</sup></a></li>
 		
-			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+			<li><a href="/categories/主题/" title="主题">主题<sup>1</sup></a></li>
 		
-			<li><a href="/categories/工具/" title="工具">工具<sup>3</sup></a></li>
+			<li><a href="/categories/博客主题/" title="博客主题">博客主题<sup>4</sup></a></li>
 		
-			<li><a href="/categories/杂记/" title="杂记">杂记<sup>3</sup></a></li>
+			<li><a href="/categories/工具/" title="工具">工具<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂记/" title="杂记">杂记<sup>2</sup></a></li>
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>3</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>4</sup></a></li>
 		
 		</ul>
 </div>
@@ -415,19 +354,27 @@
 		
 			<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 		
-			<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+			<li><a href="/tags/Hexo/" title="Hexo">Hexo<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Hexo，博客模板，/" title="Hexo，博客模板，...">Hexo，博客模板，...<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
 		
 			<li><a href="/tags/Nagios/" title="Nagios">Nagios<sup>1</sup></a></li>
 		
-			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
+			<li><a href="/tags/Vim/" title="Vim">Vim<sup>3</sup></a></li>
 		
-			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
+			<li><a href="/tags/Windows/" title="Windows">Windows<sup>1</sup></a></li>
 		
-			<li><a href="/tags/windows/" title="windows">windows<sup>1</sup></a></li>
+			<li><a href="/tags/WordPress/" title="WordPress">WordPress<sup>1</sup></a></li>
 		
-			<li><a href="/tags/博客主题/" title="博客主题">博客主题<sup>1</sup></a></li>
+			<li><a href="/tags/双机热备/" title="双机热备">双机热备<sup>1</sup></a></li>
 		
 			<li><a href="/tags/诗词/" title="诗词">诗词<sup>1</sup></a></li>
+		
+			<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+		
+			<li><a href="/tags/高可用/" title="高可用">高可用<sup>1</sup></a></li>
 		
 		</ul>
 </div>
