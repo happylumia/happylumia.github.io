@@ -9,7 +9,7 @@
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。">
+    <meta name="description" itemprop="description" content="Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。">
     
     
     
@@ -17,7 +17,7 @@
     <meta name="twitter:site" content="redjiang" />
     <meta name="twitter:title" content="Nagios监控服务配置 | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。" />
+        <meta name="twitter:description" content="Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。" />
       
     
     
@@ -83,7 +83,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-02-10T04:57:00.000Z" itemprop="datePublished">2015-02-10</time>
-    更新日期:<time datetime="2015-02-10T05:24:17.000Z" itemprop="dateModified">2015-02-10</time>
+    更新日期:<time datetime="2015-02-10T13:29:18.000Z" itemprop="dateModified">2015-02-10</time>
     
   </p>
 </header>
@@ -92,10 +92,10 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tar_xvzf_nagios-3-2-2-tar-gz"><span class="toc-number">3.</span> <span class="toc-text">tar xvzf nagios-3.2.2.tar.gz</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_nagios-3-2-2"><span class="toc-number">4.</span> <span class="toc-text">cd nagios-3.2.2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd"><span class="toc-number">5.</span> <span class="toc-text">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make_all"><span class="toc-number">6.</span> <span class="toc-text">make all</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、对nagios进行配置:"><span class="toc-number">3.</span> <span class="toc-text">三、对nagios进行配置:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、安装nagios插件"><span class="toc-number">3.1.</span> <span class="toc-text">1、安装nagios插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、客户端安装"><span class="toc-number">3.2.</span> <span class="toc-text">2、客户端安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、定义监控内容"><span class="toc-number">3.3.</span> <span class="toc-text">3、定义监控内容</span></a></li></ol></li></ol>
 		</div>
 		
-		<p>Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
+		<p>Nagios是一个监控运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
 <h1 id="一、Nagios特点：">一、Nagios特点：</h1>
 <ul>
 <li>网络监视服务（SMTP,POP3,HTTP,NNTP,PING）</li>
@@ -112,44 +112,53 @@
 <h1 id="二、服务器端：">二、服务器端：</h1>
 <ul>
 <li>1.查看安装服务器环境（LAMP）</li>
-<li>2.#rpm -qa | grep httpd</li>
-<li>3.#rpm -qa | grep php </li>
+<li>2.<code>#rpm -qa | grep httpd</code></li>
+<li>3.<code>#rpm -qa | grep php</code></li>
 <li>4.没有的话安装</li>
-<li>5.# yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</li>
+<li>5.<code># yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</code></li>
 <li>6.创建用户：</li>
-<li>7.# useradd -m -s /bin/bash nagios</li>
-<li>8.# groupadd nagios</li>
-<li>9.# usermod -G nagios nagios</li>
-<li>10.# vi /etc/passwd</li>
-<li>11.nagios:x:500:500::/home/nagios:/sbin/nologin</li>
-<li>12.改成：nagios:x:500:500::/home/nagios:/bin/bash</li>
+<li>7.<code># useradd -m -s /bin/bash nagios</code></li>
+<li>8.<code># groupadd nagios</code></li>
+<li>9.<code># usermod -G nagios nagios</code></li>
+<li>10.<code># vi /etc/passwd</code></li>
+<li>11.<code>nagios:x:500:500::/home/nagios:/sbin/nologin</code></li>
+<li>12.改成：<code>nagios:x:500:500::/home/nagios:/bin/bash</code></li>
 <li>13.创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</li>
 <li>14.因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</li>
-<li>15.# /usr/sbin/groupadd nagcmd</li>
-<li>16.# /usr/sbin/usermod -G nagcmd nagios</li>
-<li>17.# /usr/sbin/usermod -a -G nagcmd daemon (因为是编译方式安装的apache，默认是以daemon用户运行)<br>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
-<li>1.[root@server ~]#cd /usr/local/src/tarbag/</li>
-<li>2.[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</a><br>[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</a><br>[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</a><br>解压并编译安装Nagios：</li>
-<li><h1 id="tar_xvzf_nagios-3-2-2-tar-gz">tar xvzf nagios-3.2.2.tar.gz</h1>
-<h1 id="cd_nagios-3-2-2">cd nagios-3.2.2</h1>
-</li>
+<li>15.<code># /usr/sbin/groupadd nagcmd</code></li>
+<li>16.<code># /usr/sbin/usermod -G nagcmd nagios</code></li>
+<li>17.<code># /usr/sbin/usermod -a -G nagcmd daemon</code>(因为是编译方式安装的apache，默认是以daemon用户运行)<br>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
+<li>1.<code>[root@server ~]#cd /usr/local/src/tarbag/</code></li>
+<li>2.<code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</code></li>
+<li><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</code></li>
+<li><code>[root@server tarbag]#wget http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</code><br>解压并编译安装Nagios：</li>
+<li><code># tar xvzf nagios-3.2.2.tar.gz</code></li>
+<li><code># cd nagios-3.2.2</code></li>
 </ul>
 <p>运行Nagios配置脚本并使用先前开设的用户及用户组：</p>
 <ul>
-<li><h1 id="-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</h1>
-</li>
+<li><code># ./configure --prefix=/usr/local/nagios --with-command-group=nagcmd</code></li>
 </ul>
 <p>编译Nagios程序包源码：</p>
 <ul>
-<li><h1 id="make_all">make all</h1>
-安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：<br></li>
-<li>1.# make install</li>
-<li>2.# make install-init  //在/etc/rc.d/init.d安装启动脚本</li>
-<li>3.# make install-config&amp;nbsp //安装示例配置文件,安装的路径是/usr/local/nagios/etc</li>
-<li>4.# make install-commandmode&amp;nbsp //配置目录权限</li>
-<li>5.#ls /usr/local/nagios/</li>
-<li>6.bin etc libexec sbin share var</li>
+<li><code># make all</code><br>安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：</li>
+<li>1.<code># make install</code></li>
+<li>2.<code># make install-init</code> //在/etc/rc.d/init.d安装启动脚本</li>
+<li>3.<code># make install-config&amp;nbsp</code>//安装示例配置文件,安装的路径是<code>/usr/local/nagios/etc</code></li>
+<li>4.<code># make install-commandmode&amp;nbsp</code>//配置目录权限</li>
+<li>5.<code>#ls /usr/local/nagios/</code></li>
+<li>6.<code>bin etc libexec sbin share var</code></li>
 </ul>
+<h1 id="三、对nagios进行配置:">三、对nagios进行配置:</h1>
+<p>样例配置文件默认安装在这个目录下<code>/usr/local/nagios/etc</code>，这些样例文件可以配置Nagios使之正常运行，只需要做一个简单的修改…</p>
+<p>用你擅长的编辑器软件来编辑这个<code>/usr/local/nagios/etc/objects/contacts.cfg</code>配置文件，更改email地址nagiosadmin的联系人定义信息中的EMail信息为你的EMail信息以接收报警内容。</p>
+<p><code>vi /usr/local/nagios/etc/objects/contacts.cfg</code></p>
+<h2 id="1、安装nagios插件">1、安装nagios插件</h2>
+<p><code>#cd ../</code><br><code>#tar zxvf nagios-plugins-1.4.16.tar.gz</code><br><code>#cd nagios-plugins-1.4.16</code><br><code>#./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios</code>//指定安装目录及用户和组<br><code>#make;make install</code><br><code>配置httpd</code>生成Nagios的Apache配置文件<br><code># cd nagios-3.2.2</code><br><code># make install-webconf</code><br><code>/usr/bin/install -c -m 644 sample-config/httpd.conf /etc/httpd/conf.d/nagios.conf</code><br><code># cd sample-config</code><br>参考sample-config/httpd.conf配置内容添加到Apache的httpd.conf配置文件中<br>创建一个nagiosadmin的用户用于Nagios的Apache接口登录。记下你所设置的登录口令，一会儿你会用到它。<br><code># ./htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin</code><br>密码：nagiosmonitor<br>重启Apache服务以使设置生效。安装NRPE插件，想获取客户机上更为详细的信息，还必须在服务器及客户端上安装NRPE插件。<br><code>#cd ..</code><br><code>#tar zxvf nrpe-2.14.tar.gz</code><br><code>#cd nrpe-2.14</code><br><code>#./configure --with-nagios-user=nagios --with-nagios-group=nagios --prefix=/usr/local/nagios/</code><br><code># make all</code><br><code># make install-plugin;make install-daemon;make install-daemon-config</code><br><code># ls /usr/local/nagios/libexec/</code><br><code>check_apt check_ftp check_mailq check_overcr check_tcp　.......</code><br>验证Nagios的样例配置文件<br><code># /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg</code><br>如果没有报错，可以启动Nagios服务<br>启动httpd及nagios服务并验证<br><code>#chkconfig --add nagios</code>//设置nagios及http开机自启动<br><code>#chkconfig nagios on</code><br><code>#chkconfig httpd on</code><br><code>#service nagios start</code><br><code>#service httpd start</code></p>
+<h2 id="2、客户端安装">2、客户端安装</h2>
+<p><code>#useradd -s /sbin/nologin nagios</code> //添加nagios用户<br>安装nagios-plugins<br><code># tar -zxvf nagios-plugins-1.4.15.tar.gz</code><br><code># cd nagios-plugins-1.4.15</code><br><code># ./configure --prefix=/usr/local/nagios</code><br><code># make&lt;li&gt;# make install</code><br><code># chown nagios.nagios /usr/local/nagios/</code><br><code># chown -R nagios.nagios /usr/local/nagios/libexec/</code><br>安装nrpe插件<br><code># tar -zxvf nrpe-2.12.tar.gz</code><br><code># cd nrpe-2.12</code><br><code># ./configure --prefix=/usr/local/nagios/</code><br><code># make all&lt;li&gt;# make install-plugin</code><br>安装check_nrpe这个插件<br><code># make install-daemon</code> 安装daemon<br><code># make install-daemon-config</code>安装配置文件<br>如果安装时报错：checking for SSL headers… configure: error: Cannot find ssl headers<br><code># rpm -qa|grep openssl</code><br><code>openssl-devel-0.9.8e-12.el5_4.6</code><br><code>openssl-0.9.8e-12.el5_4.6</code><br><code>yum install openssl-devel</code><br>或者下载：<a href="http://www.openssl.org/source/" target="_blank">http://www.openssl.org/source/</a><br><code># tar zxvf openssl-1.0.0a.tar.gz</code><br><code># cd openssl-1.0.0a</code><br><code># ./config</code><br><code># make;make test</code><br><code># make install</code><br>修改客户端配置文件<br><code># vi /usr/local/nagios/etc/nrpe.cfg</code><br><code># server_port:5666</code><br><code># allowed_hosts=127.0.0.1，192.168.1.95&amp;nbsp</code>//添加服务器端的IP地址<br>指定nagios监控主机ip,多个ip用逗号分隔，后面的IP地址，是nagios服务端的ip地址，也就是说只允许指定的ip通过nrpe开的端口5666取得本机的信息。<br>然后修改nrpe.cfg中的command部分。<br>启动NRPE守护进程：（可以将此命令加入/etc/rc.local，以便开机自动启动）<br><code>#/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d</code><br>可以将此命令加入/etc/rc.local，以便开机自动启动<br><code>echo &quot;/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d&quot; &gt;&gt; /etc/rc.local</code><br><code>#netstat -utpln |grep nrpe</code>//查看nrpe进程是否已正常启动<br><code>#/usr/local/nagios/libexec/check_nrpe -H 127.0.0.1 NRPE v2.14</code> //nrpe测试结果，此结果为nrpe已经正常工作了<br>然后在nagios监控服务器上测试<br><code>#/usr/local/nagios/libexec/check_nrpe -H 192.168.1.77</code> //被监控主机ip<br>返回信息被监控服务器上安装的NRPE版本：NRPE v2.12</p>
+<h2 id="3、定义监控内容">3、定义监控内容</h2>
+<p><code># vi /usr/local/nagios/etc/nrpe.cfg</code>//定义监控服务器内容<br><code># command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10</code>#监控登陆的用户数量<br><code># command[check_load]=/usr/local/nagios/libexec/check_load -w 15,10,5 -c 30,25,20｀ #监控CPU的负载</code># command[check_sda2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/sda2<code>#监控磁盘利用率，这里的sda2必须是实际的硬盘分区，可使用fdisk –l查</code># command[check_swap]=/usr/local/nagios//libexec/check_swap -w 20 -c 10 <code>#监控交换空间</code># command[check_zombie_procs]=/usr/local/nagios/libexec/check_procs -w 5 -c 10 -s Z<code>#监控进程中的僵尸进程</code># command[check_total_procs]=/usr/local/nagios/libexec/check_procs -w 150 -c 200 `#监控所有进程<br>注意：command后面括号中的内容就是定义的变量，变量名可以任意指定，只需和服务器配置文件中的一致即可。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -196,6 +205,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/02/11/linux常见问题整理/" title="经常遇到的Linux问题">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  经常遇到的Linux问题</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/02/09/负载均衡与高可用/"  title="负载均衡与高可用">
@@ -217,7 +234,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tar_xvzf_nagios-3-2-2-tar-gz"><span class="toc-number">3.</span> <span class="toc-text">tar xvzf nagios-3.2.2.tar.gz</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_nagios-3-2-2"><span class="toc-number">4.</span> <span class="toc-text">cd nagios-3.2.2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd"><span class="toc-number">5.</span> <span class="toc-text">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make_all"><span class="toc-number">6.</span> <span class="toc-text">make all</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、对nagios进行配置:"><span class="toc-number">3.</span> <span class="toc-text">三、对nagios进行配置:</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、安装nagios插件"><span class="toc-number">3.1.</span> <span class="toc-text">1、安装nagios插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、客户端安装"><span class="toc-number">3.2.</span> <span class="toc-text">2、客户端安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、定义监控内容"><span class="toc-number">3.3.</span> <span class="toc-text">3、定义监控内容</span></a></li></ol></li></ol>
   </div>
 
 <div id="asidepart">
@@ -239,7 +256,7 @@
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>2</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>3</sup></a></li>
 		
 		</ul>
 </div>
@@ -257,6 +274,8 @@
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
 		
 			<li><a href="/tags/Nagios/" title="Nagios">Nagios<sup>1</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>1</sup></a></li>
 		
 			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
 		
