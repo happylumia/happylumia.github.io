@@ -83,7 +83,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-02-10T16:57:00.000Z" itemprop="datePublished">2015-02-11</time>
-    更新日期:<time datetime="2015-02-10T13:34:43.000Z" itemprop="dateModified">2015-02-10</time>
+    更新日期:<time datetime="2015-02-10T13:38:39.000Z" itemprop="dateModified">2015-02-10</time>
     
   </p>
 </header>
@@ -107,10 +107,9 @@
 <p><code># mkinitrd -f -v /boot/initrd-$(uname -r).img $(uname -r)</code></p>
 <p>如果你想要给特定的内核版本创建初始化内存盘，你就用所需的内核名替换掉 <code>uname -r</code>。</p>
 <p>在CentOS 6.X / RHEL 6.X中，则用dracut命令来创建初始化内存盘文件，举例如下：</p>
-<pre><code># dracut -f</code></pre>
-
+<p><code># dracut -f</code></p>
 <p>以上命令能给当前的系统版本创建初始化内存盘，给特定的内核版本重建初始化内存盘文件则使用以下命令：</p>
-<pre><code># dracut -f initramfs-2.x.xx-xx.el6.x86_64.img 2.x.xx-xx.el6.x86_64</code></pre>
+<p><code># dracut -f initramfs-2.x.xx-xx.el6.x86_64.img 2.x.xx-xx.el6.x86_64</code></p>
 </li>
 <li><p>4 cpio命令是什么？</p>
 <p>答: cpio就是复制入和复制出的意思。cpio可以向一个归档文件（或单个文件）复制文件、列表，还可以从中提取文件。</p>
@@ -118,8 +117,7 @@
 <li><p>5 patch命令是什么？如何使用？</p>
 <p>答: 顾名思义，patch命令就是用来将修改（或补丁）写进文本文件里。patch命令通常是接收diff的输出并把文件的旧版本转换为新版本。举个例子，Linux内核源代码由百万行代码文件构成，所以无论何时，任何代码贡献者贡献出代码，只需发送改动的部分而不是整个源代码，然后接收者用patch命令将改动写进原始的源代码里。</p>
 <p>创建一个diff文件给patch使用，</p>
-<pre><code># diff -Naur old_file new_file > diff_file</code></pre>
-
+<p><code># diff -Naur old_file new_file &gt; diff_file</code></p>
 <p>旧文件和新文件要么都是单个的文件要么都是包含文件的目录，-r参数支持目录树递归。</p>
 <p>一旦diff文件创建好，我们就能在旧的文件上打上补丁，把它变成新文件：</p>
 <p><code># patch &lt; diff_file</code></p>
@@ -129,42 +127,36 @@
 </li>
 <li><p>7 如何从命令行查看域SPF记录？</p>
 <p>答: 我们可以用dig命令来查看域SPF记录。举例如下：</p>
-<p><code>linuxtechi@localhost:~$ dig -t TXT google.com</code></p>
+<p><code># linuxtechi@localhost:~$ dig -t TXT google.com</code></p>
 </li>
 <li><p>8 如何识别Linux系统中指定文件(/etc/fstab)的关联包？</p>
-<p>答: </p>
-<p><code># rpm -qf /etc/fstab</code></p>
+<p>答:<code># rpm -qf /etc/fstab</code></p>
 <p>以上命令能列出提供<code>/etc/fstab</code>这个文件的包。</p>
 </li>
 <li><p>9 哪条命令用来查看bond0的状态？</p>
-<p>答: </p>
-<p><code>#cat /proc/net/bonding/bond0</code></p>
+<p>答: <code>#cat /proc/net/bonding/bond0</code></p>
 </li>
 <li><p>10 Linux系统中的/proc文件系统有什么用？</p>
 <p>答: /proc文件系统是一个基于内存的文件系统，其维护着关于当前正在运行的内核状态信息，其中包括CPU、内存、分区划分、I/O地址、直接内存访问通道和正在运行的进程。这个文件系统所代表的并不是各种实际存储信息的文件，它们指向的是内存里的信息。/proc文件系统是由系统自动维护的。</p>
 </li>
 <li><p>11 如何在/usr目录下找出大小超过10MB的文件？</p>
-<p>答: </p>
-<p><code># find /usr -size +10M</code></p>
+<p>答:<code># find /usr -size +10M</code></p>
 </li>
 <li><p>12 如何在/home目录下找出120天之前被修改过的文件？</p>
-<p>答: </p>
-<p><code># find /home -mtime +120</code></p>
+<p>答:<code># find /home -mtime +120</code></p>
 </li>
 <li><p>13 如何在/var目录下找出90天之内未被访问过的文件？</p>
-<p>答: </p>
-<p><code># find /var \! -atime -90</code></p>
+<p>答:<code># find /var \! -atime -90</code></p>
 </li>
 <li><p>14 在整个目录树下查找文件<code>core</code>，如发现则无需提示直接删除它们。</p>
-<p>答:</p>
-<p><code># find / -name core -exec rm {} \;</code></p>
+<p>答:<code># find / -name core -exec rm {} \;</code></p>
 </li>
 <li><p>15 strings命令有什么作用？</p>
 <p>答: strings命令用来提取和显示非文本文件中的文本字符串。（LCTT 译注：当用来分析你系统上莫名其妙出现的二进制程序时，可以从中找到可疑的文件访问，对于追查入侵有用处）</p>
 </li>
 <li><p>16 tee 过滤器有什么作用 ?</p>
 <p>答: tee 过滤器用来向多个目标发送输出内容。如果用于管道的话，它可以将输出复制一份到一个文件，并复制另外一份到屏幕上（或一些其它程序）。</p>
-<p><code>linuxtechi@localhost:~$ ll /etc | nl | tee /tmp/ll.out</code></p>
+<p><code># linuxtechi@localhost:~$ ll /etc | nl | tee /tmp/ll.out</code></p>
 <p>在以上例子中，从ll输出可以捕获到 <code>/tmp/ll.out</code> 文件中，并且同样在屏幕上显示了出来。</p>
 </li>
 <li><p>17 <code>export PS1 = ”$LOGNAME@hostname:\$PWD:</code>这条命令是在做什么？</p>
