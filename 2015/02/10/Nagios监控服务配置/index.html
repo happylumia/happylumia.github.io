@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Vim中权限不足时不用退出而强制保存 | 朱邏輯公園</title>
+    <title>Nagios监控服务配置 | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="only for you ubuntu vim!">
+    <meta name="description" itemprop="description" content="Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="Vim中权限不足时不用退出而强制保存 | 朱邏輯公園" />
+    <meta name="twitter:title" content="Nagios监控服务配置 | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="only for you ubuntu vim!" />
+        <meta name="twitter:description" content="Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/07/vim中权限不足时不用退出而强制保存/" title="Vim中权限不足时不用退出而强制保存" itemprop="url">Vim中权限不足时不用退出而强制保存</a>
+      <a href="/2015/02/10/Nagios监控服务配置/" title="Nagios监控服务配置" itemprop="url">Nagios监控服务配置</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-07T08:27:00.000Z" itemprop="datePublished">2015-02-07</time>
-    更新日期:<time datetime="2015-02-07T10:36:26.000Z" itemprop="dateModified">2015-02-07</time>
+    <time datetime="2015-02-10T04:57:00.000Z" itemprop="datePublished">2015-02-10</time>
+    更新日期:<time datetime="2015-02-10T05:24:17.000Z" itemprop="dateModified">2015-02-10</time>
     
   </p>
 </header>
@@ -92,28 +92,77 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tar_xvzf_nagios-3-2-2-tar-gz"><span class="toc-number">3.</span> <span class="toc-text">tar xvzf nagios-3.2.2.tar.gz</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_nagios-3-2-2"><span class="toc-number">4.</span> <span class="toc-text">cd nagios-3.2.2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd"><span class="toc-number">5.</span> <span class="toc-text">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make_all"><span class="toc-number">6.</span> <span class="toc-text">make all</span></a></li></ol>
 		</div>
 		
-		<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
-<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
-<p>命令：</p>
-<pre><code>:w !sudo tee %</code></pre>
-
-<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+		<p>Nagios是一个健康运行状态和网络信息的监视系统。Nagios能监听远程和本地服务器服务，提供异常通知功能，也可以在Web页面查看监控信息、监控日志。</p>
+<h1 id="一、Nagios特点：">一、Nagios特点：</h1>
+<ul>
+<li>网络监视服务（SMTP,POP3,HTTP,NNTP,PING）</li>
+<li>服务器监视（服务器磁盘，服务器进程）</li>
+<li>可添加插件对Nagios监视服务进行扩展</li>
+<li>可并发处理监视服务</li>
+</ul>
+<p>相关安装包：</p>
+<ul>
+<li>Nagios core</li>
+<li>Nagios plugins </li>
+<li>Nagios addons</li>
+</ul>
+<h1 id="二、服务器端：">二、服务器端：</h1>
+<ul>
+<li>1.查看安装服务器环境（LAMP）</li>
+<li>2.#rpm -qa | grep httpd</li>
+<li>3.#rpm -qa | grep php </li>
+<li>4.没有的话安装</li>
+<li>5.# yum -y install gcc glibc glibc-common gd gd-devel php openssl-devel httpd</li>
+<li>6.创建用户：</li>
+<li>7.# useradd -m -s /bin/bash nagios</li>
+<li>8.# groupadd nagios</li>
+<li>9.# usermod -G nagios nagios</li>
+<li>10.# vi /etc/passwd</li>
+<li>11.nagios:x:500:500::/home/nagios:/sbin/nologin</li>
+<li>12.改成：nagios:x:500:500::/home/nagios:/bin/bash</li>
+<li>13.创建一个用户组名为nagcmd 用于从Web接口执行外部命令。将nagios用户和apache用户都加到这个组中。</li>
+<li>14.因为要用到 CGI 的 Web 监控面板，所以这里我们还要添加一个 nagcmd 组，用于 CGI 执行相关指令。</li>
+<li>15.# /usr/sbin/groupadd nagcmd</li>
+<li>16.# /usr/sbin/usermod -G nagcmd nagios</li>
+<li>17.# /usr/sbin/usermod -a -G nagcmd daemon (因为是编译方式安装的apache，默认是以daemon用户运行)<br>下载相关的软件包，服务器端需要安装以下三个包，客户端只需要安装后两个插件包：</li>
+<li>1.[root@server ~]#cd /usr/local/src/tarbag/</li>
+<li>2.[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-3.2.2.tar.gz</a><br>[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagiosplug/nagios-plugins-1.4.15.tar.gz</a><br>[root@server tarbag]#wget <a href="http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz" target="_blank" rel="external">http://prdownloads.sourceforge.net/sourceforge/nagios/nrpe-2.12.tar.gz</a><br>解压并编译安装Nagios：</li>
+<li><h1 id="tar_xvzf_nagios-3-2-2-tar-gz">tar xvzf nagios-3.2.2.tar.gz</h1>
+<h1 id="cd_nagios-3-2-2">cd nagios-3.2.2</h1>
+</li>
+</ul>
+<p>运行Nagios配置脚本并使用先前开设的用户及用户组：</p>
+<ul>
+<li><h1 id="-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</h1>
+</li>
+</ul>
+<p>编译Nagios程序包源码：</p>
+<ul>
+<li><h1 id="make_all">make all</h1>
+安装二进制运行程序、初始化脚本、配置文件样本并设置运行目录权限：<br></li>
+<li>1.# make install</li>
+<li>2.# make install-init  //在/etc/rc.d/init.d安装启动脚本</li>
+<li>3.# make install-config&amp;nbsp //安装示例配置文件,安装的路径是/usr/local/nagios/etc</li>
+<li>4.# make install-commandmode&amp;nbsp //配置目录权限</li>
+<li>5.#ls /usr/local/nagios/</li>
+<li>6.bin etc libexec sbin share var</li>
+</ul>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/vim/">vim</a>
+  <span></span> <a href="/tags/Nagios/">Nagios</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/工具/">工具</a>
+  <a class="article-category-link" href="/categories/运维/">运维</a>
 </div>
 
 
@@ -147,17 +196,9 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/07/为树莓派对时/" title="为树莓派对时">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  为树莓派对时</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/06/负载均衡与高可用/"  title="负载均衡与高可用">
+<a href="/2015/02/09/负载均衡与高可用/"  title="负载均衡与高可用">
  <strong>NEXT:</strong><br/> 
  <span>负载均衡与高可用
 </span>
@@ -176,7 +217,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、Nagios特点："><span class="toc-number">1.</span> <span class="toc-text">一、Nagios特点：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、服务器端："><span class="toc-number">2.</span> <span class="toc-text">二、服务器端：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tar_xvzf_nagios-3-2-2-tar-gz"><span class="toc-number">3.</span> <span class="toc-text">tar xvzf nagios-3.2.2.tar.gz</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd_nagios-3-2-2"><span class="toc-number">4.</span> <span class="toc-text">cd nagios-3.2.2</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#-/configure_—prefix=/usr/local/nagios_—with-command-group=nagcmd"><span class="toc-number">5.</span> <span class="toc-text">./configure —prefix=/usr/local/nagios —with-command-group=nagcmd</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#make_all"><span class="toc-number">6.</span> <span class="toc-text">make all</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -198,7 +239,7 @@
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>1</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>2</sup></a></li>
 		
 		</ul>
 </div>
@@ -214,6 +255,8 @@
 			<li><a href="/tags/DNS/" title="DNS">DNS<sup>1</sup></a></li>
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Nagios/" title="Nagios">Nagios<sup>1</sup></a></li>
 		
 			<li><a href="/tags/vim/" title="vim">vim<sup>1</sup></a></li>
 		
