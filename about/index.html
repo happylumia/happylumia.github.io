@@ -274,7 +274,36 @@ $(document).ready(function(){
 </div>
 <script src="/js/totop.js"></script>
 
-
+<link rel="stylesheet" href="/custom/1.css">
+<link rel="stylesheet" href="/custom/scrollbar.css">
+<ul id="go-top-bottom">
+    <li class="go-top">
+        <span class="small"></span>
+        <a href="#">回到顶部</a>
+    </li>
+    <li class="go-bottom">
+        <span class="small"></span>
+        <a href="#">回到底部</a>
+    </li>
+</ul>
+<script>
+    $(function() {
+        $("#go-top-bottom li a").hide();
+        $("#go-top-bottom li").hover(function() {
+            $("a",this).show();
+        },function() {
+            $('a',this).hide();
+        });
+        $("#go-top-bottom li.go-top a").click(function() {
+            $(document).scrollTop(0)
+            return false
+        })
+        $("#go-top-bottom li.go-bottom a").click(function() {
+            $(document).scrollTop($(document).height())
+            return false
+        })
+    })
+</script>
       </body>
      </html>
      

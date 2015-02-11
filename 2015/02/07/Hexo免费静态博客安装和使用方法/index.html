@@ -338,6 +338,8 @@ title: search
 	<p class="asidetitle">分类</p>
 		<ul>
 		
+			<li><a href="/categories/Google/" title="Google">Google<sup>1</sup></a></li>
+		
 			<li><a href="/categories/Linux/" title="Linux">Linux<sup>5</sup></a></li>
 		
 			<li><a href="/categories/主题/" title="主题">主题<sup>1</sup></a></li>
@@ -350,7 +352,7 @@ title: search
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>4</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>5</sup></a></li>
 		
 		</ul>
 </div>
@@ -369,7 +371,9 @@ title: search
 		
 			<li><a href="/tags/Hexo，博客模板，/" title="Hexo，博客模板，...">Hexo，博客模板，...<sup>1</sup></a></li>
 		
-			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+			<li><a href="/tags/IP/" title="IP">IP<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>6</sup></a></li>
 		
 			<li><a href="/tags/Nagios/" title="Nagios">Nagios<sup>1</sup></a></li>
 		
@@ -379,11 +383,21 @@ title: search
 		
 			<li><a href="/tags/WordPress/" title="WordPress">WordPress<sup>1</sup></a></li>
 		
-			<li><a href="/tags/双机热备/" title="双机热备">双机热备<sup>1</sup></a></li>
+			<li><a href="/tags/双机热备/" title="双机热备">双机热备<sup>2</sup></a></li>
+		
+			<li><a href="/tags/备份/" title="备份">备份<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心跳频率/" title="心跳频率">心跳频率<sup>1</sup></a></li>
+		
+			<li><a href="/tags/搜索/" title="搜索">搜索<sup>1</sup></a></li>
 		
 			<li><a href="/tags/诗词/" title="诗词">诗词<sup>1</sup></a></li>
 		
 			<li><a href="/tags/负载均衡/" title="负载均衡">负载均衡<sup>1</sup></a></li>
+		
+			<li><a href="/tags/运维/" title="运维">运维<sup>1</sup></a></li>
+		
+			<li><a href="/tags/集群/" title="集群">集群<sup>1</sup></a></li>
 		
 			<li><a href="/tags/高可用/" title="高可用">高可用<sup>1</sup></a></li>
 		
@@ -558,6 +572,35 @@ $(document).ready(function(){
 </div>
 <script src="/js/totop.js"></script>
 
-
+<link rel="stylesheet" href="/custom/1.css">
+<link rel="stylesheet" href="/custom/scrollbar.css">
+<ul id="go-top-bottom">
+    <li class="go-top">
+        <span class="small"></span>
+        <a href="#">回到顶部</a>
+    </li>
+    <li class="go-bottom">
+        <span class="small"></span>
+        <a href="#">回到底部</a>
+    </li>
+</ul>
+<script>
+    $(function() {
+        $("#go-top-bottom li a").hide();
+        $("#go-top-bottom li").hover(function() {
+            $("a",this).show();
+        },function() {
+            $('a',this).hide();
+        });
+        $("#go-top-bottom li.go-top a").click(function() {
+            $(document).scrollTop(0)
+            return false
+        })
+        $("#go-top-bottom li.go-bottom a").click(function() {
+            $(document).scrollTop($(document).height())
+            return false
+        })
+    })
+</script>
   </body>
 </html>

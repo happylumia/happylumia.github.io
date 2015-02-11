@@ -79,6 +79,26 @@
 
   <section class="post" itemscope itemprop="blogPost">
   
+    <a href="/2015/02/11/Google可以访问的IP/" title="Google可以访问的Ip" itemprop="url">
+  
+    <h1 itemprop="name">Google可以访问的Ip</h1>
+    
+    <time datetime="2015-02-11T14:00:00.000Z" itemprop="datePublished">2015-02-11</time>
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2015/02/11/再论双机热备/" title="再论双机热备" itemprop="url">
+  
+    <h1 itemprop="name">再论双机热备</h1>
+    
+    <time datetime="2015-02-11T13:17:14.000Z" itemprop="datePublished">2015-02-11</time>
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
     <a href="/2015/02/11/linux常见问题整理/" title="经常遇到的Linux问题" itemprop="url">
   
     <h1 itemprop="name">经常遇到的Linux问题</h1>
@@ -215,6 +235,35 @@ $(document).ready(function(){
 </div>
 <script src="/js/totop.js"></script>
 
-
+<link rel="stylesheet" href="/custom/1.css">
+<link rel="stylesheet" href="/custom/scrollbar.css">
+<ul id="go-top-bottom">
+    <li class="go-top">
+        <span class="small"></span>
+        <a href="#">回到顶部</a>
+    </li>
+    <li class="go-bottom">
+        <span class="small"></span>
+        <a href="#">回到底部</a>
+    </li>
+</ul>
+<script>
+    $(function() {
+        $("#go-top-bottom li a").hide();
+        $("#go-top-bottom li").hover(function() {
+            $("a",this).show();
+        },function() {
+            $('a',this).hide();
+        });
+        $("#go-top-bottom li.go-top a").click(function() {
+            $(document).scrollTop(0)
+            return false
+        })
+        $("#go-top-bottom li.go-bottom a").click(function() {
+            $(document).scrollTop($(document).height())
+            return false
+        })
+    })
+</script>
     </body>
    </html>
