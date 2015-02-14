@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.prokitty.com/"/>
-  <updated>2015-02-14T07:37:41.165Z</updated>
+  <updated>2015-02-14T16:29:06.389Z</updated>
   <id>http://www.prokitty.com/</id>
   
   <author>
@@ -179,6 +179,192 @@
       <category term="运维" scheme="http://www.prokitty.com/tags/%E8%BF%90%E7%BB%B4/"/>
     
       <category term="Google" scheme="http://www.prokitty.com/categories/Google/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[]]></title>
+    <link href="http://www.prokitty.com/2015/02/14/squid%E9%85%8D%E7%BD%AE/"/>
+    <id>http://www.prokitty.com/2015/02/14/squid配置/</id>
+    <published>2015-02-14T12:50:22.000Z</published>
+    <updated>2015-02-14T12:55:48.000Z</updated>
+    <content type="html"><![CDATA[<p>title: squid配置<br>date: 2015-02-14 20:50:00<br>categories: 运维<br>tags: [squid]<br>description: squid可以做代理也可以做缓存<br>squid缓存不仅可以节省宝贵的带宽资源，也可以大大降低服务器的I/O.  </p>
+<h2 id="squid不仅可以做正向代理，又可以做反向代理。_">squid不仅可以做正向代理，又可以做反向代理。 </h2>
+<h1 id="1-_什么是squid">1. 什么是squid</h1>
+<p>squid可以做代理也可以做缓存<br>squid缓存不仅可以节省宝贵的带宽资源，也可以大大降低服务器的I/O.<br>squid不仅可以做正向代理，又可以做反向代理。<br>正向代理，squid后面是客户端，客户端上网要通过Squid去上；反向代理，squid后面是服务器，服务器返回给用户数据需要走squid.<br>正向代理用在企业的办公环境中，员工上网需要通过squid代理来上网，这样可以节省网络带宽资源。而反向代理用来搭建网站静态项(图片、html、流媒体、js、css等)的缓存服务器，它用于网站架构中。 </p>
+<h1 id="2-_搭建squid正向代理">2. 搭建squid正向代理</h1>
+<p>官方网站为 <a href="http://www.squid-cache.org/" target="_blank" rel="external">http://www.squid-cache.org/</a><br><code>yum install -y squid</code><br><code>squid -v</code> 查看版本以及编译参数<br><code>&gt; /etc/squid/squid.conf</code><br><code>vim /etc/squid/squid.conf</code><br>加入如下配置:</p>
+<pre><code>
+http_port 3128
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl localnet src 10.0.0.0/8     # RFC1918 possible internal network
+acl localnet src 172.16.0.0/12  # RFC1918 possible internal network
+acl localnet src 192.168.0.0/16 # RFC1918 possible internal network
+acl SSL_ports port 443
+acl Safe_ports port 80 8080         # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl CONNECT method CONNECT
+http_access allow manager localhost
+http_access deny manager
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localnet
+http_access allow localhost
+http_access allow all
+cache_dir aufs /data/cache 1024 16 256
+cache_mem 128 MB
+hierarchy_stoplist cgi-bin ?
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp:           1440    20%     10080
+refresh_pattern ^gopher:        1440    0%      1440
+refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
+refresh_pattern \.(jpg|png|gif|mp3|xml) 1440    50%     2880    ignore-reload
+refresh_pattern .               0       20%     4320
+### 到此结束</code></pre>
+
+<p><code>mkdir  /data/cache</code> #创建缓存目录<br><code>chown -R squid:squid /data/cache</code>  #更改权限<br><code>squid -z</code>  #初始化缓存目录，该步骤可以省略<br><code>/etc/init.d/squid start</code><br><code>squid  -kcheck</code>#可以检测配置文件是否有错<br><code>squid -k rec</code>#可以重新加载配置<br><code>service squid restart</code> #重启squid服务</p>
+<p>测试：<code>curl -xlocalhost:3128 www.qq.com</code><br>访问图片，测试缓存： <code>curl -xlocalhost:3128   -I &#39;http://www.aminglinux.com/bbs/static/image/common/logo.png&#39;</code><br>限制某些域名不能通过代理访问，或者说只想代理某几个域名  <code>vim /etc/squid/squid.conf</code></p>
+<pre><code>acl http proto HTTP 
+acl good_domain dstdomain .lishiming.net .aminglinux.com 
+http_access allow http good_domain 
+http_access deny http !good_domain 
+测 curl -xlocalhost:3128 www.google.com.hk -I  #403
+测 curl -xlocalhost:3128 www.aminglinux.com/bbs/forum.php  -I #200
+vim /etc/squid/squid.conf  #设置域名黑名单</code></pre>
+
+<h1 id="3-_搭建squid反向代理">3. 搭建squid反向代理</h1>
+<p><code>vim /etc/squid/squid.conf</code>#如下变更<br><code>http_port 3128 改为 http_port 80 accel vhost vport</code><br>增加如下内容：</p>
+<p><pre><code><br>cache_peer 123.125.119.147 parent 80 0 originserver name=a<br>cache_peer 61.135.169.125 parent 80 0 originserver name=b<br>cache_peer_domain a www.qq.com<br>cache_peer_domain b www.baidu.com </code></pre></p>
+<p><br>之前增加的域名白/黑名单相关配置去掉<br>如果是squid要代理一台web上的所有域名，那么就写成这样: <pre><code>cache_peer 192.168.10.111 80 0 originserver  #只需要这一行</code></pre>，cache_peer_domain  都可以省掉<br><code>/etc/init.d/squid restart</code><br>测试<code>www.baidu.com www.qq.com  www.lishiming.net</code></p>
+<h1 id="4-_需要你练习的知识点">4. 需要你练习的知识点</h1>
+<p>配置一下squid的防盗链<br>如何查看squid的缓存命中率<br>如何删除指定的squid缓存文件<br>squid日志不记录指定文件的访问<br>尝试配置一下squid透明代理（有用到防火墙知识）</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: squid配置<br>date: 2015-02-14 20:50:00<br>categories: 运维<br>tags: [squid]<br>description: squid可以做代理也可以做缓存<br>squid缓存不仅可以节省宝贵的带宽资源，也]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[]]></title>
+    <link href="http://www.prokitty.com/2015/02/14/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%9B%86%E7%BE%A4LVSkeepalived/"/>
+    <id>http://www.prokitty.com/2015/02/14/负载均衡集群LVSkeepalived/</id>
+    <published>2015-02-14T11:50:35.000Z</published>
+    <updated>2015-02-14T12:44:59.000Z</updated>
+    <content type="html"><![CDATA[<p>title: 负载均衡集群（LVSkeepalived)<br>date: 2015-02-14 19:51:00<br>categories: 运维<br>tags: [负载均衡,LVS,Keepalived]<br>description: 常用的负载均衡开源软件有： nginx、lvs、keepalived </p>
+<h2 id="商业的硬件负载设备：_F5、Netscale。">商业的硬件负载设备： F5、Netscale。</h2>
+<h1 id="LVS/NAT_配置">LVS/NAT 配置</h1>
+<p>三台服务器一台作为director, 两台作为real server Director 有一个外网ip (192.168.0.132)和一个内网ip(192.168.36.132), 两个real server上只有内网ip(192.168.36.137)和(192.168.36.138) 并且需要把两个real server的内网网关设置为director的内网ip(192.168.36.132)<br>两个real server 上都安装httpd:<br><code>yum install -y httpd</code><br>Director上安装ipvsadm:<br><code>yum install -y  ipvsadm</code><br>Direcotr 上 <code>vim /usr/local/sbin/lvs_nat.sh</code> //增加:</p>
+<pre><code>#! /bin/bash
+# director 服务器上开启路由转发功能: 
+echo 1 > /proc/sys/net/ipv4/ip_forward 
+# 关闭icmp的重定向
+echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/default/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/eth0/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/eth1/send_redirects
+
+# director 设置nat防火墙
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -A POSTROUTING -s 192.168.200.0/24  -j MASQUERADE
+# director设置ipvsadm
+IPVSADM=`/sbin/ipvsadm`
+$IPVSADM -C
+$IPVSADM -A -t 192.168.0.11:80 -s lc -p 300
+$IPVSADM -a -t 192.168.0.11:80 -r 192.168.200.128:80 -m -w 1
+$IPVSADM -a -t 192.168.0.11:80 -r 192.168.200.129:80 -m -w 1</code></pre>
+
+
+<p>直接运行这个脚本就可以完成lvs/nat的配置了:<br><code>/bin/bash /usr/local/sbin/lvs_nat.sh</code><br>通过浏览器测试两台机器上的httpd内容。</p>
+<h1 id="LVS/DR_配置">LVS/DR 配置</h1>
+<p>三台机器:<br>director(eth0192.168.0.11, vip eth0:0: 192.168.0.100)<br>real server1(eth0 rip: 192.168. 0.21, vip lo:0: 192.168.0.100)<br>real server2(eth0 rip: 192.168.0.22, vip lo:0: 192.168.0.100)<br>Director 上 <code>vim /usr/local/sbin/lvs_dr.sh</code> //增加</p>
+<pre><code>#! /bin/bash
+echo 1 > /proc/sys/net/ipv4/ip_forward
+ipv=/sbin/ipvsadm
+vip=192.168.0.100
+rs1=192.168.0.21
+rs2=192.168.0.22
+ifconfig eth0:0 $vip broadcast $vip netmask 255.255.255.255 up
+route add -host $vip dev eth0:0
+$ipv -C
+$ipv -A -t $vip:80 -s rr 
+$ipv -a -t $vip:80 -r $rs1:80 -g -w 1
+$ipv -a -t $vip:80 -r $rs2:80 -g -w 1</code></pre>
+
+
+<p>两台rs上：<code>vim /usr/local/sbin/lvs_dr_rs.sh</code></p>
+<pre><code>#! /bin/bash
+vip=192.168.0.100
+ifconfig lo:0 $vip broadcast $vip netmask 255.255.255.255 up 
+route add -host $vip lo:0
+echo "1" >/proc/sys/net/ipv4/conf/lo/arp_ignore
+echo "2" >/proc/sys/net/ipv4/conf/lo/arp_announce
+echo "1" >/proc/sys/net/ipv4/conf/all/arp_ignore
+echo "2" >/proc/sys/net/ipv4/conf/all/arp_announce</code></pre>
+
+
+<p>关于<code>arp_ignore</code>和 <code>arp_announce</code>参考：<a href="http://www.cnblogs.com/lgfeng/archive/2012/10/16/2726308.html" target="_blank" rel="external">http://www.cnblogs.com/lgfeng/archive/2012/10/16/2726308.html</a></p>
+<p>然后director上执行:<code>bash /usr/local/sbin/lvs_dr.sh</code><br>两台rs上执行: <code>bash /usr/local/sbin/lvs_dr_rs.sh</code><br>Windows下浏览器测试访问</p>
+<h1 id="LVS/DR_+_keepalived配置">LVS/DR + keepalived配置</h1>
+<p>注意：前面虽然我们已经配置过一些操作，但是下面我们使用keepaliave操作和之前的操作是有些冲突的，所以若是之前配置过DR，请首先做如下操作：dr上执行：</p>
+<p><code>$ipv -C
+ifconfig eth0:0  down</code></p>
+<p>前面的lvs虽然已经配置成功也实现了负载均衡，但是我们测试的时候发现，当某台real server把httpd进程停掉，那么director照样会把请求转发过去，这样就造成了某些请求不正常。所以需要有一种机制用来检测real server的状态，这就是keepalived。它的作用除了可以检测rs状态外，还可以检测备用director的状态，也就是说keepalived可以实现ha集群的功能，当然了也需要一台备用director.<br>备用director也需要安装一下keepalived软件<br><code>yum install -y keepalived</code><br>安装好后，编辑配置文件<br><code>vim /etc/keepalived/keepalived.conf</code>  //加入如下：</p>
+<p><pre><code>vrrp_instance VI_1 {<br>    state MASTER   #备用服务器上为 BACKUP<br>    interface eth0<br>    virtual_router_id 51<br>    priority 100  #备用服务器上为90<br>    advert_int 1<br>    authentication {<br>        auth_type PASS<br>        auth_pass 1111<br>    }<br>    virtual_ipaddress {<br>        192.168.0.100<br>    }<br>}<br>virtual_server 192.168.0.100 80 {<br>    delay_loop 6                  #(每隔10秒查询realserver状态)<br>    lb_algo wlc                  #(lvs 算法)<br>    lb_kind DR                  #(Direct Route)<br>    persistence_timeout 60        #(同一IP的连接60秒内被分配到同一台realserver)<br>    protocol TCP                #(用TCP协议检查realserver状态)</code></pre></p>
+<pre><code><span class="title">real_server</span> <span class="number">192.168.0.21</span> <span class="number">80</span> {
+    <span class="title">weight</span> <span class="number">100</span>               <span class="comment">#(权重)</span>
+    TCP_CHECK {
+    <span class="title">connect_timeout</span> <span class="number">10</span>       <span class="comment">#(10秒无响应超时)</span>
+    nb_get_retry <span class="number">3</span>
+    delay_before_retry <span class="number">3</span>
+    connect_port <span class="number">80</span>
+    }
+}
+</code></pre><p>real_server 192.168.0.22 80 {<br>        weight 100<br>        TCP_CHECK {<br>        connect_timeout 10<br>        nb_get_retry 3<br>        delay_before_retry 3<br>        connect_port 80<br>        }<br>     }<br>}<br><br>以上为主director的配置文件，从director的配置文件只需要修改<br><code>state MASTER  -&gt; state BACKUP</code><br><code>priority 100 -&gt; priority 90</code><br>配置完keepalived后，需要开启端口转发（主从都要做）：<br><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>然后，两个rs上执行 <code>/usr/local/sbin/lvs_dr_rs.sh</code> 脚本<br>最后，两个director上启动keepalived服务（先主后从）：<br><code>/etc/init.d/keepalived start</code><br>另外，需要注意的是，启动keepalived服务会自动生成vip和ipvsadm规则，不需要再去执行上面提到的<code>/usr/local/sbin/lvs_dr.sh</code>脚本。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: 负载均衡集群（LVSkeepalived)<br>date: 2015-02-14 19:51:00<br>categories: 运维<br>tags: [负载均衡,LVS,Keepalived]<br>description: 常用的负载均衡开源软件有： ]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[]]></title>
+    <link href="http://www.prokitty.com/2015/02/14/lvs%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/"/>
+    <id>http://www.prokitty.com/2015/02/14/lvs调度算法/</id>
+    <published>2015-02-14T07:57:19.000Z</published>
+    <updated>2015-02-14T08:00:15.000Z</updated>
+    <content type="html"><![CDATA[<p>title: lvs调度算法<br>date: 2015-02-14 15:57:00<br>categories: 运维<br>tags: [LVS,算法]</p>
+<h2 id="description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</h2>
+<p><a href="http://yangdonglin.blog.51cto.com/5404572/1305111" target="_blank" rel="external">http://yangdonglin.blog.51cto.com/5404572/1305111</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>title: lvs调度算法<br>date: 2015-02-14 15:57:00<br>categories: 运维<br>tags: [LVS,算法]</p>
+<h2 id="description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Rou]]>
+    </summary>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Dns Tunnel的原理及实战]]></title>
+    <link href="http://www.prokitty.com/2015/02/14/DNS%20tunnel%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E6%88%98/"/>
+    <id>http://www.prokitty.com/2015/02/14/DNS tunnel的原理及实战/</id>
+    <published>2015-02-14T07:49:00.000Z</published>
+    <updated>2015-02-14T07:50:34.000Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://netsec.ccert.edu.cn/zhengming/2011/11/01/%E8%BD%AC%E8%BD%BD%EF%BC%9Adns-tunnel%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E6%88%98/" target="_blank" rel="external">http://netsec.ccert.edu.cn/zhengming/2011/11/01/%E8%BD%AC%E8%BD%BD%EF%BC%9Adns-tunnel%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E6%88%98/</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[DNS tunnel 即 DNS隧道。从名字上来看就是利用DNS查询过程建立起隧道，传输数据！]]>
+    
+    </summary>
+    
+      <category term="tunnel" scheme="http://www.prokitty.com/tags/tunnel/"/>
+    
+      <category term="运维" scheme="http://www.prokitty.com/categories/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
@@ -1122,827 +1308,6 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
       <category term="WordPress" scheme="http://www.prokitty.com/tags/WordPress/"/>
     
       <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Vim Tips]]></title>
-    <link href="http://www.prokitty.com/2015/02/05/VimTips/"/>
-    <id>http://www.prokitty.com/2015/02/05/VimTips/</id>
-    <published>2015-02-05T14:16:22.000Z</published>
-    <updated>2015-02-10T14:13:18.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="模式">模式</h1>
-<p>一般模式（Nomal mode）：按Esc或Ctrl+[进入。左下角显示文件名或为空。可以移动光标、删除、选择、复制和粘贴。</p>
-<p>编辑模式（Edit mode）：输入“i, I, a, A, o, O, r, R”即进入编辑模式。当进入编辑模式时，会在屏幕的最下一行出现“INSERT”或“REPLACE”的字样。其中，输入“i, I, a, A, o, O”进入的是插入模式；输入“r, R”那是替换模式，即替换光标所在的字符。从编辑模式回到一般模式只需要按一下键盘左上方的“ESC”键即可。</p>
-<p>命令模式（Command mode）：在一般模式下，输入“:、/、？”即可将光标移动到终端的最底部。在该模式下，可以搜索某个字符或者字符串，也可以保存、替换、退出、显示行号等。</p>
-<p>vim三种模式的转换只能是：一般模式&lt;-&gt;编辑模式和一般模式&lt;-&gt;命令模式之间跳转。不能命令模式&lt;-&gt;编辑模式之间跳转。</p>
-<hr>
-<h1 id="移动命令">移动命令</h1>
-<pre><code>h   左移一个字符</code></pre>
-<pre><code>l   右移一个字符，这个命令很少用，一般用w代替。</code></pre>
-<pre><code>k   上移一个字符</code></pre>
-<pre><code>j   下移一个字符</code></pre>
-
-<blockquote>
-<p>以上四个命令可以配合数字使用，比如20j就是向下移动20行，5h就是向左移动5个字符，在Vim中，很多命令都可以配合数字使用，比如删除10个字符10x，在当前位置后插入3个！，3a！<esc><br>，这里的Esc是必须的，否则命令不生效。</esc></p>
-</blockquote>
-<pre><code>w   向前移动一个单词（光标停在单词首部），如果已到行尾，则转至下一行行首。此命令快，可以代替l命令。</code></pre>
-
-<pre><code>b   向后移动一个单词 2b 向后移动2个单词。</code></pre>
-
-<pre><code>e   同w，只不过是光标停在单词尾部。</code></pre>
-
-<pre><code>ge  同b，光标停在单词尾部。</code></pre>
-
-<pre><code>^   移动到本行第一个非空白字符上。</code></pre>
-
-<pre><code>0  （数字0）移动到本行第一个字符上。</code></pre>
-
-<pre><code>HOME   移动到本行第一个字符。同0健。</code></pre>
-
-<pre><code>$   移动到行尾 3$ 移动到下面3行的行尾</code></pre>
-
-<pre><code>gg   移动到文件头。 = [[</code></pre>
-
-<pre><code>G（shift + g）   移动到文件尾。 = ]]</code></pre>
-
-<pre><code>f（find）   命令也可以用于移动，fx将找到光标后第一个为x的字符，3fd将找到第三个为d的字符。</code></pre>
-
-<pre><code>F   同f，反向查找。</code></pre>
-
-<blockquote>
-<p>跳到指定行，冒号+行号，回车，比如跳到240行就是 :240回车。另一个方法是行号+G，比如230G跳到230行。</p>
-</blockquote>
-<pre><code>Ctrl + e   向下滚动一行</code></pre>
-
-<pre><code>Ctrl + y   向上滚动一行</code></pre>
-
-<pre><code>Ctrl + d   向下滚动半屏</code></pre>
-
-<pre><code>Ctrl + u   向上滚动半屏</code></pre>
-
-<pre><code>Ctrl + f   向下滚动一屏</code></pre>
-
-<pre><code>Ctrl + b   向上滚动一屏</code></pre>
-
-
-<hr>
-<h1 id="插入命令">插入命令</h1>
-<pre><code>i    在当前位置生前插入</code></pre>
-
-<pre><code>I    在当前行首插入</code></pre>
-
-<pre><code>a    在当前位置后插入</code></pre>
-
-<pre><code>A    在当前行尾插入</code></pre>
-
-<pre><code>o    在当前行之后插入一行</code></pre>
-
-<pre><code>O    在当前行之前插入一行</code></pre>
-
-
-<hr>
-<h1 id="查找命令">查找命令</h1>
-<pre><code>/text　　查找text，按n健查找下一个，按N健查找前一个。</code></pre>
-
-<pre><code>?text　　查找text，反向查找，按n健查找下一个，按N健查找前一个。</code></pre>
-
-<blockquote>
-<p>vim中有一些特殊字符在查找时需要转义　　.*[]^%/?~$</p>
-</blockquote>
-<pre><code>:set ignorecase　　忽略大小写的查找</code></pre>
-
-<pre><code>:set noignorecase　　不忽略大小写的查找</code></pre>
-
-<blockquote>
-<p>查找很长的词，如果一个词很长，键入麻烦，可以将光标移动到该词上，按*或#键即可以该单词进行搜索，相当于/搜索。而#命令相当于?搜索。</p>
-</blockquote>
-<pre><code>:set hlsearch　　高亮搜索结果，所有结果都高亮显示，而不是只显示一个匹配。</code></pre>
-
-<pre><code>:set nohlsearch　　关闭高亮搜索显示。</code></pre>
-
-<pre><code>:nohlsearch　　关闭当前的高亮显示，如果再次搜索或者按下n或N键，则会再次高亮。</code></pre>
-
-<pre><code>:set incsearch　　逐步搜索模式，对当前键入的字符进行搜索而不必等待键入完成。</code></pre>
-
-<pre><code>:set wrapscan　　重新搜索，在搜索到文件头或尾时，返回继续搜索，默认开启。</code></pre>
-
-
-<hr>
-<h1 id="替换命令">替换命令</h1>
-<pre><code>ra     将当前字符替换为a，当期字符即光标所在字符</code></pre>
-
-<pre><code>s/old/new/    用old替换new，替换当前行的第一个匹配</code></pre>
-
-<pre><code>s/old/new/g    用old替换new，替换当前行的所有匹配</code></pre>
-
-<pre><code>%s/old/new/    用old替换new，替换所有行的第一个匹配</code></pre>
-
-<pre><code>%s/old/new/g   用old替换new，替换整个文件的所有匹配</code></pre>
-
-<pre><code>:10,20 s/^/ /g    在第10行知第20行每行前面加四个空格，用于缩进</code></pre>
-
-<pre><code>ddp    交换光标所在行和其下紧邻的一行。</code></pre>
-
-
-
-
-<hr>
-<h1 id="撤销和重做">撤销和重做</h1>
-<pre><code>u    撤销（Undo）</code></pre>
-
-<pre><code>U    撤销对整行的操作</code></pre>
-
-<pre><code>Ctrl + r    重做（Redo），即撤销的撤销</code></pre>
-
-
-
-
-<hr>
-<h1 id="删除命令">删除命令</h1>
-<pre><code>x    删除当前字符</code></pre>
-
-<pre><code>3x    删除当前光标开始向后三个字符</code></pre>
-
-<pre><code>X    删除当前字符的前一个字符。X=dh</code></pre>
-
-<pre><code>dl    删除当前字符， dl=x</code></pre>
-
-<pre><code>dh    删除前一个字符</code></pre>
-
-<pre><code>dd    删除当前行</code></pre>
-
-<pre><code>dj    删除上一行</code></pre>
-
-<pre><code>dk    删除下一行</code></pre>
-
-<pre><code>10d    删除当前行开始的10行。</code></pre>
-
-<pre><code>D     删除当前字符至行尾。D=d$</code></pre>
-
-<pre><code>$     删除当前字符之后的所有字符（本行）</code></pre>
-
-<pre><code>kdgg     删除当前行之前所有行（不包括当前行）</code></pre>
-
-<pre><code>jdG（jd shift + g）    删除当前行之后所有行（不包括当前行）</code></pre>
-
-<pre><code>:1,10d     删除1-10行</code></pre>
-
-<pre><code>:11,$d     删除11行及以后所有的行</code></pre>
-
-<pre><code>:1,$d     删除所有行</code></pre>
-
-<pre><code>J(shift + j)　　 删除两行之间的空行，实际上是合并两行</code></pre>
-
-
-
-
-<hr>
-<h1 id="拷贝和粘贴">拷贝和粘贴</h1>
-<pre><code>yy     拷贝当前行</code></pre>
-
-<pre><code>nyy    拷贝当前后开始的n行，比如2yy拷贝当前行及其下一行。</code></pre>
-
-<pre><code>p     在当前光标后粘贴,如果之前使用了yy命令来复制一行，那么就在当前行的下一行粘贴。</code></pre>
-
-<pre><code>shift+p    在当前行前粘贴</code></pre>
-
-<pre><code>:1,10 co 20    将1-10行插入到第20行之后。</code></pre>
-
-<pre><code>:1,$ co $    将整个文件复制一份并添加到文件尾部。</code></pre>
-
-<blockquote>
-<p>正常模式下按v（逐字）或V（逐行）进入可视模式，然后用jklh命令移动即可选择某些行或字符，再按y即可复制</p>
-</blockquote>
-<pre><code>ddp    交换当前行和其下一行</code></pre>
-
-<pre><code>xp     交换当前字符和其后一个字符</code></pre>
-
-
-
-
-
-<hr>
-<h1 id="剪切命令">剪切命令</h1>
-<blockquote>
-<p>正常模式下按v（逐字）或V（逐行）进入可视模式，然后用jklh命令移动即可选择某些行或字符，再按d即可剪切</p>
-</blockquote>
-<pre><code>ndd    剪切当前行之后的n行。利用p命令可以对剪切的内容进行粘贴。</code></pre>
-
-<pre><code>:1,10d    将1-10行剪切。利用p命令可将剪切后的内容进行粘贴。</code></pre>
-
-<pre><code>:1, 10 m 20    将第1-10行移动到第20行之后。</code></pre>
-
-
-
-
-
-<hr>
-<h1 id="退出命令">退出命令</h1>
-<pre><code>:wq     保存并退出。</code></pre>
-
-<pre><code>ZZ     保存并退出。</code></pre>
-
-<pre><code>:q!     强制退出并忽略所有更改。</code></pre>
-
-<pre><code>:e!     放弃所有修改，并打开原来文件。</code></pre>
-
-
-
-
-<hr>
-<h1 id="窗口命令">窗口命令</h1>
-<pre><code>:split或new     打开一个新窗口，光标停在顶层的窗口上</code></pre>
-
-<pre><code>:split file或:new file    用新窗口打开文件</code></pre>
-
-<pre><code>split      打开的窗口都是横向的，使用vsplit可以纵向打开窗口。</code></pre>
-
-<pre><code>Ctrl+ww     移动到下一个窗口</code></pre>
-
-<pre><code>Ctrl+wj     移动到下方的窗口</code></pre>
-
-<pre><code>Ctrl+wk     移动到上方的窗口</code></pre>
-
-
-
-
-<hr>
-<h1 id="关闭窗口">关闭窗口</h1>
-<pre><code>:close     最后一个窗口不能使用此命令，可以防止意外退出vim。</code></pre>
-
-<pre><code>:q      如果是最后一个被关闭的窗口，那么将退出vim。</code></pre>
-
-<pre><code>ZZ      保存并退出。</code></pre>
-
-<pre><code>:only      关闭所有窗口，只保留当前窗口</code></pre>
-
-<pre><code>录制宏      按q键加任意字母开始录制，再按q键结束录制（这意味着vim中的宏不可嵌套），使用的时候@加宏名，比如qa。。。q录制名为a的宏，@a使用这个宏。</code></pre>
-
-
-
-
-<hr>
-<h1 id="执行shell命令">执行shell命令</h1>
-<pre><code>:!command     执行shell命令</code></pre>
-
-<pre><code>:!ls      列出当前目录下文件</code></pre>
-
-<pre><code>:!perl -c script.pl      检查perl脚本语法，可以不用退出vim，非常方便。</code></pre>
-
-<pre><code>:!perl script.pl      执行perl脚本，可以不用退出vim，非常方便。</code></pre>
-
-<pre><code>:suspend或Ctrl Z     挂起vim，回到shell，按fg可以返回vim。</code></pre>
-
-
-
-
-<hr>
-<h1 id="注释命令">注释命令</h1>
-<pre><code>perl程序中#开始的行为注释，所以要注释某些行，只需在行首加入#</code></pre>
-
-<pre><code>3,5 s/^/#/g   注释第3-5行。</code></pre>
-
-<pre><code>3,5 s/^#//g    解除3-5行的注释。</code></pre>
-
-<pre><code>1,$ s/^/#/g    注释整个文档。</code></pre>
-
-<pre><code>:%s/^/#/g    注释整个文档，此法更快。</code></pre>
-
-
-
-
-<hr>
-<h1 id="帮助命令">帮助命令</h1>
-<pre><code>:help or F1    显示整个帮助。</code></pre>
-
-<pre><code>:help xxx    显示xxx的帮助，比如 :help i, :help CTRL-[（即Ctrl+[的帮助）。</code></pre>
-
-<pre><code>:help 'number'    Vim选项的帮助用单引号括起。</code></pre>
-
-<pre><code>:help  Esc     特殊键的帮助用<>扩起。</code></pre>
-
-<pre><code>:help -t     Vim启动参数的帮助用。</code></pre>
-
-<pre><code>：help i_Esc     插入模式下Esc的帮助，某个模式下的帮助用模式_主题的模式。</code></pre>
-
-<pre><code>帮助文件中位于||之间的内容是超链接，可以用Ctrl+]进入链接，Ctrl+o（Ctrl + t）返回。</code></pre>
-
-
-
-
-<hr>
-<h1 id="其他非编辑命令">其他非编辑命令</h1>
-<pre><code>.    重复前一次命令</code></pre>
-
-<pre><code>:set ruler?　　 查看是否设置了ruler，在.vimrc中，使用set命令设制的选项都可以通过这个命令查看</code></pre>
-
-<pre><code>:scriptnames　　 查看vim脚本文件的位置，比如.vimrc文件，语法文件及plugin等。</code></pre>
-
-<pre><code>:set list     显示非打印字符，如tab，空格，行尾等。如果tab无法显示，请确定用set lcs=tab:>-命令设置了.vimrc文件，并确保你的文件中的确有tab，如果开启了expendtab，那么tab将被扩展为空格。</code></pre>
-
-
-
-
-<hr>
-<h1 id="Vim教程">Vim教程</h1>
-<pre><code>在Unix系统上:$ vimtutor</code></pre>
-
-<pre><code>在Windows系统上:help tutor</code></pre>
-
-<pre><code>:syntax    列出已经定义的语法项</code></pre>
-
-<pre><code>:syntax clear    清除已定义的语法规则</code></pre>
-
-<pre><code>:syntax case match    大小写敏感，int和Int将视为不同的语法元素</code></pre>
-
-<pre><code>:syntax case ignore    大小写无关，int和Int将视为相同的语法元素，并使用同样的配色方案</code></pre>]]></content>
-    <summary type="html">
-    <![CDATA[just do it !]]>
-    
-    </summary>
-    
-      <category term="Vim" scheme="http://www.prokitty.com/tags/Vim/"/>
-    
-      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[全国各省市Dns服务器Ip地址]]></title>
-    <link href="http://www.prokitty.com/2015/02/05/%E5%85%A8%E5%9B%BD%E5%90%84%E7%9C%81%E5%B8%82DNS%E6%9C%8D%E5%8A%A1%E5%99%A8IP%E5%9C%B0%E5%9D%80/"/>
-    <id>http://www.prokitty.com/2015/02/05/全国各省市DNS服务器IP地址/</id>
-    <published>2015-02-05T04:16:00.000Z</published>
-    <updated>2015-02-05T14:57:44.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="北京：">北京：</h1>
-<pre><code>北京市北京市（中国电信）首选DNS：202.106.0.20    首选DNS：202.106.148.1   首选DNS：202.97.16.195</code></pre>
-
-<pre><code>北京市北京市（中国电信）首选DNS：202.96.199.133  备用DNS：202.96.0.133</code></pre>
-
-<pre><code>北京市北京市（中国网通）首选DNS：202.96.0.133    备用DNS：202.96.199.133</code></pre>
-
-
-<h1 id="上海：">上海：</h1>
-<pre><code>上海市上海市（中国电信）首选DNS：202.96.199.132  首选DNS：202.96.199.133</code></pre>  
-
-<pre><code>上海市上海市（中国电信）首选DNS：202.96.209.5    首选DNS：202.96.209.133 </code></pre>
-
-<pre><code>上海市上海市（中国网通）首选DNS：210.22.70.3     备用DNS：210.22.70.2</code></pre>
-
-
-<h1 id="广东：">广东：</h1>
-<pre><code>广东省广州市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省广州市（中国铁通) 首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
-
-<pre><code>广东省汕尾市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.128.86</code></pre> 
-
-<pre><code>广东省汕头市（中国电信）首选DNS：202.96.144.47（已封）备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省河源市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.128.86 </code></pre>
-
-<pre><code>广东省河源市（中国网通）首选DNS：210.21.196.5    备用DNS：221.5.88.88</code></pre>
-
-<pre><code>广东省深圳市（中国电信）首选DNS：202.96.128.166  备用DNS：202.96.134.133（已封）</code></pre>
-
-<pre><code>广东省阳江市（中国电信）首选DNS：202.96.128.86   备选DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省增城市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省广州市（中国铁通）首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
-
-<pre><code>广东省江门市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省佛山市（中国网通）首选DNS：221.5.88.88     备用DNS：210.21.196.6</code></pre>
-
-<pre><code>广东省佛山市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省佛山市（中国联通）首选DNS：221.4.8.1       备用DNS：221.4.66.66</code></pre>
-
-<pre><code>广东省梅州市（中国电信）首选DNS：61.235.70.98    备用DNS：211.98.4.1</code></pre>
-
-<pre><code>广东省湛江市（中国电信）首选DNS 202.96.128.68    备用DNS：202.96.128.166</code></pre>
-
-<pre><code>广东省东莞市（中国电信）首选DNS：202.96.128.86   备用DNS：202.96.128.166</code></pre>
-
-
-<h1 id="广西：">广西：</h1>
-<pre><code>广西壮族自治区南宁市  （中国电信）首选DNS：202.103.224.68  备用DNS：202.103.225.68</code></pre>
-
-<pre><code>广西壮族自治区南宁市  （中国铁通）首选DNS：61.235.164.18   备用DNS：61.235.164.13</code></pre>
-
-<pre><code>广西壮族自治区        （中国电信）首选DNS：202.103.224.68  备用DNS：202.103.225.68</code></pre>
-
-<pre><code>广西壮族自治区柳州市   (中国网通）首选DNS：221.7.136.68    备选DNS：221.7.128.68</code></pre>
-
-<pre><code>广西壮族自治区防城港市（中国铁通）首选DNS：61.235.164.13   备用DNS：61.235.164.18</code></pre>
-
-<pre><code>广西壮族自治区柳州市   (中国电信）首选DNS：202.103.224.68  备选DNS：202.103.225.68</code></pre>
-
-
-<h1 id="湖南：">湖南：</h1>
-<pre><code>湖南省衡阳市（中国电信）首选DNS：220.170.64.96   备用DNS：202.103.96.68</code></pre>
-
-<pre><code>湖南省衡阳市（中国电信）首选DNS：59.51.78.210    备用DNS：222.246.129.80</code></pre>
-
-<pre><code>湖南省岳阳市（中国铁通）首选DNS：211.98.2.4      备用DNS：61.234.254.6</code></pre>
-
-<pre><code>湖南省长沙市（中国电信）首选DNS：202.103.96.112  备用DNS：202.103.96.68</code></pre>
-
-<pre><code>湖南省长沙市（中国铁通）首选DNS：61.234.254.5（已封）  备用DNS：61.234.254.6（已封）</code></pre>
-
-<pre><code>湖南省永州市（中信宽带）首选DNS：219.72.225.254  备用DNS：219.72.225.253</code></pre>
-
-<pre><code>湖南省永州市（中国电信）首选DNS：218.76.248.6    备选DNS：218.76.248.100</code></pre>
-
-<pre><code>湖南省湘潭市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
-
-<pre><code>湖南省湘潭市（中国电信）首选DNS ：220.170.0.210  备用DNS：222.246.129.81</code></pre>
-
-<pre><code>湖南省常德市（中国电信）首选DNS：59.51.78.210    备用DNS：222.246.129.80</code></pre>
-
-<pre><code>湖南省益阳市（中国铁通）首选DNS：61.232.206.100  备用DNS：202.101.172.35</code></pre>
-
-<pre><code>湖南省吉首市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
-
-<pre><code>湖南省邵阳市（中国电信）首选DNS：218.76.192.101  备用DNS：218.76.192.100</code></pre>
-
-<pre><code>湖南省邵阳市（中国电信）首选DNS：59.51.78.210    备用DNS：59.51.78.210</code></pre>
-
-<pre><code>湖南省岳阳市（中国电信）首选DNS：222.246.129.81  备用DNS：59.51.78.211</code></pre>
-
-
-<h1 id="福建：">福建：</h1>
-<pre><code>福建省厦门市（中国电信）首选DNS：202.101.103.55  备用DNS：202.101.103.54</code></pre>
-
-<pre><code>福建省厦门市（中国网通）首选DNS：218.104.128.106 备用DNS：58.22.96.66</code></pre>
-
-<pre><code>福建省泉州市（中国电信）首选DNS：202.101.107.85  备用DNS：218.85.157.99</code></pre>
-
-<pre><code>福建省漳州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.112.55</code></pre>
-
-<pre><code>福建省福州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.98.55</code></pre>
-
-<pre><code>福建省泉州市（中国电信）首选DNS：218.85.157.99   备用DNS：202.101.107.98  备用DNS：202.101.107.55  备用DNS：202.101.107.85</code></pre>
-
-<pre><code>福建省龙岩市（中国电信）首选DNS：202.101.113.55  备用DNS：218.85.157.99(全省备用) </code></pre>
-
-
-<h1 id="江西：">江西：</h1>
-<pre><code>江西省新余市（中国电信）首选DNS：202.101.224.69  备用DNS：202.109.226.68</code></pre>
-
-<pre><code>江西省南昌市（中国电信）首选DNS：202.101.224.69  备用DNS：202.101.226.68  首选DNS：61.232.206.102</code></pre>
-
-<pre><code>江西省南昌市（中国铁通）首选DNS：211.98.2.4      备用DNS：211.98.4.1</code></pre>
-
-<pre><code>江西省宜春市（中国电信）首选DNS：202.101.224.69  备用DNS：202.101.226.68</code></pre>
-
-
-<h1 id="山西：">山西：</h1>
-<pre><code>山西省运城市（中国网通） 首选DNS ：202.99.192.66 备用DNS ：202.99.192.68</code></pre>
-
-<pre><code>山西省太原市（中国网通） 首选DNS：202.99.192.66  备用DNS：202.99.192.68</code></pre>
-
-<pre><code>山西省太原市（中国电信） 首选DNS：219.150.32.132 备用DNS：219.146.0.130</code></pre>
-
-<pre><code>山西省太原市（中国铁通） 首选DNS：211.98.32.132  备用DNS：211.98.4.1</code></pre>
-
-<pre><code>山西省大同市（中国网通） 首选DNS：202.99.192.66  备用DNS：202.99.192.68</code></pre>
-
-
-<h1 id="江苏：">江苏：</h1>
-<pre><code>江苏省靖江市（中国电信）首选DNS：221.228.255.1  备用DNS： 218.2.135.1</code></pre>
-
-<pre><code>江苏省南京市（中国电信）首选DNS：218.2.135.1    备用DNS：61.147.37.1</code></pre>
-
-<pre><code>江苏省镇江市（中国电信）首选DNS：218.2.135.1    备用DNS：61.147.37.1</code></pre>
-
-<pre><code>江苏省盐城市（中国铁通）首选DNS：222.45.1.40    备用DNS：211.98.4.1</code></pre>
-
-<pre><code>江苏省淮安市（中国电信）首选DNS：61.147.37.1    备用DNS：61.177.7.1</code></pre>
-
-<pre><code>江苏省苏州市（中国电信）首选DNS：61.177.7.1     备用DNS：221.228.255.1</code></pre>
-
-<pre><code>江苏省扬州市（中国电信）首选DNS：202.102.7.141  备用DNS：61.177.7.1</code></pre>
-
-<pre><code>江苏省无锡市（中国铁通）首选DNS：211.98.2.4     备用DNS：211.98.4.1</code></pre>
-
-<pre><code>江苏省无锡市（中国电信）首选DNS：221.228.255.1  备用DNS：218.2.135.1</code></pre>
-
-
-<h1 id="浙江：">浙江：</h1>
-<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.15   备用DNS：202.96.104.25</code></pre>
-
-<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.16   备用DNS：202.96.104.26</code></pre>
-
-<pre><code>浙江省宁波市（中国电信）首选DNS：202.96.104.27   备用DNS：202.96.104.17</code></pre>
-
-<pre><code>浙江省杭州市（中国网通）首选DNS：218.108.248.200 备用DNS：218.108.245.157</code></pre>
-
-<pre><code>浙江省溫州市（中国电信）首选DNS：61.153.177.199  备用DNS：61.153.177.198</code></pre>
-
-<pre><code>浙江省杭州市（中国电信）首选DNS：202.101.172.35  备用DNS：202.101.172.47</code></pre>
-
-<pre><code>浙江省乐清市（中国电信）首选DNS：61.153.177.200  备用DNS：61.153.177.202</code></pre>
-
-<pre><code>浙江省余姚市（中国电信）首选DNS：202.96.104.17   备用DNS：202.96.104.27</code></pre>
-
-
-<h1 id="陕西：">陕西：</h1>
-<pre><code>陕西省榆林市（中国电信）首选DNS：202.100.4.15   备用DNS：202.100.0.68</code></pre>
-
-<pre><code>陕西省延安市（中国电信）首选DNS：61.134.1.4     备用DNS：218.30.19.40</code></pre>
-
-<pre><code>陕西省西安市（中国铁通）首选DNS：222.41.52.3    备用DNS：61.232.202.158</code></pre>
-
-<pre><code>陕西省西安市（中国电信）首选DNS：218.30.19.40   备用dns：61.134.1.4</code></pre>
-
-
-<h1 id="安徽：">安徽：</h1>
-<pre><code>安徽省阜阳市（中国电信）首选DNS：202.102.192.68  备用DNS：202.102.199.68</code></pre>
-
-
-
-<h1 id="湖北：">湖北：</h1>
-<pre><code>湖北省湖北省（中国电信）首选DNS：202.103.44.150  备用DNS：202.103.24.68</code></pre>
-
-<pre><code>湖北省武汉市（中国电信）首选DNS：202.103.24.68   备用DNS：202.103.44.150</code></pre>
-
-<pre><code>湖北省武汉市（中国电信）首选DNS：202.104.24.68   备用DNS：202.103.0.117</code></pre>
-
-<pre><code>湖北省黄石市（中国电信）首选DNS：202.103.44.150  备用DNS：202.103.24.68</code></pre>
-
-
-<h1 id="山东：">山东：</h1>
-<pre><code>山东省烟台市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
-
-<pre><code>山东省济宁市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
-
-<pre><code>山东省青岛市（中国网通）首选DNS：202.102.134.68  备用DNS：202.102.128.68</code></pre>
-
-<pre><code>山东省滨州市（中国网通）首选DNS：202.102.134.68  备用DNS：202.102.128.68</code></pre>
-
-<pre><code>山东省临沂市（中国网通) 首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
-
-<pre><code>山东省临沂市（中国电信）首选DNS：219.146.0.130   备用DNS：219.150.32.132</code></pre>
-
-<pre><code>山东省德州市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
-
-<pre><code>山东省滕州市（中国网通）首选DNS：202.102.128.68  备用DNS：202.102.134.68</code></pre>
-
-<pre><code>山东省菏泽市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
-
-<pre><code>山东省枣庄市（中国电信）首选DNS：219.146.0.130   备用DNS：219.150.32.132</code></pre>
-
-<pre><code>山东省淄博市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
-
-<pre><code>山东省聊城市（中国网通）首选DNS：202.102.152.3   备用DNS：202.102.154.3</code></pre>
-
-<pre><code>山东省东营市（中国网通）首选DNS：202.102.152.3   备选DNS：202.102.154.3</code></pre>
-
-<pre><code>山东省东营市（中国网通）首选DNS：202.102.154.3   备选DNS：202.102.128.68</code></pre>
-
-<pre><code>山东省威海市（中国网通）首选DNS：202.102.154.3   备用DNS：202.102.152.3</code></pre>
-
-
-<h1 id="黑龙江：">黑龙江：</h1>
-<pre><code>黑龙江省全省共用（中国网通）首选DNS：202.97.224.69  备用DNS：202.97.227.138</code></pre>
-
-<pre><code>黑龙江省哈尔滨市（中国电信）首选DNS：219.150.32.132 备用DNS：219.146.0.130</code></pre>
-
-
-<h1 id="河北：">河北：</h1>
-<pre><code>河北省石家庄市（中国网通）首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
-
-<pre><code>河北省邯郸市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
-
-<pre><code>河北省邯郸市（中国铁通）  首选DNS：211.98.2.4       备用DNS：61.232.206.102</code></pre>
-
-<pre><code>河北省邢台市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4</code></pre>
-
-<pre><code>河北省秦皇岛市（中国网通）首选DNS：202.99.166.4     备用DNS：202.99.160.68</code></pre>
-
-<pre><code>河北省沧州市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.176.30   备用DNS：202.99.166.4</code></pre>
-
-<pre><code>河北省张家口市（中国网通）首选DNS：202.99.166.4     备用DNS：202.99.160.68</code></pre>
-
-<pre><code>河北省张家口市（中国电信）首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
-
-<pre><code>河北省邢台市（中国网通）  首选DNS：202.99.160.68    备用DNS：202.99.166.4    备用DNS：202.99.168.8</code></pre>
-
-
-<h1 id="贵州：">贵州：</h1>
-<pre><code>贵州省贵阳市（中国电信）  首选DNS：202.98.192.67    备用DNS：202.98.198.167</code></pre>
-
-
-<h1 id="云南：">云南：</h1>
-<pre><code>云南云南省玉溪市（中国电信）首选DNS：222.172.200.68 备用DNS：61.166.150.123</code></pre>
-
-<pre><code>云南省全省共用（中国铁通）  首选DNS：211.98.72.7    备用DNS：211.98.72.8</code></pre>
-
-<pre><code>云南省昆明市（中国网通）    首选DNS：221.3.131.12   备用DNS：221.3.131.11</code></pre>
-
-
-<h1 id="辽宁：">辽宁：</h1>
-<pre><code>辽宁省朝阳市（中国铁通） 首选DNS：61.232.206.102   备用DNS：211.98.4.1</code></pre>
-
-<pre><code>辽宁省朝阳市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
-
-<pre><code>辽宁省朝阳市（中国网通） 首选DNS：202.96.69.38     备用DNS：202.96.64.68</code></pre>
-
-<pre><code>辽宁省大连市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
-
-<pre><code>辽宁省大连市（中国网通） 首选DNS：202.96.69.38     备用DNS：202.96.64.68</code></pre>
-
-<pre><code>辽宁省抚顺市（中国电信） 首选DNS：219.150.32.132   备用DNS：219.146.0.130</code></pre>
-
-
-<h1 id="河南：">河南：</h1>
-<pre><code>河南省全省共用（中国电信）首选DNS：222.88.88.88     备选DNS：222.85.85.85</code></pre>
-
-<pre><code>河南省（平煤集团电信网）  首选DNS：210.76.0.2       备用DNS：219.150.150.150</code></pre>
-
-<pre><code>河南省郑州市（中国电信）  首选DNS：219.150.150.150  备用DNS：219.150. 32.132</code></pre>
-
-<pre><code>河南省郑州市（中国网通）  首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
-
-<pre><code>河南省漯河市（中国电信）  首选DNS：219.150.32.132   备用DNS：222.88.88.88</code></pre>
-
-<pre><code>河南省安阳市（中国铁通）  首选DNS：211.98.192.3     备用DNS：61.233.65.3</code></pre>
-
-<pre><code>河南省洛阳市（中国电信）  首选DNS：222.88.88.88     备用DNS：222.85.85.85</code></pre>
-
-<pre><code>河南省全省共用（中国网通）首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
-
-<pre><code>河南省驻马店市（中国网通）首选DNS：202.102.224.68   备用DNS：202.102.227.68</code></pre>
-
-
-<h1 id="四川：">四川：</h1>
-<pre><code>四川省重庆市（中国电信）首选DNS：61.128.128.68   备用DNS：61.128.192.68</code></pre>
-
-<pre><code>四川省泸州市（中国电信）首选DNS：61.139.2.69     备用DNS：202.98.96.68</code></pre>
-
-<pre><code>四川省泸州市（中国铁通）首选DNS：61.236.159.99   备用DNS：61.139.2.69</code></pre>
-
-<pre><code>四川省成都市（中国电信）首选DNS：202.98.96.68    备用DNS：61.139.2.69</code></pre>
-
-<pre><code>四川省遂宁市（中国电信）首选DNS：202.98.96.68    备用DNS：61.139.2.69</code></pre>
-
-
-<h1 id="内蒙古：">内蒙古：</h1>
-<pre><code>内蒙古呼和浩特市（中国电信）首选DNS：219.148.162.31  备用DNS：219.150.32.132</code></pre>
-
-<pre><code>内蒙古呼和浩特市（中国网通）首选DNS：202.224.99.68   备用DNS：202.224.99.67</code></pre>
-
-
-<h1 id="天津：">天津：</h1>
-<pre><code>天津天津市（中国电信）首选DNS：219.150.32.132    备用DNS：219.146.0.132</code></pre>
-
-<pre><code>天津天津市（中国网通）首选DNS：202.99.104.68     备用DNS：202.99.96.68</code></pre>
-
-
-<h1 id="新疆：">新疆：</h1>
-<pre><code>新疆喀什市  （中国电信）首选DNS：61.128.114.166  备选DNS：61.128.114.133</code></pre>
-
-<pre><code>新疆阿克苏市（中国电信）首选DNS：61.128.114.166  备选DNS：61.128.114.133</code></pre>
-
-<pre><code>新疆库尔勒市（中国电信）首选DNS：61.128.114.166  备用DNS：61.128.114.133</code></pre>
-
-
-<h1 id="吉林：">吉林：</h1>
-<pre><code>吉林省全省共用（中国网通）首选DNS：202.98.5.68   备用DNS：202.98.0.68</code></pre>
-
-
-<h1 id="海南：">海南：</h1>
-<pre><code>海南省海口市（中国铁通）首选DNS：202.103.96.112  备选DNS：61.144.40.92</code></pre>
-
-<pre><code>海南省海口市（中国电信）首选DNS：202.100.197.50  备用DNS：202.100.199.8</code></pre>
-
-
-<h1 id="西藏：">西藏：</h1>
-<pre><code>西藏藏族自治区拉萨市（中国网通）首选DNS：221.13.65.34 备用DNS：202.102.152.3</code></pre>
-
-
-<h1 id="甘肃：">甘肃：</h1>
-<pre><code>甘肃省兰州市（中国电信）首选DNS：202.100.64.68   备用DNS：202.100.64.66</code></pre>
-
-<pre><code>甘肃省兰州市（中国铁通）首选DNS：211.98.121.27   备用DNS：211.98.2.4</code></pre>
-
-<pre><code>甘肃省武威市（中国电信）首选DNS：202.100.64.68   备用DNS：60.178.0.93</code></pre>
-]]></content>
-    <summary type="html">
-    <![CDATA[北京，上海，广东]]>
-    
-    </summary>
-    
-      <category term="DNS" scheme="http://www.prokitty.com/tags/DNS/"/>
-    
-      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hexo主题博客汇总]]></title>
-    <link href="http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/"/>
-    <id>http://www.prokitty.com/2015/02/05/hexo博客汇总/</id>
-    <published>2015-02-04T17:36:00.000Z</published>
-    <updated>2015-02-10T14:17:05.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
-<ul>
-<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
-<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
-<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
-<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
-<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
-<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
-<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
-<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
-<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
-<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
-<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
-<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
-<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
-<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
-<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
-<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
-<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[hexo themes！]]>
-    
-    </summary>
-    
-      <category term="Hexo" scheme="http://www.prokitty.com/tags/Hexo/"/>
-    
-      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[二十四诗品]]></title>
-    <link href="http://www.prokitty.com/2015/02/04/%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%AF%97%E5%93%81/"/>
-    <id>http://www.prokitty.com/2015/02/04/二十四诗品/</id>
-    <published>2015-02-03T16:00:00.000Z</published>
-    <updated>2015-02-10T14:19:00.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="雄浑">雄浑</h2>
-<p><strong>大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。</strong></p>
-<h2 id="冲淡">冲淡</h2>
-<p><strong>素处以默，妙机其微。饮之太和，独鹤与飞。犹之惠风，荏苒在衣。阅音修篁，美曰载归。遇之匪深，即之愈希。脱有形似，握手已违。</strong></p>
-<h2 id="纤农">纤农</h2>
-<p><strong>采采流水，蓬蓬远春。窈窕深谷，时见美人。碧桃满树，风日水滨。柳阴路曲，流莺比邻。乘之愈往，识之愈真。如将不尽，与古为新。</strong></p>
-<h2 id="沉著">沉著</h2>
-<p><strong>绿杉野屋，落日气清。脱巾独步，时闻鸟声。鸿雁不来，之子远行。所思不远，若为平生。海风碧云，夜渚月明。如有佳语，大河前横。</strong></p>
-<h2 id="高古">高古</h2>
-<p><strong>畸人乘真，手把芙蓉。泛彼浩劫，窅然空踪。月出东斗，好风相从。太华夜碧，人闻清钟。虚伫神素，脱然畦封。黄唐在独，落落玄宗。</strong></p>
-<h2 id="典雅">典雅</h2>
-<p><strong>玉壶买春，赏雨茅屋。坐中佳士，左右修竹。白云初晴，幽鸟相逐。眠琴绿阴，上有飞瀑。落花无言，人淡如菊。书之岁华，其曰可读。</strong></p>
-<h2 id="洗炼">洗炼</h2>
-<p><strong>如矿出金，如铅出银。超心炼冶，绝爱缁磷。空潭泻春，古镜照神。体素储洁，乘月返真。载瞻星辰，载歌幽人。流水今日，明月前身。</strong></p>
-<h2 id="劲健">劲健</h2>
-<p><strong>行神如空，行气如虹。巫峡千寻，走云连风。饮真茹强，蓄素守中。喻彼行健，是谓存雄。天地与立，神化攸同。期之以实，御之以终。</strong></p>
-<h2 id="绮丽">绮丽</h2>
-<p><strong>神存富贵，始轻黄金。浓尽必枯，淡者屡深。雾余水畔，红杏在林。月明华屋，画桥碧阴。金尊酒满，伴客弹琴。取之自足，良殚美襟。</strong></p>
-<h2 id="自然">自然</h2>
-<p><strong>俯拾即是，不取诸邻。俱道适往，著手成春。如逢花开，如瞻岁新。真与不夺，强得易贫。幽人空山，过雨采苹。薄言情悟，悠悠天钧。</strong></p>
-<h2 id="含蓄">含蓄</h2>
-<p><strong>不著一字，尽得风流。语不涉己，若不堪忧。是有真宰，与之沉浮。如满绿酒，花时反秋。悠悠空尘，忽忽海沤。浅深聚散，万取一收。</strong></p>
-<h2 id="豪放">豪放</h2>
-<p><strong>观花匪禁，吞吐大荒。由道反气，虚得以狂。天风浪浪，海山苍苍。真力弥满，万象在旁。前招三辰，后引凤凰。晓策六鳌，濯足扶桑。</strong></p>
-<h2 id="精神">精神</h2>
-<p><strong>欲返不尽，相期与来。明漪绝底，奇花初胎。青春鹦鹉，杨柳楼台。碧山人来，清酒深杯。生气远出，不著死灰。妙造自然，伊谁与裁。</strong></p>
-<h2 id="缜密">缜密</h2>
-<p><strong>是有真迹，如不可知。意象欲生，造化已奇。水流花开，清露未晞。要路愈远，幽行为迟。语不欲犯，思不欲痴。犹春于绿，明月雪时。</strong></p>
-<h2 id="疏野">疏野</h2>
-<p><strong>惟性所宅，真取不羁。控物自富，与率为期。筑室松下，脱帽看诗。但知旦暮，不辨何时。倘然适意，岂必有为。若其天放，如是得之。</strong></p>
-<h2 id="清奇">清奇</h2>
-<p><strong>娟娟群松，下有漪流。晴雪满竹，隔溪渔舟。可人如玉，步屧寻幽。载瞻载止，空碧悠悠，神出古异，淡不可收。如月之曙，如气之秋。</strong></p>
-<h2 id="委曲">委曲</h2>
-<p><strong>登彼太行，翠绕羊肠。杳霭流玉，悠悠花香。力之于时，声之于羌。似往已回，如幽匪藏。水理漩洑，鹏风翱翔。道不自器，与之圆方。</strong></p>
-<h2 id="实境">实境</h2>
-<p><strong>取语甚直，计思匪深。忽逢幽人，如见道心。清涧之曲，碧松之阴。一客荷樵，一客听琴。情性所至，妙不自寻。遇之自天，泠然希音。</strong></p>
-<h2 id="悲慨">悲慨</h2>
-<p><strong>大风卷水，林木为摧。适苦欲死，招憩不来。百岁如流，富贵冷灰。大道日丧，若为雄才。壮士拂剑，浩然弥哀。萧萧落叶，漏雨苍苔。</strong></p>
-<h2 id="形容">形容</h2>
-<p><strong>绝伫灵素，少回清真。如觅水影，如写阳春。风云变态，花草精神。海之波澜，山之嶙峋。俱似大道，妙契同尘。离形得似，庶几斯人。</strong></p>
-<h2 id="超诣">超诣</h2>
-<p><strong>匪神之灵，匪几之微。如将白云，清风与归。远引若至，临之已非。少有道契，终与俗违。乱山乔木，碧苔芳晖。诵之思之，其声愈希。</strong></p>
-<h2 id="飘逸">飘逸</h2>
-<p><strong>落落欲往，矫矫不群。缑山之鹤，华顶之云。高人画中，令色氤氲。御风蓬叶，泛彼无垠。如不可执，如将有闻。识者已领，期之愈分。</strong></p>
-<h2 id="旷达">旷达</h2>
-<p><strong>生者百岁，相去几何。欢乐苦短，忧愁实多。何如尊酒，日往烟萝。花覆茅檐，疏雨相过。倒酒既尽，杖藜行歌。孰不有古，南山峨峨。</strong></p>
-<h2 id="流动">流动</h2>
-<p><strong>若纳水輨，如转丸珠。夫岂可道，假体如愚。荒荒坤轴，悠悠天枢。载要其端，载同其符。超超神明，返返冥无。来往千载，是之谓乎。</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[大用外腓，真体内充。反虚入浑，积健为雄。具备万物，横绝太空。荒荒油云，寥寥长风。超以象外，得其环中。持之非强，来之无穷。]]>
-    
-    </summary>
-    
-      <category term="诗词" scheme="http://www.prokitty.com/tags/%E8%AF%97%E8%AF%8D/"/>
-    
-      <category term="杂记" scheme="http://www.prokitty.com/categories/%E6%9D%82%E8%AE%B0/"/>
     
   </entry>
   

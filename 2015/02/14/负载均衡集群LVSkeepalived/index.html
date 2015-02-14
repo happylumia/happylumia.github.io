@@ -4,20 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Vim中权限不足时不用退出而强制保存 | 朱邏輯公園</title>
+    <title>朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="only for your Debian vim!">
+    <meta name="description" content="title: 负载均衡集群（LVSkeepalived)date: 2015-02-14 19:51:00categories: 运维tags: [负载均衡,LVS,Keepalived]description: 常用的负载均衡开源软件有： nginx、lvs、keepalived 
+商业的硬件负载">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="Vim中权限不足时不用退出而强制保存 | 朱邏輯公園" />
-      
-        <meta name="twitter:description" content="only for your Debian vim!" />
+    <meta name="twitter:title" content="朱邏輯公園" />
       
     
     
@@ -75,15 +74,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/08/vim中权限不足时不用退出而强制保存/" title="Vim中权限不足时不用退出而强制保存" itemprop="url">Vim中权限不足时不用退出而强制保存</a>
+      <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-08T08:27:00.000Z" itemprop="datePublished">2015-02-08</time>
-    更新日期:<time datetime="2015-02-10T14:18:37.000Z" itemprop="dateModified">2015-02-10</time>
+    <time datetime="2015-02-14T11:50:35.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-14T12:44:59.000Z" itemprop="dateModified">2015-02-14</time>
     
   </p>
 </header>
@@ -92,29 +91,84 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#商业的硬件负载设备：_F5、Netscale。"><span class="toc-number">1.</span> <span class="toc-text">商业的硬件负载设备： F5、Netscale。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number"></span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR + keepalived配置</span></a>
 		</div>
 		
-		<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
-<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
-<p>命令：</p>
-<pre><code>:w !sudo tee %</code></pre>
+		<p>title: 负载均衡集群（LVSkeepalived)<br>date: 2015-02-14 19:51:00<br>categories: 运维<br>tags: [负载均衡,LVS,Keepalived]<br>description: 常用的负载均衡开源软件有： nginx、lvs、keepalived </p>
+<h2 id="商业的硬件负载设备：_F5、Netscale。">商业的硬件负载设备： F5、Netscale。</h2>
+<h1 id="LVS/NAT_配置">LVS/NAT 配置</h1>
+<p>三台服务器一台作为director, 两台作为real server Director 有一个外网ip (192.168.0.132)和一个内网ip(192.168.36.132), 两个real server上只有内网ip(192.168.36.137)和(192.168.36.138) 并且需要把两个real server的内网网关设置为director的内网ip(192.168.36.132)<br>两个real server 上都安装httpd:<br><code>yum install -y httpd</code><br>Director上安装ipvsadm:<br><code>yum install -y  ipvsadm</code><br>Direcotr 上 <code>vim /usr/local/sbin/lvs_nat.sh</code> //增加:</p>
+<pre><code>#! /bin/bash
+# director 服务器上开启路由转发功能: 
+echo 1 > /proc/sys/net/ipv4/ip_forward 
+# 关闭icmp的重定向
+echo 0 > /proc/sys/net/ipv4/conf/all/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/default/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/eth0/send_redirects
+echo 0 > /proc/sys/net/ipv4/conf/eth1/send_redirects
 
-<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+# director 设置nat防火墙
+iptables -t nat -F
+iptables -t nat -X
+iptables -t nat -A POSTROUTING -s 192.168.200.0/24  -j MASQUERADE
+# director设置ipvsadm
+IPVSADM=`/sbin/ipvsadm`
+$IPVSADM -C
+$IPVSADM -A -t 192.168.0.11:80 -s lc -p 300
+$IPVSADM -a -t 192.168.0.11:80 -r 192.168.200.128:80 -m -w 1
+$IPVSADM -a -t 192.168.0.11:80 -r 192.168.200.129:80 -m -w 1</code></pre>
+
+
+<p>直接运行这个脚本就可以完成lvs/nat的配置了:<br><code>/bin/bash /usr/local/sbin/lvs_nat.sh</code><br>通过浏览器测试两台机器上的httpd内容。</p>
+<h1 id="LVS/DR_配置">LVS/DR 配置</h1>
+<p>三台机器:<br>director(eth0192.168.0.11, vip eth0:0: 192.168.0.100)<br>real server1(eth0 rip: 192.168. 0.21, vip lo:0: 192.168.0.100)<br>real server2(eth0 rip: 192.168.0.22, vip lo:0: 192.168.0.100)<br>Director 上 <code>vim /usr/local/sbin/lvs_dr.sh</code> //增加</p>
+<pre><code>#! /bin/bash
+echo 1 > /proc/sys/net/ipv4/ip_forward
+ipv=/sbin/ipvsadm
+vip=192.168.0.100
+rs1=192.168.0.21
+rs2=192.168.0.22
+ifconfig eth0:0 $vip broadcast $vip netmask 255.255.255.255 up
+route add -host $vip dev eth0:0
+$ipv -C
+$ipv -A -t $vip:80 -s rr 
+$ipv -a -t $vip:80 -r $rs1:80 -g -w 1
+$ipv -a -t $vip:80 -r $rs2:80 -g -w 1</code></pre>
+
+
+<p>两台rs上：<code>vim /usr/local/sbin/lvs_dr_rs.sh</code></p>
+<pre><code>#! /bin/bash
+vip=192.168.0.100
+ifconfig lo:0 $vip broadcast $vip netmask 255.255.255.255 up 
+route add -host $vip lo:0
+echo "1" >/proc/sys/net/ipv4/conf/lo/arp_ignore
+echo "2" >/proc/sys/net/ipv4/conf/lo/arp_announce
+echo "1" >/proc/sys/net/ipv4/conf/all/arp_ignore
+echo "2" >/proc/sys/net/ipv4/conf/all/arp_announce</code></pre>
+
+
+<p>关于<code>arp_ignore</code>和 <code>arp_announce</code>参考：<a href="http://www.cnblogs.com/lgfeng/archive/2012/10/16/2726308.html" target="_blank" rel="external">http://www.cnblogs.com/lgfeng/archive/2012/10/16/2726308.html</a></p>
+<p>然后director上执行:<code>bash /usr/local/sbin/lvs_dr.sh</code><br>两台rs上执行: <code>bash /usr/local/sbin/lvs_dr_rs.sh</code><br>Windows下浏览器测试访问</p>
+<h1 id="LVS/DR_+_keepalived配置">LVS/DR + keepalived配置</h1>
+<p>注意：前面虽然我们已经配置过一些操作，但是下面我们使用keepaliave操作和之前的操作是有些冲突的，所以若是之前配置过DR，请首先做如下操作：dr上执行：</p>
+<p><code>$ipv -C
+ifconfig eth0:0  down</code></p>
+<p>前面的lvs虽然已经配置成功也实现了负载均衡，但是我们测试的时候发现，当某台real server把httpd进程停掉，那么director照样会把请求转发过去，这样就造成了某些请求不正常。所以需要有一种机制用来检测real server的状态，这就是keepalived。它的作用除了可以检测rs状态外，还可以检测备用director的状态，也就是说keepalived可以实现ha集群的功能，当然了也需要一台备用director.<br>备用director也需要安装一下keepalived软件<br><code>yum install -y keepalived</code><br>安装好后，编辑配置文件<br><code>vim /etc/keepalived/keepalived.conf</code>  //加入如下：</p>
+<p><pre><code>vrrp_instance VI_1 {<br>    state MASTER   #备用服务器上为 BACKUP<br>    interface eth0<br>    virtual_router_id 51<br>    priority 100  #备用服务器上为90<br>    advert_int 1<br>    authentication {<br>        auth_type PASS<br>        auth_pass 1111<br>    }<br>    virtual_ipaddress {<br>        192.168.0.100<br>    }<br>}<br>virtual_server 192.168.0.100 80 {<br>    delay_loop 6                  #(每隔10秒查询realserver状态)<br>    lb_algo wlc                  #(lvs 算法)<br>    lb_kind DR                  #(Direct Route)<br>    persistence_timeout 60        #(同一IP的连接60秒内被分配到同一台realserver)<br>    protocol TCP                #(用TCP协议检查realserver状态)</code></pre></p>
+<pre><code><span class="title">real_server</span> <span class="number">192.168.0.21</span> <span class="number">80</span> {
+    <span class="title">weight</span> <span class="number">100</span>               <span class="comment">#(权重)</span>
+    TCP_CHECK {
+    <span class="title">connect_timeout</span> <span class="number">10</span>       <span class="comment">#(10秒无响应超时)</span>
+    nb_get_retry <span class="number">3</span>
+    delay_before_retry <span class="number">3</span>
+    connect_port <span class="number">80</span>
+    }
+}
+</code></pre><p>real_server 192.168.0.22 80 {<br>        weight 100<br>        TCP_CHECK {<br>        connect_timeout 10<br>        nb_get_retry 3<br>        delay_before_retry 3<br>        connect_port 80<br>        }<br>     }<br>}<br><br>以上为主director的配置文件，从director的配置文件只需要修改<br><code>state MASTER  -&gt; state BACKUP</code><br><code>priority 100 -&gt; priority 90</code><br>配置完keepalived后，需要开启端口转发（主从都要做）：<br><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</code><br>然后，两个rs上执行 <code>/usr/local/sbin/lvs_dr_rs.sh</code> 脚本<br>最后，两个director上启动keepalived服务（先主后从）：<br><code>/etc/init.d/keepalived start</code><br>另外，需要注意的是，启动keepalived服务会自动生成vip和ipvsadm规则，不需要再去执行上面提到的<code>/usr/local/sbin/lvs_dr.sh</code>脚本。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Vim/">Vim</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
 
 
 
@@ -148,18 +202,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/09/负载均衡与高可用/" title="负载均衡与高可用">
+ <a href="/2015/02/14/squid配置/" title="">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  负载均衡与高可用</span>
+  (no title)</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/07/Hexo免费静态博客安装和使用方法/"  title="Hexo免费静态博客安装和使用方法">
+<a href="/2015/02/14/lvs调度算法/"  title="">
  <strong>NEXT:</strong><br/> 
- <span>Hexo免费静态博客安装和使用方法
+ <span>(no title)
 </span>
 </a>
 </div>
@@ -176,7 +230,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#商业的硬件负载设备：_F5、Netscale。"><span class="toc-number">1.</span> <span class="toc-text">商业的硬件负载设备： F5、Netscale。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number"></span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR + keepalived配置</span></a>
   </div>
 
 <div id="asidepart">

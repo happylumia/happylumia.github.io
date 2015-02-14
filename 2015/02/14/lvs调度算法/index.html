@@ -4,20 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Vim中权限不足时不用退出而强制保存 | 朱邏輯公園</title>
+    <title>朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="only for your Debian vim!">
+    <meta name="description" content="title: lvs调度算法date: 2015-02-14 15:57:00categories: 运维tags: [LVS,算法]
+description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Ha">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="Vim中权限不足时不用退出而强制保存 | 朱邏輯公園" />
-      
-        <meta name="twitter:description" content="only for your Debian vim!" />
+    <meta name="twitter:title" content="朱邏輯公園" />
       
     
     
@@ -75,15 +74,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/08/vim中权限不足时不用退出而强制保存/" title="Vim中权限不足时不用退出而强制保存" itemprop="url">Vim中权限不足时不用退出而强制保存</a>
+      <a href="/2015/02/14/lvs调度算法/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-08T08:27:00.000Z" itemprop="datePublished">2015-02-08</time>
-    更新日期:<time datetime="2015-02-10T14:18:37.000Z" itemprop="dateModified">2015-02-10</time>
+    <time datetime="2015-02-14T07:57:19.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-14T08:00:15.000Z" itemprop="dateModified">2015-02-14</time>
     
   </p>
 </header>
@@ -92,29 +91,16 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。"><span class="toc-number">1.</span> <span class="toc-text">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</span></a></li></ol>
 		</div>
 		
-		<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
-<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
-<p>命令：</p>
-<pre><code>:w !sudo tee %</code></pre>
-
-<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+		<p>title: lvs调度算法<br>date: 2015-02-14 15:57:00<br>categories: 运维<br>tags: [LVS,算法]</p>
+<h2 id="description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</h2>
+<p><a href="http://yangdonglin.blog.51cto.com/5404572/1305111" target="_blank" rel="external">http://yangdonglin.blog.51cto.com/5404572/1305111</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Vim/">Vim</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
 
 
 
@@ -148,18 +134,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/09/负载均衡与高可用/" title="负载均衡与高可用">
+ <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  负载均衡与高可用</span>
+  (no title)</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/07/Hexo免费静态博客安装和使用方法/"  title="Hexo免费静态博客安装和使用方法">
+<a href="/2015/02/14/DNS tunnel的原理及实战/"  title="Dns Tunnel的原理及实战">
  <strong>NEXT:</strong><br/> 
- <span>Hexo免费静态博客安装和使用方法
+ <span>Dns Tunnel的原理及实战
 </span>
 </a>
 </div>
@@ -176,7 +162,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。"><span class="toc-number">1.</span> <span class="toc-text">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</span></a></li></ol>
   </div>
 
 <div id="asidepart">

@@ -4,20 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Vim中权限不足时不用退出而强制保存 | 朱邏輯公園</title>
+    <title>朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="only for your Debian vim!">
+    <meta name="description" content="title: squid配置date: 2015-02-14 20:50:00categories: 运维tags: [squid]description: squid可以做代理也可以做缓存squid缓存不仅可以节省宝贵的带宽资源，也可以大大降低服务器的I/O.  
+squid不仅可以做正向代理，又">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="Vim中权限不足时不用退出而强制保存 | 朱邏輯公園" />
-      
-        <meta name="twitter:description" content="only for your Debian vim!" />
+    <meta name="twitter:title" content="朱邏輯公園" />
       
     
     
@@ -75,15 +74,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/08/vim中权限不足时不用退出而强制保存/" title="Vim中权限不足时不用退出而强制保存" itemprop="url">Vim中权限不足时不用退出而强制保存</a>
+      <a href="/2015/02/14/squid配置/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-08T08:27:00.000Z" itemprop="datePublished">2015-02-08</time>
-    更新日期:<time datetime="2015-02-10T14:18:37.000Z" itemprop="dateModified">2015-02-10</time>
+    <time datetime="2015-02-14T12:50:22.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-14T12:55:48.000Z" itemprop="dateModified">2015-02-14</time>
     
   </p>
 </header>
@@ -92,29 +91,66 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#squid不仅可以做正向代理，又可以做反向代理。_"><span class="toc-number">1.</span> <span class="toc-text">squid不仅可以做正向代理，又可以做反向代理。 </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-_什么是squid"><span class="toc-number"></span> <span class="toc-text">1. 什么是squid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-_搭建squid正向代理"><span class="toc-number"></span> <span class="toc-text">2. 搭建squid正向代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-_搭建squid反向代理"><span class="toc-number"></span> <span class="toc-text">3. 搭建squid反向代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-_需要你练习的知识点"><span class="toc-number"></span> <span class="toc-text">4. 需要你练习的知识点</span></a>
 		</div>
 		
-		<h1 id="未输入sudo，vim不能退出保存">未输入sudo，vim不能退出保存</h1>
-<p>在debian中，有时候忘记了输入sudo进行vim编辑，当编辑完了才发现无法退出保存，直接退出，之前的工作就白做了，真是两难啊。解决办法：</p>
-<p>命令：</p>
-<pre><code>:w !sudo tee %</code></pre>
+		<p>title: squid配置<br>date: 2015-02-14 20:50:00<br>categories: 运维<br>tags: [squid]<br>description: squid可以做代理也可以做缓存<br>squid缓存不仅可以节省宝贵的带宽资源，也可以大大降低服务器的I/O.  </p>
+<h2 id="squid不仅可以做正向代理，又可以做反向代理。_">squid不仅可以做正向代理，又可以做反向代理。 </h2>
+<h1 id="1-_什么是squid">1. 什么是squid</h1>
+<p>squid可以做代理也可以做缓存<br>squid缓存不仅可以节省宝贵的带宽资源，也可以大大降低服务器的I/O.<br>squid不仅可以做正向代理，又可以做反向代理。<br>正向代理，squid后面是客户端，客户端上网要通过Squid去上；反向代理，squid后面是服务器，服务器返回给用户数据需要走squid.<br>正向代理用在企业的办公环境中，员工上网需要通过squid代理来上网，这样可以节省网络带宽资源。而反向代理用来搭建网站静态项(图片、html、流媒体、js、css等)的缓存服务器，它用于网站架构中。 </p>
+<h1 id="2-_搭建squid正向代理">2. 搭建squid正向代理</h1>
+<p>官方网站为 <a href="http://www.squid-cache.org/" target="_blank" rel="external">http://www.squid-cache.org/</a><br><code>yum install -y squid</code><br><code>squid -v</code> 查看版本以及编译参数<br><code>&gt; /etc/squid/squid.conf</code><br><code>vim /etc/squid/squid.conf</code><br>加入如下配置:</p>
+<pre><code>
+http_port 3128
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl localnet src 10.0.0.0/8     # RFC1918 possible internal network
+acl localnet src 172.16.0.0/12  # RFC1918 possible internal network
+acl localnet src 192.168.0.0/16 # RFC1918 possible internal network
+acl SSL_ports port 443
+acl Safe_ports port 80 8080         # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl CONNECT method CONNECT
+http_access allow manager localhost
+http_access deny manager
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localnet
+http_access allow localhost
+http_access allow all
+cache_dir aufs /data/cache 1024 16 256
+cache_mem 128 MB
+hierarchy_stoplist cgi-bin ?
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp:           1440    20%     10080
+refresh_pattern ^gopher:        1440    0%      1440
+refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
+refresh_pattern \.(jpg|png|gif|mp3|xml) 1440    50%     2880    ignore-reload
+refresh_pattern .               0       20%     4320
+### 到此结束</code></pre>
 
-<p>此命令是把当前文件（即%）作为stdin传给sudo tee命令来执行。说起来挺绕口，其实就是：用sudo强制保存。</p>
+<p><code>mkdir  /data/cache</code> #创建缓存目录<br><code>chown -R squid:squid /data/cache</code>  #更改权限<br><code>squid -z</code>  #初始化缓存目录，该步骤可以省略<br><code>/etc/init.d/squid start</code><br><code>squid  -kcheck</code>#可以检测配置文件是否有错<br><code>squid -k rec</code>#可以重新加载配置<br><code>service squid restart</code> #重启squid服务</p>
+<p>测试：<code>curl -xlocalhost:3128 www.qq.com</code><br>访问图片，测试缓存： <code>curl -xlocalhost:3128   -I &#39;http://www.aminglinux.com/bbs/static/image/common/logo.png&#39;</code><br>限制某些域名不能通过代理访问，或者说只想代理某几个域名  <code>vim /etc/squid/squid.conf</code></p>
+<pre><code>acl http proto HTTP 
+acl good_domain dstdomain .lishiming.net .aminglinux.com 
+http_access allow http good_domain 
+http_access deny http !good_domain 
+测 curl -xlocalhost:3128 www.google.com.hk -I  #403
+测 curl -xlocalhost:3128 www.aminglinux.com/bbs/forum.php  -I #200
+vim /etc/squid/squid.conf  #设置域名黑名单</code></pre>
+
+<h1 id="3-_搭建squid反向代理">3. 搭建squid反向代理</h1>
+<p><code>vim /etc/squid/squid.conf</code>#如下变更<br><code>http_port 3128 改为 http_port 80 accel vhost vport</code><br>增加如下内容：</p>
+<p><pre><code><br>cache_peer 123.125.119.147 parent 80 0 originserver name=a<br>cache_peer 61.135.169.125 parent 80 0 originserver name=b<br>cache_peer_domain a www.qq.com<br>cache_peer_domain b www.baidu.com </code></pre></p>
+<p><br>之前增加的域名白/黑名单相关配置去掉<br>如果是squid要代理一台web上的所有域名，那么就写成这样: <pre><code>cache_peer 192.168.10.111 80 0 originserver  #只需要这一行</code></pre>，cache_peer_domain  都可以省掉<br><code>/etc/init.d/squid restart</code><br>测试<code>www.baidu.com www.qq.com  www.lishiming.net</code></p>
+<h1 id="4-_需要你练习的知识点">4. 需要你练习的知识点</h1>
+<p>配置一下squid的防盗链<br>如何查看squid的缓存命中率<br>如何删除指定的squid缓存文件<br>squid日志不记录指定文件的访问<br>尝试配置一下squid透明代理（有用到防火墙知识）</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Vim/">Vim</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
 
 
 
@@ -148,18 +184,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/09/负载均衡与高可用/" title="负载均衡与高可用">
+ <a href="/2915/02/11/可以访问Google的IP/" title="可以访问Google的Ip">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  负载均衡与高可用</span>
+  可以访问Google的Ip</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/07/Hexo免费静态博客安装和使用方法/"  title="Hexo免费静态博客安装和使用方法">
+<a href="/2015/02/14/负载均衡集群LVSkeepalived/"  title="">
  <strong>NEXT:</strong><br/> 
- <span>Hexo免费静态博客安装和使用方法
+ <span>(no title)
 </span>
 </a>
 </div>
@@ -176,7 +212,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#未输入sudo，vim不能退出保存"><span class="toc-number">1.</span> <span class="toc-text">未输入sudo，vim不能退出保存</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#squid不仅可以做正向代理，又可以做反向代理。_"><span class="toc-number">1.</span> <span class="toc-text">squid不仅可以做正向代理，又可以做反向代理。 </span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-_什么是squid"><span class="toc-number"></span> <span class="toc-text">1. 什么是squid</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-_搭建squid正向代理"><span class="toc-number"></span> <span class="toc-text">2. 搭建squid正向代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-_搭建squid反向代理"><span class="toc-number"></span> <span class="toc-text">3. 搭建squid反向代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-_需要你练习的知识点"><span class="toc-number"></span> <span class="toc-text">4. 需要你练习的知识点</span></a>
   </div>
 
 <div id="asidepart">
