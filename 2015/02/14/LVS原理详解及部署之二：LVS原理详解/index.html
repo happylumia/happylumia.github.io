@@ -4,20 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | 朱邏輯公園</title>
+    <title>Lvs原理详解及部署之二：Lvs原理详解 | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" itemprop="description" content="smell it">
+    <meta name="description" itemprop="description" content="计算机集群架构按照功能和结构一般分成以下几类：负载均衡集群（Loadbalancingclusters）简称LBC、高可用性集群（High-availabilityclusters）简称HAC、高性能计算集群（High-perfomanceclusters）简称HPC、网格计算（Gridcomputing。网络上面一般认为是有三个，负载均衡和高可用集群式我们互联网行业常用的集群架构。">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="Hello World | 朱邏輯公園" />
+    <meta name="twitter:title" content="Lvs原理详解及部署之二：Lvs原理详解 | 朱邏輯公園" />
       
-        <meta name="twitter:description" content="smell it" />
+        <meta name="twitter:description" content="计算机集群架构按照功能和结构一般分成以下几类：负载均衡集群（Loadbalancingclusters）简称LBC、高可用性集群（High-availabilityclusters）简称HAC、高性能计算集群（High-perfomanceclusters）简称HPC、网格计算（Gridcomputing。网络上面一般认为是有三个，负载均衡和高可用集群式我们互联网行业常用的集群架构。" />
       
     
     
@@ -75,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/01/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/02/14/LVS原理详解及部署之二：LVS原理详解/" title="Lvs原理详解及部署之二：Lvs原理详解" itemprop="url">Lvs原理详解及部署之二：Lvs原理详解</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-01-31T16:00:00.000Z" itemprop="datePublished">2015-02-01</time>
-    更新日期:<time datetime="2015-02-03T12:49:42.000Z" itemprop="dateModified">2015-02-03</time>
+    <time datetime="2015-02-14T05:38:00.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-14T05:40:32.000Z" itemprop="dateModified">2015-02-14</time>
     
   </p>
 </header>
@@ -92,40 +92,23 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p><a href="http://www.it165.net/admin/html/201401/2248.html" target="_blank" rel="external">LVS原理详解及部署之二：LVS原理详解</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Believe/">Believe</a>
+  <span></span> <a href="/tags/LVS/">LVS</a><a href="/tags/负载均衡/">负载均衡</a><a href="/tags/集群/">集群</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/杂记/">杂记</a>
+  <a class="article-category-link" href="/categories/运维/">运维</a>
 </div>
 
 
@@ -160,18 +143,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/02/献给markdown初学者/" title="献给Markdown初学者的自己">
+ <a href="/2015/02/14/LVS-DR工作原理图文详解/" title="Lvs Dr工作原理图文详解">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  献给Markdown初学者的自己</span>
+  Lvs Dr工作原理图文详解</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/01/0模板/"  title="Hexo博客模板">
+<a href="/2015/02/11/再论双机热备/"  title="再论双机热备">
  <strong>NEXT:</strong><br/> 
- <span>Hexo博客模板
+ <span>再论双机热备
 </span>
 </a>
 </div>
@@ -188,7 +171,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+  
   </div>
 
 <div id="asidepart">
