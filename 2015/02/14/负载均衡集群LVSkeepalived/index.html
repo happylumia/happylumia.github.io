@@ -4,19 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>朱邏輯公園</title>
+    <title>负载均衡集群（Lv Skeepalived) | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" content="title: 负载均衡集群（LVSkeepalived)date: 2015-02-14 19:51:00categories: 运维tags: [负载均衡,LVS,Keepalived]description: 常用的负载均衡开源软件有： nginx、lvs、keepalived 
-商业的硬件负载">
+    <meta name="description" itemprop="description" content="常用的负载均衡开源软件有： nginx、lvs、keepalived商业的硬件负载设备： F5、Netscale。">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="朱邏輯公園" />
+    <meta name="twitter:title" content="负载均衡集群（Lv Skeepalived) | 朱邏輯公園" />
+      
+        <meta name="twitter:description" content="常用的负载均衡开源软件有： nginx、lvs、keepalived商业的硬件负载设备： F5、Netscale。" />
       
     
     
@@ -74,15 +75,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="" itemprop="url"></a>
+      <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="负载均衡集群（Lv Skeepalived)" itemprop="url">负载均衡集群（Lv Skeepalived)</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-14T11:50:35.000Z" itemprop="datePublished">2015-02-14</time>
-    更新日期:<time datetime="2015-02-14T12:44:59.000Z" itemprop="dateModified">2015-02-14</time>
+    <time datetime="2015-02-14T11:51:00.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-15T04:30:12.000Z" itemprop="dateModified">2015-02-15</time>
     
   </p>
 </header>
@@ -91,12 +92,10 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#商业的硬件负载设备：_F5、Netscale。"><span class="toc-number">1.</span> <span class="toc-text">商业的硬件负载设备： F5、Netscale。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number"></span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR + keepalived配置</span></a>
+		<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number">1.</span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number">2.</span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number">3.</span> <span class="toc-text">LVS/DR + keepalived配置</span></a></li></ol>
 		</div>
 		
-		<p>title: 负载均衡集群（LVSkeepalived)<br>date: 2015-02-14 19:51:00<br>categories: 运维<br>tags: [负载均衡,LVS,Keepalived]<br>description: 常用的负载均衡开源软件有： nginx、lvs、keepalived </p>
-<h2 id="商业的硬件负载设备：_F5、Netscale。">商业的硬件负载设备： F5、Netscale。</h2>
-<h1 id="LVS/NAT_配置">LVS/NAT 配置</h1>
+		<h1 id="LVS/NAT_配置">LVS/NAT 配置</h1>
 <p>三台服务器一台作为director, 两台作为real server Director 有一个外网ip (192.168.0.132)和一个内网ip(192.168.36.132), 两个real server上只有内网ip(192.168.36.137)和(192.168.36.138) 并且需要把两个real server的内网网关设置为director的内网ip(192.168.36.132)<br>两个real server 上都安装httpd:<br><code>yum install -y httpd</code><br>Director上安装ipvsadm:<br><code>yum install -y  ipvsadm</code><br>Direcotr 上 <code>vim /usr/local/sbin/lvs_nat.sh</code> //增加:</p>
 <pre><code>#! /bin/bash
 # director 服务器上开启路由转发功能: 
@@ -169,6 +168,16 @@ ifconfig eth0:0  down</code></p>
 	</div>
 		<footer class="article-footer clearfix">
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/负载均衡/">负载均衡</a><a href="/tags/LVS/">LVS</a><a href="/tags/Keepalived/">Keepalived</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/运维/">运维</a>
+</div>
 
 
 
@@ -202,18 +211,18 @@ ifconfig eth0:0  down</code></p>
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/14/squid配置/" title="">
+ <a href="/2015/02/14/squid配置/" title="Squid配置">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  (no title)</span>
+  Squid配置</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/14/lvs调度算法/"  title="">
+<a href="/2015/02/14/lvs调度算法/"  title="Lvs调度算法">
  <strong>NEXT:</strong><br/> 
- <span>(no title)
+ <span>Lvs调度算法
 </span>
 </a>
 </div>
@@ -230,7 +239,7 @@ ifconfig eth0:0  down</code></p>
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#商业的硬件负载设备：_F5、Netscale。"><span class="toc-number">1.</span> <span class="toc-text">商业的硬件负载设备： F5、Netscale。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number"></span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number"></span> <span class="toc-text">LVS/DR + keepalived配置</span></a>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/NAT_配置"><span class="toc-number">1.</span> <span class="toc-text">LVS/NAT 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_配置"><span class="toc-number">2.</span> <span class="toc-text">LVS/DR 配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#LVS/DR_+_keepalived配置"><span class="toc-number">3.</span> <span class="toc-text">LVS/DR + keepalived配置</span></a></li></ol>
   </div>
 
 <div id="asidepart">
@@ -254,7 +263,7 @@ ifconfig eth0:0  down</code></p>
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>10</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>13</sup></a></li>
 		
 		</ul>
 </div>
@@ -275,7 +284,9 @@ ifconfig eth0:0  down</code></p>
 		
 			<li><a href="/tags/Hexo，博客模板，/" title="Hexo，博客模板，...">Hexo，博客模板，...<sup>1</sup></a></li>
 		
-			<li><a href="/tags/LVS/" title="LVS">LVS<sup>3</sup></a></li>
+			<li><a href="/tags/Keepalived/" title="Keepalived">Keepalived<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LVS/" title="LVS">LVS<sup>5</sup></a></li>
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>7</sup></a></li>
 		
@@ -289,6 +300,8 @@ ifconfig eth0:0  down</code></p>
 		
 			<li><a href="/tags/WordPress/" title="WordPress">WordPress<sup>1</sup></a></li>
 		
+			<li><a href="/tags/squid/" title="squid">squid<sup>1</sup></a></li>
+		
 			<li><a href="/tags/tunnel/" title="tunnel">tunnel<sup>1</sup></a></li>
 		
 			<li><a href="/tags/七层/" title="七层">七层<sup>1</sup></a></li>
@@ -300,10 +313,6 @@ ifconfig eth0:0  down</code></p>
 			<li><a href="/tags/备份/" title="备份">备份<sup>1</sup></a></li>
 		
 			<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-		
-			<li><a href="/tags/心跳频率/" title="心跳频率">心跳频率<sup>1</sup></a></li>
-		
-			<li><a href="/tags/搜索/" title="搜索">搜索<sup>1</sup></a></li>
 		
 		</ul>
 </div>

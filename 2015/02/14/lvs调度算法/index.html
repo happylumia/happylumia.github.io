@@ -4,19 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>朱邏輯公園</title>
+    <title>Lvs调度算法 | 朱邏輯公園</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="cherry">
     
-    <meta name="description" content="title: lvs调度算法date: 2015-02-14 15:57:00categories: 运维tags: [LVS,算法]
-description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Ha">
+    <meta name="description" itemprop="description" content="轮询调度、目标地址散列、最少链接、加权最少连接、最短的期望的延迟、最少队列调度、基于局部性的最少链接、带复制的基于局部性最少连接。">
     
     
     
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="redjiang" />
-    <meta name="twitter:title" content="朱邏輯公園" />
+    <meta name="twitter:title" content="Lvs调度算法 | 朱邏輯公園" />
+      
+        <meta name="twitter:description" content="轮询调度、目标地址散列、最少链接、加权最少连接、最短的期望的延迟、最少队列调度、基于局部性的最少链接、带复制的基于局部性最少连接。" />
       
     
     
@@ -74,15 +75,15 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/14/lvs调度算法/" title="" itemprop="url"></a>
+      <a href="/2015/02/14/lvs调度算法/" title="Lvs调度算法" itemprop="url">Lvs调度算法</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://www.prokitty.com" title="cherry">cherry</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-14T07:57:19.000Z" itemprop="datePublished">2015-02-14</time>
-    更新日期:<time datetime="2015-02-14T08:00:15.000Z" itemprop="dateModified">2015-02-14</time>
+    <time datetime="2015-02-14T07:57:00.000Z" itemprop="datePublished">2015-02-14</time>
+    更新日期:<time datetime="2015-02-15T04:32:01.000Z" itemprop="dateModified">2015-02-15</time>
     
   </p>
 </header>
@@ -91,16 +92,24 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。"><span class="toc-number">1.</span> <span class="toc-text">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</span></a></li></ol>
+		
 		</div>
 		
-		<p>title: lvs调度算法<br>date: 2015-02-14 15:57:00<br>categories: 运维<br>tags: [LVS,算法]</p>
-<h2 id="description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</h2>
-<p><a href="http://yangdonglin.blog.51cto.com/5404572/1305111" target="_blank" rel="external">http://yangdonglin.blog.51cto.com/5404572/1305111</a></p>
+		<p>轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。<br><a href="http://yangdonglin.blog.51cto.com/5404572/1305111" target="_blank" rel="external">http://yangdonglin.blog.51cto.com/5404572/1305111</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/LVS/">LVS</a><a href="/tags/算法/">算法</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/运维/">运维</a>
+</div>
 
 
 
@@ -134,10 +143,10 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="">
+ <a href="/2015/02/14/负载均衡集群LVSkeepalived/" title="负载均衡集群（Lv Skeepalived)">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  (no title)</span>
+  负载均衡集群（Lv Skeepalived)</span>
 </a>
 </div>
 
@@ -162,7 +171,7 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#description:_轮询调度（Round_Robin）简称：_RR；轮询调度（Round_Robin）简称：_RR；目标地址散列（Destination_Hashinf_）简称：_DH；目标地址散列（Destination_Hashinf_）简称：_DH；最少链接（Least_Connections）_简称:_LC；加权最少连接(默认采用的就是这种)（Weighted_Least_Connections）_简称：WLC；最短的期望的延迟（Shortest_Expected_Delay_Scheduling_）_简称：SED；最少队列调度（Never_Queue_Seheduling_）_简称：NQ；基于局部性的最少链接（Locality-Based_Least_Connections）_(LBLC)；带复制的基于局部性最少连接（Locality-Based_Least_Connections_with_Replication）简称：LBLCR。"><span class="toc-number">1.</span> <span class="toc-text">description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Robin）简称： RR；目标地址散列（Destination Hashinf ）简称： DH；目标地址散列（Destination Hashinf ）简称： DH；最少链接（Least Connections） 简称: LC；加权最少连接(默认采用的就是这种)（Weighted Least Connections） 简称：WLC；最短的期望的延迟（Shortest Expected Delay Scheduling ） 简称：SED；最少队列调度（Never Queue Seheduling ） 简称：NQ；基于局部性的最少链接（Locality-Based Least Connections） (LBLC)；带复制的基于局部性最少连接（Locality-Based Least Connections with Replication）简称：LBLCR。</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
@@ -186,7 +195,7 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 		
 			<li><a href="/categories/树莓派/" title="树莓派">树莓派<sup>1</sup></a></li>
 		
-			<li><a href="/categories/运维/" title="运维">运维<sup>10</sup></a></li>
+			<li><a href="/categories/运维/" title="运维">运维<sup>13</sup></a></li>
 		
 		</ul>
 </div>
@@ -207,7 +216,9 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 		
 			<li><a href="/tags/Hexo，博客模板，/" title="Hexo，博客模板，...">Hexo，博客模板，...<sup>1</sup></a></li>
 		
-			<li><a href="/tags/LVS/" title="LVS">LVS<sup>3</sup></a></li>
+			<li><a href="/tags/Keepalived/" title="Keepalived">Keepalived<sup>1</sup></a></li>
+		
+			<li><a href="/tags/LVS/" title="LVS">LVS<sup>5</sup></a></li>
 		
 			<li><a href="/tags/Linux/" title="Linux">Linux<sup>7</sup></a></li>
 		
@@ -221,6 +232,8 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 		
 			<li><a href="/tags/WordPress/" title="WordPress">WordPress<sup>1</sup></a></li>
 		
+			<li><a href="/tags/squid/" title="squid">squid<sup>1</sup></a></li>
+		
 			<li><a href="/tags/tunnel/" title="tunnel">tunnel<sup>1</sup></a></li>
 		
 			<li><a href="/tags/七层/" title="七层">七层<sup>1</sup></a></li>
@@ -232,10 +245,6 @@ description: 轮询调度（Round Robin）简称： RR；轮询调度（Round Ro
 			<li><a href="/tags/备份/" title="备份">备份<sup>1</sup></a></li>
 		
 			<li><a href="/tags/工具/" title="工具">工具<sup>1</sup></a></li>
-		
-			<li><a href="/tags/心跳频率/" title="心跳频率">心跳频率<sup>1</sup></a></li>
-		
-			<li><a href="/tags/搜索/" title="搜索">搜索<sup>1</sup></a></li>
 		
 		</ul>
 </div>
