@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Belive yourself,belive Cherry.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.prokitty.com/"/>
-  <updated>2015-02-16T15:13:36.226Z</updated>
+  <updated>2015-03-01T08:48:43.432Z</updated>
   <id>http://www.prokitty.com/</id>
   
   <author>
@@ -179,6 +179,30 @@
       <category term="运维" scheme="http://www.prokitty.com/tags/%E8%BF%90%E7%BB%B4/"/>
     
       <category term="Google" scheme="http://www.prokitty.com/categories/Google/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux目录和文件]]></title>
+    <link href="http://www.prokitty.com/2015/03/01/Linux%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6/"/>
+    <id>http://www.prokitty.com/2015/03/01/Linux目录和文件/</id>
+    <published>2015-03-01T08:43:00.000Z</published>
+    <updated>2015-03-01T08:48:09.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="shell提示符：">shell提示符：</h1>
+<p><code>root</code>：当前登录的用户账户名.<br><code>Localhost</code>：对应本机的主机名.<br><code>~</code>：对应当前用户所在的工作目录.<br><code>#</code>：当前登录的是管理员用户.<br><code>$</code>：当前登录的是普通用户.</p>
+<h1 id="目录含义：">目录含义：</h1>
+<p><code>/root</code>：存放Linux系统管理员（超级用户）root的宿主目录.<br><code>/boot</code>：存放Linux系统所必需的文件,包括内核文件.<br><code>/bin</code>：存放Linux系统中最基本的用户命令, 普通用户都有权限执行.<br><code>/dev</code>：存放Linux系统中的硬盘、键盘、鼠标、光驱等各种设备文件.<br><code>/etc</code>：存放Linux系统及各种程序的配置文件.<br><code>/home</code>：存放所有普通系统用户的默认工作文件夹.<br><code>/sbin</code>：存放Linux系统中最基本的管理命令, 一般管理员用户才有权限执行.<br><code>/usr</code>：存放不同类型的应用程序.<br><code>/var</code>：存放系统中经常需要变化的一些文件.<br><code>/tmp</code>：存放系统运行过的一些临时文件.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[ls,目录结构和文件属性。]]>
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://www.prokitty.com/tags/Linux/"/>
+    
+      <category term="目录" scheme="http://www.prokitty.com/tags/%E7%9B%AE%E5%BD%95/"/>
+    
+      <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
     
   </entry>
   
@@ -1277,51 +1301,6 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
       <category term="高可用" scheme="http://www.prokitty.com/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/"/>
     
       <category term="Linux" scheme="http://www.prokitty.com/categories/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[安装Word Press]]></title>
-    <link href="http://www.prokitty.com/2015/02/06/%E5%AE%89%E8%A3%85WordPress/"/>
-    <id>http://www.prokitty.com/2015/02/06/安装WordPress/</id>
-    <published>2015-02-05T17:50:14.000Z</published>
-    <updated>2015-02-10T14:18:04.000Z</updated>
-    <content type="html"><![CDATA[<p>WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。</p>
-<h1 id="准备工作">准备工作</h1>
-<ul>
-<li>下载wordpress 程序官方下载地址: <a href="http://cn.wordpress.org/(目前最新版下载链接" target="_blank" rel="external">http://cn.wordpress.org/(目前最新版下载链接</a> <a href="http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip" target="_blank" rel="external">http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip</a>)</li>
-</ul>
-<pre><code>wget http://cn.wordpress.org/wordpress-3.0.1-zh_CN.zip
-</code></pre>
-
-<h1 id="安装前提：">安装前提：</h1>
-<ul>
-<li>已经安装了Mysql、Apache、PHP，LAMP环境部署完毕。</li>
-</ul>
-<h1 id="安装步骤：">安装步骤：</h1>
-<ul>
-<li>1.解压刚才下载的安装包：</li>
-</ul>
-<pre><code>unzip wordpress-3.0.1-zh_CN.zip
-</code></pre>
-
-<ul>
-<li><p>2.在MySQL中使用phpMyAdmin或者其他用户创建一个MySQL数据库，这个数据库用于保存WordPress的数据。</p>
-</li>
-<li><p>3.第一次运行上传的文件，WordPress系统会检测根目录下是否存在wp-config.php，如果不存在，会自动转到安装的界面，安装的时候属于一些必要的信息，例如博客的名称，电子邮件地址，数据库的名称，数据库用户名和密码等等，根据系统提示往下走，安装工作的最后一步，就可以获取到你的Wordpress用户名和密码，当然，系统还会自动把用户名和密码发送到你的电子信箱中。</p>
-</li>
-<li><p>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</p>
-</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[WordPress是一个功能非常强大的博客系统，插件众多，易于扩充功能。安装和使用都非常方便。是目前主流的 Blog 搭建平台。]]>
-    
-    </summary>
-    
-      <category term="WordPress" scheme="http://www.prokitty.com/tags/WordPress/"/>
-    
-      <category term="博客主题" scheme="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
     
   </entry>
   

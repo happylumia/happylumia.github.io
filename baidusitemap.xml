@@ -3,6 +3,34 @@
 
     
   <url>
+    <loc>http://www.prokitty.com/2015/03/01/Linux%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6/</loc>
+    <lastmod>2015-03-01T08:48:09.000Z</lastmod>
+    <data>
+        <display>
+        <title>Linux目录和文件</title>
+        <pubTime>2015-03-01T08:43:00.000Z</pubTime>
+        
+        <tag>Linux </tag>
+         
+        <tag>目录 </tag>
+         
+         <content><![CDATA[<h1 id="shell提示符：">shell提示符：</h1>
+<p><code>root</code>：当前登录的用户账户名.<br><code>Localhost</code>：对应本机的主机名.<br><code>~</code>：对应当前用户所在的工作目录.<br><code>#</code>：当前登录的是管理员用户.<br><code>$</code>：当前登录的是普通用户.</p>
+<h1 id="目录含义：">目录含义：</h1>
+<p><code>/root</code>：存放Linux系统管理员（超级用户）root的宿主目录.<br><code>/boot</code>：存放Linux系统所必需的文件,包括内核文件.<br><code>/bin</code>：存放Linux系统中最基本的用户命令, 普通用户都有权限执行.<br><code>/dev</code>：存放Linux系统中的硬盘、键盘、鼠标、光驱等各种设备文件.<br><code>/etc</code>：存放Linux系统及各种程序的配置文件.<br><code>/home</code>：存放所有普通系统用户的默认工作文件夹.<br><code>/sbin</code>：存放Linux系统中最基本的管理命令, 一般管理员用户才有权限执行.<br><code>/usr</code>：存放不同类型的应用程序.<br><code>/var</code>：存放系统中经常需要变化的一些文件.<br><code>/tmp</code>：存放系统运行过的一些临时文件.</p>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://www.prokitty.com/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.prokitty.com/2015/02/14/lvs%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2015-02-15T04:32:01.000Z</lastmod>
     <data>
