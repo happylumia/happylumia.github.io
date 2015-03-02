@@ -3,6 +3,50 @@
 
     
   <url>
+    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
+    <lastmod>2015-03-01T09:51:13.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo主题博客汇总</title>
+        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
+        
+        <tag>Hexo </tag>
+         
+         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
+<ul>
+<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
+<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
+<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
+<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
+<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
+<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
+<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
+<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
+<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
+<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
+<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
+<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
+<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
+<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
+<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
+<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
+<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
+<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
+<li><a href="http://quxl.snbway.net/" target="_blank" rel="external">Python 运维博客</a></li>
+</ul>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.prokitty.com/2015/03/01/Linux%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6/</loc>
     <lastmod>2015-03-01T08:48:09.000Z</lastmod>
     <data>
@@ -835,6 +879,30 @@ vim /etc/squid/squid.conf  #设置域名黑名单</code></pre>
 
     
   <url>
+    <loc>http://www.prokitty.com/2015/02/01/0%E6%A8%A1%E6%9D%BF%20-%20%E5%89%AF%E6%9C%AC/</loc>
+    <lastmod>2015-02-10T14:33:06.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo博客模板</title>
+        <pubTime>2015-01-31T16:00:00.000Z</pubTime>
+        
+        <tag>Hexo，博客模板，... </tag>
+         
+         <content><![CDATA[<p>title: hexo博客模板<br>date: 2015-02-01 0:0:00<br>categories: 博客主题<br>tags:<br>-[Hexo]<br>-[博客模板]</p>
+<h2 id="description:_hexo_themes！">description: hexo themes！</h2>
+]]></content>
+         
+         
+           
+             
+              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://www.prokitty.com/2015/02/01/0%E6%A8%A1%E6%9D%BF/</loc>
     <lastmod>2015-02-10T14:33:06.000Z</lastmod>
     <data>
@@ -1160,49 +1228,6 @@ ps aux |grep nginx    #看是否有nginx进程</code></pre>
 </li>
 <li><p>4.就是修改wordpress程序包中的wp-config-sample.php文件，将第7步中记下的主机地址、数据库名称、用户名、密码填入相应的位置就可以了，并重命名为wp-config.php</p>
 </li>
-</ul>
-]]></content>
-         
-         
-           
-             
-              <breadCrumb title="博客主题" url="http://www.prokitty.com/categories/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://www.prokitty.com/2015/02/05/hexo%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB/</loc>
-    <lastmod>2015-02-10T14:17:05.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo主题博客汇总</title>
-        <pubTime>2015-02-04T17:36:00.000Z</pubTime>
-        
-        <tag>Hexo </tag>
-         
-         <content><![CDATA[<h1 id="参考博客汇总：">参考博客汇总：</h1>
-<ul>
-<li><a href="http://wsgzao.github.io/" target="_blank" rel="external">王奥博客</a></li>
-<li><a href="http://yangjian.me/" target="_blank" rel="external">Alimon’s Blog</a></li>
-<li><a href="http://ibruce.info/" target="_blank" rel="external">不如博客</a></li>
-<li><a href="http://blog.moyizhou.cn/" target="_blank" rel="external">Rimo’s blog</a></li>
-<li><a href="http://www.tuicool.com/" target="_blank" rel="external">推酷</a></li>
-<li><a href="http://cnfeat.com/" target="_blank" rel="external">陈素封博客</a></li>
-<li><a href="http://www.pchou.info/" target="_blank" rel="external">P_Chou Tech Space</a></li>
-<li><a href="http://www.ruanyifeng.com/" target="_blank" rel="external">阮一峰博客</a></li>
-<li><a href="http://zipperary.com/" target="_blank" rel="external">zipperary</a></li>
-<li><a href="http://wuchong.me/" target="_blank" rel="external">Jark’s Blog</a></li>
-<li><a href="http://beiyuu.com/" target="_blank" rel="external">BeiYuu</a></li>
-<li><a href="http://www.solarck.com/" target="_blank" rel="external">solarck</a></li>
-<li><a href="http://c4fun.cn/" target="_blank" rel="external">Codin4Fun</a></li>
-<li><a href="http://code.wileam.com/" target="_blank" rel="external">Joanna’s coding blog</a></li>
-<li><a href="http://mayiwei.com/" target="_blank" rel="external">OPS Note</a></li>
-<li><a href="http://www.aips.me/" target="_blank" rel="external">周良博客</a></li>
-<li><a href="http://www.huangyunkun.com/" target="_blank" rel="external">夜明的孤行灯</a></li>
-<li><a href="http://ragingcat.info/" target="_blank" rel="external">如梦幻泡影，如露亦如电</a></li>
 </ul>
 ]]></content>
          
